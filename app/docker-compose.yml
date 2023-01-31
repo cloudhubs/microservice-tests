@@ -3,7 +3,7 @@ services:
   react-app:
     image: dockerized-react
     build: 
-      context: ./app
+      context: ./
     ports:
       - "3000:3000"
 
