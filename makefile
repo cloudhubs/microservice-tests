@@ -1,15 +1,19 @@
 make: eshop react-app
 
-eshop: ./eShopOnContainers/src/docker-compose.yml
-	docker-compose -f ./eShopOnContainers/src/docker-compose.yml up -d
+eshop:
+	docker-compose --project-directory ./eShopOnContainers/src/ up -d
 
 react-app:
-	docker-compose -f ./app/docker-compose.yml up -d
+	docker-compose --project-directory ./app/ up -d
 
 build: build-react build-eshop
 
 build-react:
-	docker-compose -f ./app/docker-compose.yml build
+	docker-compose --project-directory ./app/ build
 
 build-eshop:
-	docker-compose -f ./eShopOnContainers/src/docker-compose.yml build
+	docker-compose --project-directory ./eShopOnContainers/src/ build
+
+stop:
+	docker-compose --project-directory ./eShopOnContainers/src/ stop
+	docker-compose --project-directory ./app/ stop
