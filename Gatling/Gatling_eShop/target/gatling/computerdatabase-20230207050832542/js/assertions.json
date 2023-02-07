@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.ComputerDatabase",
+  "simulationId": "computerdatabase",
+  "start": 1675746512542,
+  "description": "",
+  "scenarios": ["ComputerDatabase"],
+  "assertions": [
+
+  ]
+}
