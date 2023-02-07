@@ -3,12 +3,16 @@
  - Valid Credentials
  - Invalid Credentials
 ### Searching/Filtering
- - Single-Field Filter
- - Multi-Field Filter
+ - Single-Field Filter (Brand)
+ - Single-Field Filter (Type)  
+ - Multi-Field Filter (Brand, Type)
 ### Item Selection
  - Single Item Selection
  - Multiple Item Selection
 ### Checkout
+ - Valid Address and Card Info
+ - Invalid Address
+ - Invalid Card Info
 ### Updating Cart
  - Increase Item Quantity
  - Decrease Item Quantity
@@ -18,4 +22,7 @@
  - Invalid Inputs
 ### Logout
 ### Browse Pages/Items
+ - Next Page
+ - Previous Page
 ### Cancel Order
+### Check Past Orders
