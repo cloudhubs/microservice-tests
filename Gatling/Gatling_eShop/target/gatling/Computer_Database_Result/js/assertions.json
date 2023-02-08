@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.MainComputerDatabase",
+  "simulationId": "maincomputerdatabase",
+  "start": 1675810824403,
+  "description": "Login and Editing of Computer Database",
+  "scenarios": ["Users", "Admins"],
+  "assertions": [
+
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.FilterLoadTest",
+  "simulationId": "filterloadtest",
+  "start": 1675816140559,
+  "description": "Filter Usage with Load Testing",
+  "scenarios": ["Users1", "Users2"],
+  "assertions": [
+
+  ]
+}
