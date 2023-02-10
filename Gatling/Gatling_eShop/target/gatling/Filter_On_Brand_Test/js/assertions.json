@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.FilterOnBrandTest",
+  "simulationId": "filteronbrandtest",
+  "start": 1675993525085,
+  "description": "Tests for Filtering on Brand Dropdown",
+  "scenarios": ["Users1", "Users2"],
+  "assertions": [
+
+  ]
+}

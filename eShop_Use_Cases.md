@@ -1,4 +1,7 @@
 ## Possible Use Cases for eShopOnContainers
+
+### Reminder: Test on both localhost:5100 and localhost:5104
+
 ### [ ] Login
  - [ ] Valid Credentials
  - [ ] Invalid Credentials
