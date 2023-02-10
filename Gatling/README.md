@@ -12,3 +12,9 @@
     - HAR file
 - Gatling Engine
   - Used to run the test scripts
+  - Usage
+    - Run Gatling Engine
+    - Select index of test to run from list, then click 'enter'
+    - Optional: Enter description of test
+    - Once test is run, the output folder will be put in target.gatling directory
+    - Optional: Change name of file with more meaningful name
