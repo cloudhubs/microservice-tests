@@ -11,8 +11,8 @@
    - [ ] Email not correct
    - [ ] Password not correct
 ### [ ] Searching/Filtering
- - [x] Single-Field Filter (Brand) `Sheldon currrently working on`
- - [x] Single-Field Filter (Type) `Sheldon currrently working on`
+ - [ ] Single-Field Filter (Brand) `Sheldon currrently working on`
+ - [ ] Single-Field Filter (Type) `Sheldon currrently working on`
  - [ ] Multi-Field Filter (Brand, Type) `Sheldon currrently working on`
 ### [ ] Item Selection
  - [ ] Single Item Selection `Sheldon currrently working on`

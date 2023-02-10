@@ -1,7 +1,7 @@
-package com.gatling.tests
+package com.gatling.tests.other
 
-import io.gatling.core.Predef._
-import io.gatling.http.Predef._
+import io.gatling.core.Predef.*
+import io.gatling.http.Predef.*
 
 class FeederDemo extends Simulation {
 
