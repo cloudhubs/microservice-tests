@@ -11,14 +11,14 @@
    - [ ] Email not correct
    - [ ] Password not correct
 ### [ ] Searching/Filtering
- - [ ] Single-Field Filter (Brand) `Sheldon currrently working on`
- - [ ] Single-Field Filter (Type) `Sheldon currrently working on`
- - [ ] Multi-Field Filter (Brand, Type) `Sheldon currrently working on`
+ - [ ] Single-Field Filter (Brand) `Gatling: Sheldon currently working on`
+ - [ ] Single-Field Filter (Type) `Gatling: Sheldon currently working on`
+ - [ ] Multi-Field Filter (Brand, Type) `Gatling: Sheldon currently working on`
 ### [ ] Item Selection
- - [ ] Single Item Selection `Sheldon currrently working on`
+ - [ ] Single Item Selection `Gatling: Sheldon currently working on`
  - [ ] Multiple Item Selection
 ### [ ] Checkout
- - [ ] Valid Address and Card Info `Sheldon currrently working on`
+ - [ ] Valid Address and Card Info `Gatling: Sheldon currently working on`
  - [ ] Invalid Address
  - [ ] Invalid Card Info
 ### [ ] Updating Cart
@@ -40,13 +40,13 @@
      - [ ] Length more than 100 characters
      - [ ] Must have upper-case letter
      - [ ] Must have number
-     - [ ] Must have non-alphanumeric character
+     - [ ] Must have non-alphanumeric character 
 ### [ ] Logout
-### [ ] Browse Pages/Items
- - [ ] Next Page `Sheldon currrently working on`
- - [ ] Previous Page `Sheldon currrently working on`
+### [ ] Browse Pages
+ - [ ] Next Page `Gatling: Sheldon currently working on`
+ - [ ] Previous Page `Gatling: Sheldon currently working on`
 ### [ ] Cancel Order
- - [ ] After submitting order `Sheldon currrently working on`
+ - [ ] After submitting order `Gatling: Sheldon currently working on`
  - [ ] During ordering process
 ### [ ] Check Past Orders
  - [ ] Check order details
