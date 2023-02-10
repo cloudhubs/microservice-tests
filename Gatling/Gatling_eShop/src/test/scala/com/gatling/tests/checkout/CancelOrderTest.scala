@@ -1,12 +1,12 @@
-package com.gatling.tests
+package com.gatling.tests.checkout
 
-import scala.concurrent.duration._
+import io.gatling.core.Predef.*
+import io.gatling.http.Predef.*
+import io.gatling.jdbc.Predef.*
 
-import io.gatling.core.Predef._
-import io.gatling.http.Predef._
-import io.gatling.jdbc.Predef._
+import scala.concurrent.duration.*
 
-class CompleteOrderTest extends Simulation {
+class CancelOrderTest extends Simulation {
 
 	val httpProtocol = http
 		.baseUrl("http://host.docker.internal:5100")
@@ -18,25 +18,25 @@ class CompleteOrderTest extends Simulation {
 		.userAgentHeader("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
 
 	val addItem = exec(http("Home Page")
-		.get("/?page=1"))
-		.pause(4)
+		.get("/"))
+		.pause(3)
 		.exec(http("Add Item to Cart")
 			.post("/Cart/AddToCart")
-			.formParam("id", "3"))
+			.formParam("id", "2"))
 		.pause(3)
 		.exec(http("View Cart")
 			.get("/Cart"))
-		.pause(4)
+		.pause(2)
 
 	val completeCheckout = exec(http("Click Checkout")
 		.post("/Cart")
-		.formParam("quantities[0].Key", "c36b5afa-1ead-431e-9e2d-7af1ba934263")
+		.formParam("quantities[0].Key", "43286de8-16ed-420c-9af0-fdc644b283c7")
 		.formParam("quantities[0].Value", "1")
 		.formParam("action", "[ Checkout ]"))
-		.pause(12)
+		.pause(10)
 		.exec(http("Submit Checkout")
 			.post("/Order/Checkout")
-			.formParam("Street", "1001 Speight Ave Unit 443B")
+			.formParam("Street", "1001 Speight Ave")
 			.formParam("City", "Waco")
 			.formParam("State", "TX")
 			.formParam("Country", "United States of America")
@@ -44,29 +44,31 @@ class CompleteOrderTest extends Simulation {
 			.formParam("CardHolderName", "Sheldon Smith")
 			.formParam("CardExpirationShort", "02/32")
 			.formParam("CardSecurityNumber", "843")
-			.formParam("orderitems[0].PictureUrl", "http://host.docker.internal:5202/c/api/v1/catalog/items/3/pic/")
-			.formParam("orderitems[0].ProductName", "Prism White T-Shirt")
-			.formParam("orderitems[0].UnitPrice", "12")
+			.formParam("orderitems[0].PictureUrl", "http://host.docker.internal:5202/c/api/v1/catalog/items/2/pic/")
+			.formParam("orderitems[0].ProductName", ".NET Black & White Mug")
+			.formParam("orderitems[0].UnitPrice", "8.5")
 			.formParam("orderitems[0].Units", "1")
-			.formParam("Total", "12")
+			.formParam("Total", "8.5")
 			.formParam("action", "[ Place Order ]")
 			.formParam("ZipCode", "76706")
-			.formParam("RequestId", "df2761c1-6cff-40f3-b63c-41f6090c7327"))
-		.pause(3)
-		.exec(http("Order Page")
+			.formParam("RequestId", "fdb6265e-34e1-43be-885d-ac5f1571be78"))
+		.pause(1)
+		.exec(http("Past Order Page")
 			.get("/Order"))
 		.pause(3)
 
-	val viewOrder = exec(http("View Order Details")
-		.get("/Order/Detail?orderId=1"))
-		.pause(5)
-		.exec(http("Home Page")
-			.get("/"))
-		.pause(2)
+	val cancelOrder = exec(http("Cancel Order")
+		.get("/Order/cancel?orderId=2"))
+		.pause(4)
+		.exec(http("View Order Details")
+			.get("/Order/Detail?orderId=2"))
+		.pause(3)
+		.exec(http("Past Order Page")
+			.get("/Order"))
 
-	val users1 = scenario("Users1").exec(addItem, completeCheckout)
+	val users1 = scenario("Users1").exec(addItem, completeCheckout, cancelOrder)
 
-	val users2 = scenario("Users2").exec(addItem, completeCheckout, viewOrder)
+	val users2 = scenario("Users2").exec(addItem, completeCheckout, cancelOrder)
 
 	setUp(
 		users1.inject(rampUsers(50).during(15)),

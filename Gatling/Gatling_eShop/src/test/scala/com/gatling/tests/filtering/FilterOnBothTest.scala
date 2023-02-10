@@ -1,10 +1,10 @@
-package com.gatling.tests
+package com.gatling.tests.filtering
 
-import scala.concurrent.duration._
+import io.gatling.core.Predef.*
+import io.gatling.http.Predef.*
+import io.gatling.jdbc.Predef.*
 
-import io.gatling.core.Predef._
-import io.gatling.http.Predef._
-import io.gatling.jdbc.Predef._
+import scala.concurrent.duration.*
 
 class FilterOnBothTest extends Simulation {
 
@@ -19,7 +19,7 @@ class FilterOnBothTest extends Simulation {
 		.upgradeInsecureRequestsHeader("1")
 		.userAgentHeader("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
 
-	val filter1 = exec(http("Home Page")
+	val filterBrand = exec(http("Home Page")
 		.get("/"))
 		.pause(2)
 		.exec(http(".Net Mug Filter")
@@ -27,26 +27,41 @@ class FilterOnBothTest extends Simulation {
 			.formParam("BrandFilterApplied", "1")
 			.formParam("TypesFilterApplied", "1"))
 		.pause(3)
+		.exec(http(".Net T-Shirt Filter")
+			.post("/")
+			.formParam("BrandFilterApplied", "1")
+			.formParam("TypesFilterApplied", "2"))
+		.pause(3)
+		.exec(http(".Net Pin Filter")
+			.post("/")
+			.formParam("BrandFilterApplied", "1")
+			.formParam("TypesFilterApplied", "3"))
+		.pause(3)
+
+	val filterTypes = exec(http(".Other Mug Filter")
+			.post("/")
+			.formParam("BrandFilterApplied", "2")
+			.formParam("TypesFilterApplied", "1"))
+		.pause(3)
 		.exec(http("Other T-Shirt Filter")
 			.post("/")
 			.formParam("BrandFilterApplied", "2")
 			.formParam("TypesFilterApplied", "2"))
-		.pause(4)
-
-	val filter2 = exec(http(".Net Pin Filter")
-		.post("/")
-		.formParam("BrandFilterApplied", "1")
-		.formParam("TypesFilterApplied", "3"))
-		.pause(4)
-		.exec(http("All Mug Filter")
+		.pause(3)
+		.exec(http("Other Pin Filter")
+			.post("/")
+			.formParam("BrandFilterApplied", "2")
+			.formParam("TypesFilterApplied", "3"))
+		.pause(3)
+		.exec(http("All All Filter")
 			.post("/")
 			.formParam("BrandFilterApplied", "All")
-			.formParam("TypesFilterApplied", "1"))
+			.formParam("TypesFilterApplied", "All"))
 		.pause(3)
 
-	val users1 = scenario("Users1").exec(filter1)
+	val users1 = scenario("Users1").exec(filterBrand, filterTypes)
 
-	val users2 = scenario("Users2").exec(filter2)
+	val users2 = scenario("Users2").exec(filterTypes, filterBrand)
 
 	setUp(
 		users1.inject(rampUsers(2000).during(10)),
