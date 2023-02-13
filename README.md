@@ -5,7 +5,11 @@ For this project, we are using the microservices [TrainTicket](https://github.co
 
 #### To run the microservices using Docker, run the makefile.
  - `make build` - builds the main application and eShopOnContainers
+   - To build just eshop: `make build-eshop`
+   - To build just react app: `make build-react`
  - `make` - runs main application and eShopOnContainers
+   - To run just eshop: `make eshop`
+   - To run just react app: `make react`
  - `make stop` - stops the containers on Docker
 
 #### Access the React App (frontend):

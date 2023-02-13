@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.FilterOnBothTest",
+  "simulationId": "filteronbothtest",
+  "start": 1675997243568,
+  "description": "Tests that Filter on Both Dropdowns",
+  "scenarios": ["Users1", "Users2"],
+  "assertions": [
+
+  ]
+}
