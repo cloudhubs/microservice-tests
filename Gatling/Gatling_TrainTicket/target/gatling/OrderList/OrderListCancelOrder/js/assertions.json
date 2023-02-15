@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.OrderListCancelOrder",
+  "simulationId": "orderlistcancelorder",
+  "start": 1676484848419,
+  "description": "",
+  "scenarios": ["Users Viewing Page", "Users Cancelling Order"],
+  "assertions": [
+
+  ]
+}

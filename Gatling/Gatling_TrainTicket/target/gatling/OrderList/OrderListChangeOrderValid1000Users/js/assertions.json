@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.OrderListChangeOrderValid",
+  "simulationId": "orderlistchangeordervalid",
+  "start": 1676485785750,
+  "description": "",
+  "scenarios": ["Users Changing Order"],
+  "assertions": [
+
+  ]
+}
