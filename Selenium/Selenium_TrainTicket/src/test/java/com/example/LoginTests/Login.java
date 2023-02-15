@@ -35,10 +35,10 @@ public class Login {
     driver.findElement(By.id("doc-ipt-pwd-1")).click();
     driver.findElement(By.id("doc-ipt-pwd-1")).clear();
     driver.findElement(By.id("doc-ipt-pwd-1")).sendKeys("111111");
+    driver.dismissAlert();
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     assertEquals("fdse_microservice", driver.findElement(By.id("admin_name")).getText());
     driver.findElement(By.xpath("//div[@id='topbar-collapse']/ul/li[3]/a/span")).click();
-    driver.get("http://192.168.3.205:32677/adminlogin.html");
   }
 
   @After
