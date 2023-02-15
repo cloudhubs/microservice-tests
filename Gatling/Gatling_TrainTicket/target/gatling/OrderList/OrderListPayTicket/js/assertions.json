@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.OrderList.OrderListPayTicket",
+  "simulationId": "orderlistpayticket",
+  "start": 1676414831612,
+  "description": "",
+  "scenarios": ["Users Viewing List", "Users Paying"],
+  "assertions": [
+
+  ]
+}

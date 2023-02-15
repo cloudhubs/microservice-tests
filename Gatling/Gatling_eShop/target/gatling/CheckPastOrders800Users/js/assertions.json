@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.PastOrders.CheckPastOrders",
+  "simulationId": "checkpastorders",
+  "start": 1676483031935,
+  "description": "",
+  "scenarios": ["Users1", "Users2"],
+  "assertions": [
+
+  ]
+}

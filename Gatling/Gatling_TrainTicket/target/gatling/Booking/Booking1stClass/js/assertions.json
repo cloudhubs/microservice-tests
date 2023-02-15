@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.Booking1stClass",
+  "simulationId": "booking1stclass",
+  "start": 1676331971091,
+  "description": "",
+  "scenarios": ["Users Searching", "Users Booking"],
+  "assertions": [
+
+  ]
+}

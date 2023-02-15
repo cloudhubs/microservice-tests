@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.filtering.FilterOnBothTest",
+  "simulationId": "filteronbothtest",
+  "start": 1676480996964,
+  "description": "",
+  "scenarios": ["Users1", "Users2"],
+  "assertions": [
+
+  ]
+}

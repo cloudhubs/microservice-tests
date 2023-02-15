@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.OrderListUpdateConsign2",
+  "simulationId": "orderlistupdateconsign2",
+  "start": 1676413278353,
+  "description": "",
+  "scenarios": ["Users Viewing List", "Users Updating"],
+  "assertions": [
+
+  ]
+}
