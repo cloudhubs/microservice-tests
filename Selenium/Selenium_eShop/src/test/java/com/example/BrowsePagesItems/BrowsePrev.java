@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.apache.commons.io.FileUtils;
 import java.io.File;
 
-public class BrowseNext {
+public class BrowsePrev {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -28,20 +28,25 @@ public class BrowseNext {
   }
 
   @Test
-  public void testBrowseNext() throws Exception {
-    String pageVal = (String)js.executeScript(" return " + "\"Page 2\"" + "");
-    String prevVal = (String)js.executeScript("var pageVal = \"" + pageVal + "\";var storedVars = { 'pageVal': pageVal }; return " + "\"Previous\"" + "");
-    driver.get("http://host.docker.internal:5100/");
+  public void testBrowsePrev() throws Exception {
+    String pageVal = (String)js.executeScript(" return " + "\"Page 1\"" + "");
+    String nextVal = (String)js.executeScript("var pageVal = \"" + pageVal + "\";var storedVars = { 'pageVal': pageVal }; return " + "\"Next\"" + "");
+    driver.get("http://host.docker.internal:5100/?page=0");
     driver.findElement(By.id("Next")).click();
-    String back = (String)driver.findElement(By.xpath("/html/body/div/div[2]/div/article/nav/a[1]")).getText();
+    driver.get("http://host.docker.internal:5100/?page=1");
+    driver.findElement(By.id("Previous")).click();
+    driver.get("http://host.docker.internal:5100/?page=0");
+    String back = (String)driver.findElement(By.xpath("/html/body/div/div[2]/div/article/nav/a[2]")).getText();
+    back = (String)js.executeScript("var pageVal = \"" + pageVal + "\";var nextVal = \"" + nextVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'nextVal': nextVal,'back': back }; return " + "\"" + back + "\"" + "");
     try {
-      assertEquals(prevVal, js.executeScript("var pageVal = \"" + pageVal + "\";var prevVal = \"" + prevVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'prevVal': prevVal,'back': back }; return " + "\"" + back + "\"" + ""));
+      assertEquals(nextVal, js.executeScript("var pageVal = \"" + pageVal + "\";var nextVal = \"" + nextVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'nextVal': nextVal,'back': back }; return " + "\"" + back + "\"" + ""));
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }
-    back = (String)driver.findElement(By.xpath("/html/body/div/div[4]/div/article/nav/a[1]")).getText();
+    back = (String)driver.findElement(By.xpath("/html/body/div/div[4]/div/article/nav/a[2]")).getText();
+    back = (String)js.executeScript("var pageVal = \"" + pageVal + "\";var nextVal = \"" + nextVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'nextVal': nextVal,'back': back }; return " + "\"" + back + "\"" + "");
     try {
-      assertEquals(prevVal, js.executeScript("var pageVal = \"" + pageVal + "\";var prevVal = \"" + prevVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'prevVal': prevVal,'back': back }; return " + "\"" + back + "\"" + ""));
+      assertEquals(nextVal, js.executeScript("var pageVal = \"" + pageVal + "\";var nextVal = \"" + nextVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'nextVal': nextVal,'back': back }; return " + "\"" + back + "\"" + ""));
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }
@@ -50,7 +55,7 @@ public class BrowseNext {
     subtitle = subtitle.substring(index, index + 7);
 
     try {
-      assertEquals(subtitle, "Page 2 ");
+      assertEquals(subtitle, "Page 1 ");
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }
@@ -59,7 +64,7 @@ public class BrowseNext {
     subtitle = subtitle.substring(index, index + 7);
 
     try {
-      assertEquals(subtitle, "Page 2 ");
+        assertEquals(subtitle, "Page 1 ");
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }

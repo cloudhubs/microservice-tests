@@ -1,9 +1,11 @@
-package com.example.BrowsePagesItems;
+package com.example.Login;
 
 import java.time.Duration;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
+
+import static com.example.Global.GlobalVariable.clickLogin;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
@@ -12,7 +14,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.apache.commons.io.FileUtils;
 import java.io.File;
 
-public class BrowseNext {
+public class InvalidCredentials {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -28,38 +30,21 @@ public class BrowseNext {
   }
 
   @Test
-  public void testBrowseNext() throws Exception {
-    String pageVal = (String)js.executeScript(" return " + "\"Page 2\"" + "");
-    String prevVal = (String)js.executeScript("var pageVal = \"" + pageVal + "\";var storedVars = { 'pageVal': pageVal }; return " + "\"Previous\"" + "");
+  public void testInvalidCredentials() throws Exception {
+    String emailVal = (String)js.executeScript(" return " + "\"ethanr@gmail.com\"" + "");
     driver.get("http://host.docker.internal:5100/");
-    driver.findElement(By.id("Next")).click();
-    String back = (String)driver.findElement(By.xpath("/html/body/div/div[2]/div/article/nav/a[1]")).getText();
+    clickLogin(driver);
+    driver.findElement(By.id("Email")).click();
+    driver.findElement(By.id("Email")).clear();
+    driver.findElement(By.id("Email")).sendKeys(emailVal);
+    driver.findElement(By.id("Password")).click();
+    driver.findElement(By.id("Password")).clear();
+    driver.findElement(By.id("Password")).sendKeys("password");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    String invalid = (String)driver.findElement(By.xpath("/html/body/div[2]/div[2]/div/div/section/form/div[1]/ul/li")).getText();
+    String invalidMsg = (String)js.executeScript("var emailVal = \"" + emailVal + "\";var invalid = \"" + invalid + "\";var storedVars = { 'emailVal': emailVal,'invalid': invalid }; return " + "\"" + invalid + "\"" + "");
     try {
-      assertEquals(prevVal, js.executeScript("var pageVal = \"" + pageVal + "\";var prevVal = \"" + prevVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'prevVal': prevVal,'back': back }; return " + "\"" + back + "\"" + ""));
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    back = (String)driver.findElement(By.xpath("/html/body/div/div[4]/div/article/nav/a[1]")).getText();
-    try {
-      assertEquals(prevVal, js.executeScript("var pageVal = \"" + pageVal + "\";var prevVal = \"" + prevVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'prevVal': prevVal,'back': back }; return " + "\"" + back + "\"" + ""));
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    String subtitle = (String)driver.findElement(By.xpath("/html/body/div/div[2]/div/article/nav/span")).getText();
-    int index = subtitle.indexOf("Page");
-    subtitle = subtitle.substring(index, index + 7);
-
-    try {
-      assertEquals(subtitle, "Page 2 ");
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    subtitle = (String)driver.findElement(By.xpath("/html/body/div/div[4]/div/article/nav/span")).getText();
-    index = subtitle.indexOf("Page");
-    subtitle = subtitle.substring(index, index + 7);
-
-    try {
-      assertEquals(subtitle, "Page 2 ");
+      assertEquals("Invalid username or password.", js.executeScript("var emailVal = \"" + emailVal + "\";var invalid = \"" + invalid + "\";var invalidMsg = \"" + invalidMsg + "\";var storedVars = { 'emailVal': emailVal,'invalid': invalid,'invalidMsg': invalidMsg }; return " + "\"" + invalidMsg + "\"" + ""));
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }

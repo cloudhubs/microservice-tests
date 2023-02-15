@@ -1,9 +1,13 @@
-package com.example.BrowsePagesItems;
+package com.example.Logout;
 
 import java.time.Duration;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
+
+import com.example.Global.GlobalVariable;
 import org.junit.*;
+
+import static com.example.Global.GlobalVariable.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
@@ -12,7 +16,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.apache.commons.io.FileUtils;
 import java.io.File;
 
-public class BrowseNext {
+public class Logout {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -28,41 +32,20 @@ public class BrowseNext {
   }
 
   @Test
-  public void testBrowseNext() throws Exception {
-    String pageVal = (String)js.executeScript(" return " + "\"Page 2\"" + "");
-    String prevVal = (String)js.executeScript("var pageVal = \"" + pageVal + "\";var storedVars = { 'pageVal': pageVal }; return " + "\"Previous\"" + "");
-    driver.get("http://host.docker.internal:5100/");
-    driver.findElement(By.id("Next")).click();
-    String back = (String)driver.findElement(By.xpath("/html/body/div/div[2]/div/article/nav/a[1]")).getText();
-    try {
-      assertEquals(prevVal, js.executeScript("var pageVal = \"" + pageVal + "\";var prevVal = \"" + prevVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'prevVal': prevVal,'back': back }; return " + "\"" + back + "\"" + ""));
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    back = (String)driver.findElement(By.xpath("/html/body/div/div[4]/div/article/nav/a[1]")).getText();
-    try {
-      assertEquals(prevVal, js.executeScript("var pageVal = \"" + pageVal + "\";var prevVal = \"" + prevVal + "\";var back = \"" + back + "\";var storedVars = { 'pageVal': pageVal,'prevVal': prevVal,'back': back }; return " + "\"" + back + "\"" + ""));
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
-    String subtitle = (String)driver.findElement(By.xpath("/html/body/div/div[2]/div/article/nav/span")).getText();
-    int index = subtitle.indexOf("Page");
-    subtitle = subtitle.substring(index, index + 7);
+  public void testLogout() throws Exception {
+    login(driver);
 
+    String username = (String)driver.findElement(By.xpath("/html/body/header/div/article/section[2]/div/form/section[1]/div")).getText();
+    String userName = (String)js.executeScript("var username = \"" + username + "\";var storedVars = { 'username': username }; return " + "\"" + username + "\"" + "");
     try {
-      assertEquals(subtitle, "Page 2 ");
+      assertEquals(GlobalVariable.EMAIL, js.executeScript("var username = \"" + username + "\";var userName = \"" + userName + "\";var storedVars = { 'username': username,'userName': userName }; return " + "\"" + userName + "\"" + ""));
     } catch (Error e) {
       verificationErrors.append(e.toString());
     }
-    subtitle = (String)driver.findElement(By.xpath("/html/body/div/div[4]/div/article/nav/span")).getText();
-    index = subtitle.indexOf("Page");
-    subtitle = subtitle.substring(index, index + 7);
 
-    try {
-      assertEquals(subtitle, "Page 2 ");
-    } catch (Error e) {
-      verificationErrors.append(e.toString());
-    }
+    logout(driver);
+
+    clickLogin(driver);
   }
 
   @After
