@@ -1,10 +1,10 @@
-package com.gatling.tests
+package com.gatling.tests.BookingTickets
 
-import scala.concurrent.duration._
+import io.gatling.core.Predef.*
+import io.gatling.http.Predef.*
+import io.gatling.jdbc.Predef.*
 
-import io.gatling.core.Predef._
-import io.gatling.http.Predef._
-import io.gatling.jdbc.Predef._
+import scala.concurrent.duration.*
 
 class Booking1stClassTest extends Simulation {
 
@@ -71,7 +71,7 @@ class Booking1stClassTest extends Simulation {
 		.exec(http("request_3")
 			.post("/api/v1/travelservice/trips/left")
 			.headers(headers_3)
-			.body(RawFileBody("com/gatling/tests/booking1stclasstest/0003_request.json")))
+			.body(RawFileBody("com/gatling/tests/Booking/booking1stclasstest/0003_request.json")))
 		.pause(3)
 		.exec(http("request_4")
 			.get("/client_ticket_book.html?tripId=D1345&from=shanghai&to=suzhou&seatType=2&seat_price=50.0&date=2023-02-16")
@@ -90,7 +90,7 @@ class Booking1stClassTest extends Simulation {
 		.exec(http("request_9")
 			.post("/api/v1/contactservice/contacts")
 			.headers(headers_9)
-			.body(RawFileBody("com/gatling/tests/booking1stclasstest/0009_request.json"))
+			.body(RawFileBody("com/gatling/tests/Booking/booking1stclasstest/0009_request.json"))
 			.resources(http("request_10")
 			.get("/api/v1/contactservice/contacts/account/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f")
 			.headers(headers_6)))
@@ -98,7 +98,7 @@ class Booking1stClassTest extends Simulation {
 		.exec(http("request_11")
 			.post("/api/v1/preserveservice/preserve")
 			.headers(headers_9)
-			.body(RawFileBody("com/gatling/tests/booking1stclasstest/0011_request.json")))
+			.body(RawFileBody("com/gatling/tests/Booking/booking1stclasstest/0011_request.json")))
 		.pause(4)
 		.exec(http("request_12")
 			.get("/index.html")
