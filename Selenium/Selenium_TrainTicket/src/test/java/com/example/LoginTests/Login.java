@@ -1,5 +1,6 @@
 package com.example.SeleniumTrainTicket;
 
+import java.time.Duration;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
@@ -19,7 +20,7 @@ public class Login {
   JavascriptExecutor js;
   @Before
   public void setUp() throws Exception {
-    System.setProperty("webdriver.chrome.driver", "C:\\Users\\Timmy_Frederiksen1\\Documents\\GitHub\\Capstone-Project5\\Selenium\\chromedriver.exe");
+    System.setProperty("webdriver.chrome.driver", "C:\\Users\\Ethan_Robinson2\\Desktop\\Capstone-Project5\\Selenium\\chromedriver.exe");
     driver = new ChromeDriver();
     baseUrl = "https://www.google.com/";
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
@@ -35,7 +36,7 @@ public class Login {
     driver.findElement(By.id("doc-ipt-pwd-1")).click();
     driver.findElement(By.id("doc-ipt-pwd-1")).clear();
     driver.findElement(By.id("doc-ipt-pwd-1")).sendKeys("111111");
-    driver.dismissAlert();
+    //driver.dismissAlert();
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     assertEquals("fdse_microservice", driver.findElement(By.id("admin_name")).getText());
     driver.findElement(By.xpath("//div[@id='topbar-collapse']/ul/li[3]/a/span")).click();
