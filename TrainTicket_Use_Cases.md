@@ -4,55 +4,56 @@
 
 
 ### Regular User
-### [ ] Login
-  - [ ] Valid Credentials
-  - [ ] Invalid Credentials
-    - [ ] Unknown username
-    - [ ] Password not correct
+### [x] Login
+  - [x] Valid Credentials
+  - [x] Invalid Credentials
+    - [x] Unknown username
+    - [x] Password not correct
   - [ ] Logout
 ### [ ] Booking Tickets
- - [ ] Booking Economy
- - [ ] Booking First Class
- - [ ] Saved Contact 1/2
- - [ ] Custom Contact
- - [ ] With/Without Assurance
- - [ ] With/Without Food
- - [ ] With/Without Consign
- ### [ ] Order List
-  - [ ] Update Consign
-    - [ ] Invalid Phone Number
-  - [ ] Pay For Ticket
-### [ ] Collect Ticket
-  - [ ] Collect Ticket
-### [ ] Enter Station
-  - [ ] Enter Station
+ - [x] Booking Economy
+ - [x] Booking First Class
+ - [x] Saved Contact 1/2
+ - [x] Custom Contact
+ - [x] With/Without Assurance
+ - [x] With/Without Food
+ - [x] With/Without Consign
+ ### [x] Order List
+  - [x] Update Consign
+    - [x] Invalid Phone Number
+  - [x] Pay For Ticket
+### [x] Collect Ticket
+  - [x] Collect Ticket
+### [x] Enter Station
+  - [x] Enter Station
 
 ### Admin
-### [ ] Admin Login
-### [ ] Order List
-  - [ ] Add Order
-  - [ ] Delete Order
-  - [ ] Update Order
-### [ ] Route List
-  - [ ] Add Route
-  - [ ] Delete Route
-  - [ ] Update Route
+### [x] Admin Login
+### [x] Order List
+  - [x] Add Order
+  - [x] Delete Order
+  - [x] Update Order
+### [x] Route List
+  - [x] Add Route
+  - [x] Delete Route
+  - [x] Update Route
+   - [x] Invalid Start Station
 ### [ ] Travel List
-  - [ ] Add Travel 
+  - [x] Add Travel 
   - [ ] Delete Travel 
   - [ ] Update Travel 
-### [ ] User List
-  - [ ] Add User 
-  - [ ] Delete User 
-  - [ ] Update User 
+### [x] User List
+  - [x] Add User 
+  - [x] Delete User 
+  - [x] Update User 
 ### [ ] Contact List
   - [ ] Add Contact 
   - [ ] Delete Contact 
-  - [ ] Update Contact 
-### [ ] Station List
-  - [ ] Add Station 
-  - [ ] Delete Station 
-  - [ ] Update Station 
+  - [x] Update Contact 
+### [x] Station List
+  - [x] Add Station 
+  - [x] Delete Station 
+  - [x] Update Station 
 ### [ ] Train List
   - [ ] Add Train 
   - [ ] Delete Train 
