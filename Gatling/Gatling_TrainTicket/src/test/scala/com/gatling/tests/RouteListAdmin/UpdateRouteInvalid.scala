@@ -53,7 +53,7 @@ class UpdateRouteInvalid extends Simulation {
 		.exec(http("request_3")
 			.post("/api/v1/adminrouteservice/adminroute")
 			.headers(headers_3)
-			.body(RawFileBody("com/gatling/tests/RouteListAdmin/updaterouteinvalid/0003_request.json")))
+			.body(RawFileBody("com/gatling/tests/RouteListAdmin/update_route_invalid_form.json")))
 
 	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
 }

@@ -53,7 +53,7 @@ class UpdateUser extends Simulation {
 		.exec(http("request_3")
 			.put("/api/v1/adminuserservice/users")
 			.headers(headers_3)
-			.body(RawFileBody("com/gatling/tests/UserListAdmin/updateuser/0003_request.json")))
+			.body(RawFileBody("com/gatling/tests/UserListAdmin/update_user_form.json")))
 		.pause(2)
 		.exec(http("request_4")
 			.get("/admin_user.html")

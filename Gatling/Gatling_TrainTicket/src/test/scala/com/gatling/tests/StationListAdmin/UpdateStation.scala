@@ -53,7 +53,7 @@ class UpdateStation extends Simulation {
 		.exec(http("request_3")
 			.put("/api/v1/adminbasicservice/adminbasic/stations")
 			.headers(headers_3)
-			.body(RawFileBody("com/gatling/tests/StationListAdmin/updatestation/0003_request.json")))
+			.body(RawFileBody("com/gatling/tests/StationListAdmin/update_station_form.json")))
 		.pause(1)
 		.exec(http("request_4")
 			.get("/admin_station.html")

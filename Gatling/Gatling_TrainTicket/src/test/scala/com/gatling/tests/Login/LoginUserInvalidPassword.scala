@@ -39,7 +39,7 @@ class LoginUserInvalidPassword extends Simulation {
     .exec(http("Request Login")
       .post("/api/v1/users/login")
       .headers(headers_3)
-      .body(RawFileBody("com/gatling/tests/loginbadpassword/0003_request.json")))
+      .body(RawFileBody("com/gatling/tests/loginbadpassword/add_config_form.json")))
 
   setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
 }

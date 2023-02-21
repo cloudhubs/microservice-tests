@@ -17,14 +17,14 @@ object AdminModules {
   val addConfig: Any = exec(http("Add Config")
     .post("/api/v1/adminbasicservice/adminbasic/configs")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/ConfigListAdmin/addconfig/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/ConfigListAdmin/add_config_form.json")))
     .pause(8)
 
   /**Same as addConfig*/
   val updateConfig: Any = exec(http("Update Config")
     .put("/api/v1/adminbasicservice/adminbasic/configs")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/ConfigListAdmin/updateconfig/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/ConfigListAdmin/update_config_form.json")))
     .pause(7)
 
   val deleteConfig: Any = exec(http("request_3")
@@ -43,13 +43,13 @@ object AdminModules {
   val addContact: Any = exec(http("Add Contact")
     .post("/api/v1/adminbasicservice/adminbasic/contacts")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/ContactListAdmin/addcontact/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/ContactListAdmin/add_contact_form.json")))
     .pause(7)
 
   val updateContact: Any = exec(http("Update Contact")
     .post("/api/v1/adminbasicservice/adminbasic/contacts")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/ContactListAdmin/updatecontact/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/ContactListAdmin/update_contact_form.json")))
     .pause(7)
 
   val deleteContact: Any = exec(http("Delete Contact")
@@ -74,13 +74,13 @@ object AdminModules {
   val addOrderAdmin: Any = exec(http("Add Order")
     .post("/api/v1/adminorderservice/adminorder")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/OrderListAdmin/addorder/0008_request.json")))
+    .body(RawFileBody("com/gatling/tests/OrderListAdmin/add_order_form.json")))
     .pause(7)
 
   val updateOrder: Any = exec(http("Add Order")
     .post("/api/v1/adminorderservice/adminorder")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/OrderListAdmin/updateorder/0008_request.json")))
+    .body(RawFileBody("com/gatling/tests/OrderListAdmin/updateorder/add_order_form.json")))
     .pause(7)
 
   val deleteOrder: Any = exec(http("Delete Order")
@@ -99,13 +99,13 @@ object AdminModules {
   val addPrice: Any = exec(http("Add Price")
     .post("/api/v1/adminbasicservice/adminbasic/prices")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/PriceListAdmin/addprice/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/PriceListAdmin/add_price_form.json")))
     .pause(6)
 
   val updatePrice: Any = exec(http("Update Price")
     .put("/api/v1/adminbasicservice/adminbasic/prices")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/PriceListAdmin/updateprice/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/PriceListAdmin/update_price_form.json")))
     .pause(6)
 
   val deletePrice: Any = exec(http("Delete Price")
@@ -124,7 +124,7 @@ object AdminModules {
   val addRoute: Any = exec(http("Add Route")
     .post("/api/v1/adminrouteservice/adminroute")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/RouteListAdmin/addroute/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/RouteListAdmin/add_route_form.json")))
     .pause(4)
 
   val deleteRoute: Any = exec(http("Delete Route")
@@ -143,7 +143,7 @@ object AdminModules {
   val addStation: Any = exec(http("Add Station")
     .post("/api/v1/adminbasicservice/adminbasic/stations")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/StationListAdmin/addstation/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/StationListAdmin/add_station_form.json")))
     .pause(5)
 
   val deleteStation: Any = exec(http("Delete Station")
@@ -162,7 +162,7 @@ object AdminModules {
   val addTrain: Any = exec(http("Add Train")
     .post("/api/v1/adminbasicservice/adminbasic/trains")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/TrainListAdmin/addtrain/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/TrainListAdmin/add_train_form.json")))
     .pause(5)
 
   val deleteTrain: Any = exec(http("Delete Train")
@@ -190,7 +190,7 @@ object AdminModules {
   val addTravel: Any = exec(http("Add Travel")
     .put("/api/v1/admintravelservice/admintravel")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/TravelListAdmin/updatetravelinvalid/0006_request.json")))
+    .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json")))
     .pause(5)
 
   val deleteTravel: Any = exec(http("Delete Travel")
@@ -209,7 +209,7 @@ object AdminModules {
   val addUser: Any = exec(http("Add User")
     .post("/api/v1/adminuserservice/users")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/UserListAdmin/adduser/0003_request.json")))
+    .body(RawFileBody("com/gatling/tests/UserListAdmin/add_user_form.json")))
     .pause(6)
 
   val deleteUser: Any = exec(http("Delete User")
