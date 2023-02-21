@@ -46,7 +46,7 @@ class AddConfig extends Simulation {
 			.headers(headers_0)
 			.resources(http("request_1")
 			.get("/assets/fonts/fontawesome-webfont.woff2?v=4.6.3"),
-            http("request_2")
+				http("request_2")
 			.get("/api/v1/adminbasicservice/adminbasic/configs")
 			.headers(headers_2)))
 		.pause(36)
@@ -60,7 +60,7 @@ class AddConfig extends Simulation {
 			.headers(headers_0)
 			.resources(http("request_5")
 			.get("/assets/fonts/fontawesome-webfont.woff2?v=4.6.3"),
-            http("request_6")
+				http("request_6")
 			.get("/api/v1/adminbasicservice/adminbasic/configs")
 			.headers(headers_2)))
 
