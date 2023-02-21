@@ -30,7 +30,7 @@ object AdminModules {
   val deleteConfig: Any = exec(http("request_3")
     .delete("/api/v1/adminbasicservice/adminbasic/configs/TestConfig")
     .headers(apiV1Header))
-    .pause(1)
+    .pause(4)
 
   val contactsPage: Any = exec(http("Contacts List Page")
     .get("/admin_contacts.html")
