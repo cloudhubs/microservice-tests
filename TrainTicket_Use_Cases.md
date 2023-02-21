@@ -46,9 +46,9 @@
   - [x] Add User 
   - [x] Delete User 
   - [x] Update User 
-### [ ] Contact List
-  - [ ] Add Contact 
-  - [ ] Delete Contact 
+### [x] Contact List
+  - [x] Add Contact 
+  - [x] Delete Contact 
   - [x] Update Contact 
 ### [x] Station List
   - [x] Add Station 

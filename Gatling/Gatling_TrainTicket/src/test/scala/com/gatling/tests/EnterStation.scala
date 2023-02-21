@@ -73,9 +73,9 @@ class EnterStation extends Simulation {
 			.resources(http("request_1")
 			.get("/api/v1/verifycode/generate")
 			.headers(headers_1),
-            http("request_2")
+				http("request_2")
 			.get("/assets/fonts/fontawesome-webfont.woff2?v=4.6.3"),
-            http("request_3")
+				http("request_3")
 			.get("/api/v1/verifycode/generate")
 			.headers(headers_1)))
 		.pause(2)
@@ -84,14 +84,14 @@ class EnterStation extends Simulation {
 			.headers(headers_4)
 			.resources(http("request_5")
 			.get("/assets/fonts/fontawesome-webfont.woff2?v=4.6.3"),
-            http("request_6")
+				http("request_6")
 			.post("/api/v1/orderservice/order/refresh")
 			.headers(headers_6)
-			.body(RawFileBody("com/gatling/tests/enterstation/0006_request.json")),
-            http("request_7")
+			.body(RawFileBody("com/gatling/tests/EnterStation/0006_request.json")),
+				http("request_7")
 			.post("/api/v1/orderOtherService/orderOther/refresh")
 			.headers(headers_6)
-			.body(RawFileBody("com/gatling/tests/enterstation/0007_request.json"))))
+			.body(RawFileBody("com/gatling/tests/EnterStation/0007_request.json"))))
 		.pause(2)
 		.exec(http("request_8")
 			.get("/api/v1/executeservice/execute/execute/4220e6bf-7c4b-4b74-9a02-f448b28b79be")
@@ -102,14 +102,14 @@ class EnterStation extends Simulation {
 			.headers(headers_9)
 			.resources(http("request_10")
 			.get("/assets/fonts/fontawesome-webfont.woff2?v=4.6.3"),
-            http("request_11")
+				http("request_11")
 			.post("/api/v1/orderOtherService/orderOther/refresh")
 			.headers(headers_6)
-			.body(RawFileBody("com/gatling/tests/enterstation/0011_request.json")),
-            http("request_12")
+			.body(RawFileBody("com/gatling/tests/EnterStation/0011_request.json")),
+				http("request_12")
 			.post("/api/v1/orderservice/order/refresh")
 			.headers(headers_6)
-			.body(RawFileBody("com/gatling/tests/enterstation/0012_request.json"))))
+			.body(RawFileBody("com/gatling/tests/EnterStation/0012_request.json"))))
 
 	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
 }
