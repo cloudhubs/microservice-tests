@@ -21,7 +21,7 @@ object HeaderModules {
     "If-None-Match" -> "630c69ee-46c7")
 
   val apiV1Header = Map(
-    "Accept" -> "application/json, text/javascript, */*; q=0.01",
+    "Accept" -> "application/json, text/plain, text/javascript, */*; q=0.01",
     "Content-Type" -> "application/json",
     "Origin" -> "http://192.168.3.205:32677",
     "X-Requested-With" -> "XMLHttpRequest",
@@ -48,5 +48,4 @@ object HeaderModules {
     "Accept-Language" -> "en-US,en;q=0.9",
     "Upgrade-Insecure-Requests" -> "1",
     "User-Agent" -> "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
-
 }
