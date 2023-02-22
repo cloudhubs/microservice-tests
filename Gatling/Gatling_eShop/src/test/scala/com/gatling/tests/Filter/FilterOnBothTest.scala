@@ -1,70 +1,21 @@
-package com.gatling.tests.filtering
+package com.gatling.tests.Filter
 
 import io.gatling.core.Predef.*
 import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
 
 import scala.concurrent.duration.*
+import com.gatling.tests.Modules.Protocols.*
+import com.gatling.tests.Modules.NavigationModules.*
 
 class FilterOnBothTest extends Simulation {
 
-	val httpProtocol = http
-		.baseUrl("http://host.docker.internal:5100")
-		.inferHtmlResources(BlackList(""".*\.js""", """.*\.css""", """.*\.gif""", """.*\.jpeg""", """.*\.jpg""", """.*\.ico""", """.*\.woff""", """.*\.woff2""", """.*\.(t|o)tf""", """.*\.png""", """.*detectportal\.firefox\.com.*""", """.*\.PNG""", """.*/pic/""", """.*\.svg""", """.*/js/site.js.*""", """.*/hub/notificationhub/.*"""), WhiteList())
-		.acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-		.acceptEncodingHeader("gzip, deflate")
-		.acceptLanguageHeader("en-US,en;q=0.9")
-		.contentTypeHeader("application/x-www-form-urlencoded")
-		.originHeader("http://host.docker.internal:5100")
-		.upgradeInsecureRequestsHeader("1")
-		.userAgentHeader("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36")
+	val users1 = scenario("Users1").exec(homePage, filterItems)
 
-	val filterBrand = exec(http("Home Page")
-		.get("/"))
-		.pause(2)
-		.exec(http(".Net Mug Filter")
-			.post("/")
-			.formParam("BrandFilterApplied", "1")
-			.formParam("TypesFilterApplied", "1"))
-		.pause(3)
-		.exec(http(".Net T-Shirt Filter")
-			.post("/")
-			.formParam("BrandFilterApplied", "1")
-			.formParam("TypesFilterApplied", "2"))
-		.pause(3)
-		.exec(http(".Net Pin Filter")
-			.post("/")
-			.formParam("BrandFilterApplied", "1")
-			.formParam("TypesFilterApplied", "3"))
-		.pause(3)
-
-	val filterTypes = exec(http(".Other Mug Filter")
-			.post("/")
-			.formParam("BrandFilterApplied", "2")
-			.formParam("TypesFilterApplied", "1"))
-		.pause(3)
-		.exec(http("Other T-Shirt Filter")
-			.post("/")
-			.formParam("BrandFilterApplied", "2")
-			.formParam("TypesFilterApplied", "2"))
-		.pause(3)
-		.exec(http("Other Pin Filter")
-			.post("/")
-			.formParam("BrandFilterApplied", "2")
-			.formParam("TypesFilterApplied", "3"))
-		.pause(3)
-		.exec(http("All All Filter")
-			.post("/")
-			.formParam("BrandFilterApplied", "All")
-			.formParam("TypesFilterApplied", "All"))
-		.pause(3)
-
-	val users1 = scenario("Users1").exec(filterBrand, filterTypes)
-
-	val users2 = scenario("Users2").exec(filterTypes, filterBrand)
+	val users2 = scenario("Users2").exec(homePage, filterItems)
 
 	setUp(
 		users1.inject(rampUsers(1500).during(20)),
 		users2.inject(rampUsers(1000).during(30))
-	).protocols(httpProtocol)
+	).protocols(httpProtocolEShop)
 }
