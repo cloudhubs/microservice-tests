@@ -1,10 +1,10 @@
 package com.gatling.tests.Modules
 
-import io.gatling.core.Predef._
-import io.gatling.http.Predef._
-import io.gatling.jdbc.Predef._
-
+import io.gatling.core.Predef.*
+import io.gatling.http.Predef.*
+import io.gatling.jdbc.Predef.*
 import HeaderModules.*
+import io.gatling.core.structure.ChainBuilder
 
 object NavigationModules {
 
@@ -98,4 +98,51 @@ object NavigationModules {
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/Booking/booking_1st_class_form.json")))
     .pause(5)
+
+  val userLoginPage = exec(http("Go to Login Page")
+    .get("/client_login.html")
+    .resources(http("Generate CAPTCHA")
+      .get("/api/v1/verifycode/generate")
+      .headers(apiV1Header)))
+    .pause(4)
+
+  val submitUserLogin = exec(http("Request Login")
+    .post("/api/v1/users/login")
+    .headers(apiV1Header)
+    .body(RawFileBody("com/gatling/tests/Login/user_login.json")))
+
+  val ticketPage = exec(http("Ticket Page")
+    .get("/client_ticket_collect.html")
+    .resources(http("Refresh Page")
+        .post("/api/v1/orderOtherService/orderOther/refresh")
+        .headers(apiV1Header)
+        .body(RawFileBody("com/gatling/tests/CollectTicket/0006_request.json")),
+      http("Refresh Page")
+        .post("/api/v1/orderservice/order/refresh")
+        .headers(apiV1Header)
+        .body(RawFileBody("com/gatling/tests/CollectTicket/0007_request.json"))))
+    .pause(3)
+
+  val collectTicket = exec(http("Collect Ticket")
+    .get("/api/v1/executeservice/execute/collected/4220e6bf-7c4b-4b74-9a02-f448b28b79be")
+    .headers(apiV1Header))
+    .pause(5)
+
+  val stationPage = exec(http("Station Page")
+    .get("/client_enter_station.html")
+    .headers(mainPageHeader)
+    .resources(http("Refresh Page")
+        .post("/api/v1/orderservice/order/refresh")
+        .headers(apiV1Header)
+        .body(RawFileBody("com/gatling/tests/EnterStation/0006_request.json")),
+      http("Refresh Page")
+        .post("/api/v1/orderOtherService/orderOther/refresh")
+        .headers(apiV1Header)
+        .body(RawFileBody("com/gatling/tests/EnterStation/0007_request.json"))))
+    .pause(5)
+
+  val enterStation = exec(http("Enter Station")
+    .get("/api/v1/executeservice/execute/execute/4220e6bf-7c4b-4b74-9a02-f448b28b79be")
+    .headers(apiV1Header))
+    .pause(1)
 }

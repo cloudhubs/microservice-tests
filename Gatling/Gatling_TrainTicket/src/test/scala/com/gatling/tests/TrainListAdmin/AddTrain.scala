@@ -3,6 +3,7 @@ package com.gatling.tests.TrainListAdmin
 import io.gatling.core.Predef.*
 import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
+import io.gatling.core.structure._
 
 import scala.concurrent.duration.*
 import com.gatling.tests.Modules.AdminModules.*

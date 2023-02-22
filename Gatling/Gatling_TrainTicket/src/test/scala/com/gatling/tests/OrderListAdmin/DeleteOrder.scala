@@ -14,5 +14,5 @@ class DeleteOrder extends Simulation {
 
   setUp(
     users.inject(rampUsers(20).during(15))
-  ).protocols(httpProtocol)
+  ).protocols(httpProtocolTrainTicket)
 }
