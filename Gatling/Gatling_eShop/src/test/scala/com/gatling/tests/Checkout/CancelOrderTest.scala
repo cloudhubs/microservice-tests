@@ -7,6 +7,7 @@ import io.gatling.jdbc.Predef.*
 import scala.concurrent.duration.*
 import com.gatling.tests.Modules.Protocols.*
 import com.gatling.tests.Modules.NavigationModules.*
+import com.gatling.tests.Modules.LoginModules.*
 class CancelOrderTest extends Simulation {
 
 	val users1 = scenario("Users1").exec(homePage, viewCart, selectCheckout, submitCheckout, viewPastOrders, cancelOrder)

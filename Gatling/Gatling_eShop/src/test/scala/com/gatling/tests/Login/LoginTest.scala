@@ -7,17 +7,45 @@ import io.gatling.jdbc.Predef.*
 import scala.concurrent.duration.*
 import com.gatling.tests.Modules.Protocols.*
 import com.gatling.tests.Modules.NavigationModules.*
+import com.gatling.tests.Modules.LoginModules.*
+import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 class LoginTest extends Simulation {
 
-	//Scenario 1: Login with valid credentials, go to home page, view cart, logout
-	//Scenario 2: Try to login with invalid credentials, go back to home page
+	val validLoginFeeder = csv("data/filter_test.csv").random
+	val invalidLoginFeeder = csv("data/filter_test.csv").random
 
-	val users1 = scenario("Users1").exec(homePage, loginPage, login, homePage)
+	val validUser: ScenarioBuilder = scenario("Valid Login Users")
+		.repeat(1) {
+			feed(validLoginFeeder)
+				.exec { session =>
+					println("Email: " + session("email").as[String])
+					println("Password: " + session("password").as[String])
+					session
+				}
+				//Login scenario
+				loginScenario
+				//Go to home page and view cart
+				.exec(homePage, viewCart)
+				//Logout scenario
+				logoutScenario
+				.pause(1)
+		}
 
-	val users2 = scenario("Users2").exec(homePage, loginPage, login, homePage)
+	val invalidUser: ScenarioBuilder = scenario("Invalid Login Users")
+		.repeat(1) {
+			feed(invalidLoginFeeder)
+				.exec { session =>
+					println("Email: " + session("email").as[String])
+					println("Password: " + session("password").as[String])
+					session
+				}
+				//Scenario 2: Login with invalid credentials, go back to home page
+				loginScenario
+				.pause(1)
+		}
 
 	setUp(
-		users1.inject(rampUsers(6).during(10)),
-		users2.inject(rampUsers(4).during(10))
-	).protocols(httpProtocolEShop)
+		validUser.inject(rampUsers(4).during(10)),
+		invalidUser.inject(rampUsers(4).during(10))
+	).protocols(httpProtocolEShop).assertions(global.failedRequests.count.is(0))
 }

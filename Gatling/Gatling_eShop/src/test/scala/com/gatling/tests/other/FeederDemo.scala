@@ -9,7 +9,7 @@ class FeederDemo extends Simulation {
   val httpProtocol = http.baseUrl("https://computer-database.gatling.io")
 
   // scenario
-  val feeder = csv("data/accounts.csv").circular
+  val feeder = csv("data/valid_accounts.csv").circular
 
   val scn = scenario("Feeder Demo")
     .repeat(1) {

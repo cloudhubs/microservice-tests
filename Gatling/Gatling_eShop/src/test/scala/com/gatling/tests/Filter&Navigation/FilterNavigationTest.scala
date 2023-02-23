@@ -1,4 +1,4 @@
-package com.gatling.tests.Filter
+package com.gatling.tests.`Filter&Navigation`
 
 import io.gatling.core.Predef.*
 import io.gatling.http.Predef.*
@@ -7,6 +7,7 @@ import io.gatling.jdbc.Predef.*
 import scala.concurrent.duration.*
 import com.gatling.tests.Modules.Protocols.*
 import com.gatling.tests.Modules.NavigationModules.*
+import com.gatling.tests.Modules.LoginModules.*
 import io.gatling.core.structure.ScenarioBuilder
 
 class FilterNavigationTest extends Simulation {
@@ -31,5 +32,5 @@ class FilterNavigationTest extends Simulation {
 
 	setUp(
 		usersFiltering.inject(rampUsers(100).during(15))
-	).protocols(httpProtocolEShop)
+	).protocols(httpProtocolEShop).assertions(global.failedRequests.count.is(0))
 }

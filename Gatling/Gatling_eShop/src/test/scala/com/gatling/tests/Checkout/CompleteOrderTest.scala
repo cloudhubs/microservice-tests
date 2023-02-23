@@ -7,6 +7,7 @@ import io.gatling.jdbc.Predef.*
 import scala.concurrent.duration.*
 import com.gatling.tests.Modules.Protocols.*
 import com.gatling.tests.Modules.NavigationModules.*
+import com.gatling.tests.Modules.LoginModules.*
 
 class CompleteOrderTest extends Simulation {
 

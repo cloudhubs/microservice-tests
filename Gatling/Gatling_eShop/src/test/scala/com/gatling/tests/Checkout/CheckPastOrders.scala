@@ -7,6 +7,8 @@ import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
 
 import scala.concurrent.duration.*
+import com.gatling.tests.Modules.LoginModules.*
+
 
 class CheckPastOrders extends Simulation {
 

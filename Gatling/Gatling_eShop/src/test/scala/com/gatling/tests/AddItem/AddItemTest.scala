@@ -14,7 +14,7 @@ import scala.util.Random
 class AddItemTest extends Simulation {
 
   //CSV file that holds account information
-  val feeder = csv("data/accounts.csv").random
+  val feeder = csv("data/valid_accounts.csv").random
 
   //Scenario will sort on random parameters within the csv file
   val users: ScenarioBuilder = scenario("Users Adding Items")
