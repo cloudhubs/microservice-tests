@@ -1,0 +1,5 @@
+email, password
+bad@test.com, pass
+invalid@t.c, bad
+test, badPass
+badEmail, correctPass

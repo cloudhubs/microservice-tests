@@ -3,12 +3,17 @@ package com.gatling.tests.Modules
 import io.gatling.core.Predef.*
 import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
+import scala.util.Random
+
 object NavigationModules {
 
+  var itemArr = Array(1,2,3,4,5,6,7,8,9,10,11,12,13,14)
+  val random = new Random
+
   //Adding an item to the cart
-  val addItem = exec(http("Add Item to Cart")
+  val addItem = exec(http(s"Add Item ${itemArr(random.nextInt(itemArr.length))} to Cart")
     .post("/Cart/AddToCart")
-    .formParam("id", "${itemId}")) //Item can be between 1-14
+    .formParam("id", s"${itemArr(random.nextInt(itemArr.length))}")) //Item can be between 1-14
     //.formParam("__RequestVerificationToken", "CfDJ8HI2B0m15WhGp3yVc3O5P6kWRecVlATohMdinW-buiGCStez0hkF1Pp2l4s5-oXWOnBrSEN-mUPRZrkZS8Tq-9q84NuuzIb8ZfdGMFFIofJwJOfawcicY2kWgzAJ23bjCyCUm4EDbN30b3wdajeRRY6FbqoYxo9_GCX9XrZ7vQi25nNP9gFqpKQlLQlCFBbvJA"))
     .pause(4)
 

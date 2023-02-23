@@ -14,6 +14,8 @@ object Protocols {
     .upgradeInsecureRequestsHeader("1")
     .userAgentHeader("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
 
-  var itemArr = Array(1,2,3,4,5,6,7,8,9,10,11,12,13,14)
+  val formHeader = Map(
+    "Cache-Control" -> "max-age=0",
+    "Origin" -> "http://host.docker.internal:5105")
 
 }

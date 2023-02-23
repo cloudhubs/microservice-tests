@@ -11,8 +11,8 @@ import com.gatling.tests.Modules.LoginModules.*
 import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 class LoginTest extends Simulation {
 
-	val validLoginFeeder = csv("data/filter_test.csv").random
-	val invalidLoginFeeder = csv("data/filter_test.csv").random
+	val validLoginFeeder = csv("data/valid_accounts.csv").random
+	val invalidLoginFeeder = csv("data/invalid_accounts.csv").random
 
 	val validUser: ScenarioBuilder = scenario("Valid Login Users")
 		.repeat(1) {
@@ -40,7 +40,7 @@ class LoginTest extends Simulation {
 					session
 				}
 				//Scenario 2: Login with invalid credentials, go back to home page
-				loginScenario
+				.exec(homePage, loginPage, login)
 				.pause(1)
 		}
 

@@ -7,9 +7,8 @@ import io.gatling.jdbc.Predef.*
 import scala.concurrent.duration.*
 import com.gatling.tests.Modules.NavigationModules.*
 import com.gatling.tests.Modules.Protocols.*
+import com.gatling.tests.Modules.LoginModules.*
 import io.gatling.core.structure.ScenarioBuilder
-
-import scala.util.Random
 
 class AddItemTest extends Simulation {
 
@@ -21,13 +20,14 @@ class AddItemTest extends Simulation {
     .repeat(1) {
       feed(feeder)
         .exec { session =>
-          val random = new Random
           println(s"Test: ${itemArr(random.nextInt(itemArr.length))}")
           session
         }
+        loginScenario
         //go to home page, login, add random items (1-14), view cart
-        //.exec(homePage, login, addItem, viewCart)
-        //.pause(1)
+        .exec(addItem, viewCart)
+        logoutScenario
+        .pause(1)
     }
 
   setUp(
