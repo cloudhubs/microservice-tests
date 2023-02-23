@@ -9,6 +9,9 @@ import com.gatling.tests.Modules.Protocols.*
 import com.gatling.tests.Modules.NavigationModules.*
 class LoginTest extends Simulation {
 
+	//Scenario 1: Login with valid credentials, go to home page, view cart, logout
+	//Scenario 2: Try to login with invalid credentials, go back to home page
+
 	val users1 = scenario("Users1").exec(homePage, loginPage, login, homePage)
 
 	val users2 = scenario("Users2").exec(homePage, loginPage, login, homePage)
