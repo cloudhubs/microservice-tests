@@ -9,6 +9,7 @@ import org.junit.*;
 import com.example.Global.GlobalVariable;
 
 import static com.example.Global.GlobalVariable.*;
+import static com.example.Global.GlobalVariable.tearDown;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
@@ -16,11 +17,6 @@ import org.openqa.selenium.*;
 public class Login {
     // The chrome web driver
     private final WebDriver driver = GlobalVariable.setUp();
-
-    // The error messages for logging in
-    private final String MISSING_EMAIL = "The Email field is required.";
-    private final String MISSING_PASS = "The Password field is required.";
-    private final String INVALID_LOGIN = "Invalid username or password.";
 
     @Test
     public void testLogin() throws Exception {
@@ -51,11 +47,8 @@ public class Login {
         logout(driver);
         Thread.sleep(100);
         clickLogin(driver);
-    }
 
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
+        tearDown(driver);
     }
 
     /**
