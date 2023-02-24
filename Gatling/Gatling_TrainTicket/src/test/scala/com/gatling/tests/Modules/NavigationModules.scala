@@ -19,17 +19,17 @@ object NavigationModules {
     .resources(http("Refresh Page Test")
       .post("/api/v1/orderservice/order/refresh")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/OrderList/account_request.json")),
+      .body(RawFileBody("com/gatling/tests/OrderListUser/account_request.json")),
       http("Refresh Page")
         .post("/api/v1/orderOtherService/orderOther/refresh")
         .headers(apiV1Header)
-        .body(RawFileBody("com/gatling/tests/OrderList/account_request.json"))))
+        .body(RawFileBody("com/gatling/tests/OrderListUser/account_request.json"))))
     .pause(8)
 
   val payTicket = exec(http("Confirm Payment")
     .post("/api/v1/inside_pay_service/inside_payment")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/OrderList/orderlistpayticket/payment_request.json")))
+    .body(RawFileBody("com/gatling/tests/OrderListUser/orderlistpayticket/payment_request.json")))
     .pause(4)
 
   val cancelOrder = exec(http("Select Cancel Order")
@@ -44,12 +44,12 @@ object NavigationModules {
   val changeOrder = exec(http("Select Change Order")
     .post("/api/v1/travelservice/trips/left")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/OrderList/select_trip_form.json")))
+    .body(RawFileBody("com/gatling/tests/OrderListUser/select_trip_form.json")))
     .pause(4)
     .exec(http("Confirm Rebook")
       .post("/api/v1/rebookservice/rebook")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/OrderList/rebook_form.json")))
+      .body(RawFileBody("com/gatling/tests/OrderListUser/rebook_form.json")))
     .pause(7)
 
   val viewConsign = exec(http("View Consign")
@@ -60,7 +60,7 @@ object NavigationModules {
   val updateConsign = exec(http("Update Consign")
     .put("/api/v1/consignservice/consigns")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/OrderList/update_consign_form.json")))
+    .body(RawFileBody("com/gatling/tests/OrderListUser/update_consign_form.json")))
     .pause(3)
 
   val searchTrip = exec(http("Search for Trip")

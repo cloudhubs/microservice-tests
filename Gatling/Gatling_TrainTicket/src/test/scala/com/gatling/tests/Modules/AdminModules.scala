@@ -129,6 +129,12 @@ object AdminModules {
     .body(RawFileBody("com/gatling/tests/RouteListAdmin/add_route_form.json")))
     .pause(4)
 
+  val updateRoute = exec(http("Update Route")
+    .post("/api/v1/adminrouteservice/adminroute")
+    .headers(apiV1Header)
+    .body(RawFileBody("com/gatling/tests/RouteListAdmin/update_route_form.json")))
+    .pause(4)
+
   val deleteRoute = exec(http("Delete Route")
     .delete("/api/v1/adminrouteservice/adminroute/0b23bd3e-876a-4af3-b920-c50a90c90b04")
     .headers(apiV1Header))
@@ -148,6 +154,12 @@ object AdminModules {
     .body(RawFileBody("com/gatling/tests/StationListAdmin/add_station_form.json")))
     .pause(5)
 
+  val updateStation = exec(http("Update Station")
+    .put("/api/v1/adminbasicservice/adminbasic/stations")
+    .headers(apiV1Header)
+    .body(RawFileBody("com/gatling/tests/StationListAdmin/update_station_form.json")))
+    .pause(4)
+
   val deleteStation = exec(http("Delete Station")
     .delete("/api/v1/adminbasicservice/adminbasic/stations/5307f68c-dc6d-4461-a262-354be961827f")
     .headers(apiV1Header))
@@ -166,6 +178,12 @@ object AdminModules {
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/TrainListAdmin/add_train_form.json")))
     .pause(5)
+
+  val updateTrain = exec(http("Update Train")
+    .put("/api/v1/adminbasicservice/adminbasic/trains")
+    .headers(apiV1Header)
+    .body(RawFileBody("com/gatling/tests/TrainListAdmin/update_train_form.json")))
+    .pause(1)
 
   val deleteTrain = exec(http("Delete Train")
     .delete("/api/v1/adminbasicservice/adminbasic/trains/4d02f2f3-d08e-4bae-bf38-dc2c955f7afd")
@@ -213,6 +231,12 @@ object AdminModules {
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/UserListAdmin/add_user_form.json")))
     .pause(6)
+
+  val updateUser = exec(http("Update User")
+    .put("/api/v1/adminuserservice/users")
+    .headers(apiV1Header)
+    .body(RawFileBody("com/gatling/tests/UserListAdmin/update_user_form.json")))
+    .pause(2)
 
   val deleteUser = exec(http("Delete User")
     .delete("/api/v1/adminuserservice/users/6b5b0b6d-b233-4443-89e4-d28c72dc237b")
