@@ -18,31 +18,21 @@ class RegisterTest extends Simulation {
   val validUser: ScenarioBuilder = scenario("Valid Registration")
     .repeat(1) {
       feed(validRegisterFeeder)
-        .exec { session =>
-          println("Email: " + session("email").as[String])
-          println("Password: " + session("password").as[String])
-          session
-        }
         //Go to home page and view cart
-        .exec(homePage, loginPage, registerPage, submitRegistration)
+        .exec(homePage, loginPage, registerPage, submitRegistration, loginPage)
         .pause(1)
     }
 
   val invalidUser: ScenarioBuilder = scenario("Invalid Registration")
     .repeat(1) {
       feed(invalidRegisterFeeder)
-        .exec { session =>
-          println("Email: " + session("email").as[String])
-          println("Password: " + session("password").as[String])
-          session
-        }
         //Scenario 2: Login with invalid credentials, go back to home page
-        .exec(homePage, loginPage, login)
+        .exec(homePage, loginPage, registerPage, submitRegistration)
         .pause(1)
     }
 
   setUp(
-    validUser.inject(rampUsers(4).during(10)),
-    invalidUser.inject(rampUsers(4).during(10))
+    validUser.inject(rampUsers(10).during(10)),
+    invalidUser.inject(rampUsers(10).during(10))
   ).protocols(httpProtocolEShop).assertions(global.failedRequests.count.is(0))
 }

@@ -9,9 +9,11 @@ import com.gatling.tests.Modules.Protocols.*
 import com.gatling.tests.Modules.NavigationModules.*
 import com.gatling.tests.Modules.LoginModules.*
 import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
+
+import scala.util.Random
 class LoginTest extends Simulation {
 
-	val validLoginFeeder = csv("data/valid_accounts.csv").random
+	val validLoginFeeder = csv("data/valid_accounts.csv").circular
 	val invalidLoginFeeder = csv("data/invalid_accounts.csv").random
 
 	val validUser: ScenarioBuilder = scenario("Valid Login Users")
@@ -23,16 +25,16 @@ class LoginTest extends Simulation {
 					session
 				}
 				//Login scenario
-				loginScenario
+				.exec(loginScenario)
 				//Go to home page and view cart
 				.exec(homePage, viewCart)
 				//Logout scenario
-				logoutScenario
+				.exec(logoutScenario)
 				.pause(1)
 		}
 
 	val invalidUser: ScenarioBuilder = scenario("Invalid Login Users")
-		.repeat(1) {
+		.exec {
 			feed(invalidLoginFeeder)
 				.exec { session =>
 					println("Email: " + session("email").as[String])
