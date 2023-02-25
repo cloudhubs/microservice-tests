@@ -10,7 +10,8 @@ import com.gatling.tests.Modules.HeaderModules.*
 
 class UpdateTravelInvalid extends Simulation {
 
-  val users = scenario("Users Updating Travel").exec(travelPage, addTravel, travelPage)
+  /** operation = Update, file_path = , endpoint = admintravelservice/admintravel */
+  val users = scenario("Users Updating Travel").exec(travelPage, action, travelPage)
 
   setUp(
     users.inject(rampUsers(20).during(15))

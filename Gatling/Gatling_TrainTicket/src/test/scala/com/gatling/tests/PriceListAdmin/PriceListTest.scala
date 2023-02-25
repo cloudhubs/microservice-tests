@@ -10,11 +10,14 @@ import com.gatling.tests.Modules.AdminModules.*
 
 class PriceListTest extends Simulation {
 
-  val priceAdd = scenario("Users Adding Price").exec(pricePage, addPrice, pricePage)
+  /** operation = Add, file_path = , endpoint = adminbasicservice/adminbasic/prices */
+  val priceAdd = scenario("Users Adding Price").exec(pricePage, action, pricePage)
 
-  val priceDelete = scenario("Users Deleting Price").exec(pricePage, deletePrice, pricePage)
+  /** delete_id = dd0e572e-7443-420c-8280-7d8215636069, type = Price, endpoint = adminbasicservice/adminbasic/prices */
+  val priceDelete = scenario("Users Deleting Price").exec(pricePage, delete, pricePage)
 
-  val priceUpdate = scenario("Users Updating Price").exec(pricePage, updatePrice, pricePage)
+  /**operation = Update, file_path = , endpoint = adminbasicservice/adminbasic/prices */
+  val priceUpdate = scenario("Users Updating Price").exec(pricePage, action, pricePage)
 
   setUp(
     priceAdd.inject(rampUsers(20).during(15)),

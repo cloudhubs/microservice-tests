@@ -11,12 +11,14 @@ import com.gatling.tests.Modules.HeaderModules.*
 
 class StationListTest extends Simulation {
 
-  /**Change json for invalid add*/
-  val stationAdd = scenario("Users Adding Station").exec(stationPage, addStation, stationPage)
+  /** operation = Add, file_path = , endpoint = adminbasicservice/adminbasic/stations */
+  val stationAdd = scenario("Users Adding Station").exec(stationPage, action, stationPage)
 
-  val stationDelete = scenario("Users Deleting Station").exec(stationPage, deleteStation, stationPage)
+  /** delete_id = 5307f68c-dc6d-4461-a262-354be961827f, type = Station, endpoint = adminbasicservice/adminbasic/stations */
+  val stationDelete = scenario("Users Deleting Station").exec(stationPage, delete, stationPage)
 
-  val stationUpdate = scenario("Users Updating Station").exec(stationPage, updateStation, stationPage)
+  /** operation = Update, file_path = , endpoint = adminbasicservice/adminbasic/stations */
+  val stationUpdate = scenario("Users Updating Station").exec(stationPage, action, stationPage)
 
   setUp(
     stationAdd.inject(rampUsers(20).during(15)),

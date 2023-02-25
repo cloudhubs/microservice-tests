@@ -12,11 +12,14 @@ import com.gatling.tests.Modules.AdminModules.*
 class ConfigListTest extends Simulation {
 
   /**Change json to be add_config_invalid for invalid*/
-  val configAdd = scenario("Users Adding Config").exec(configPage, addConfig, configPage)
+  /** operation = Add, file_path = , endpoint = adminbasicservice/adminbasic/configs */
+  val configAdd = scenario("Users Adding Config").exec(configPage, action, configPage)
 
-  val configDelete = scenario("Users Deleting Config").exec(configPage, deleteConfig, configPage)
+  /** delete_id = TestConfig (config name), type = Config, endpoint = adminbasicservice/adminbasic/configs */
+  val configDelete = scenario("Users Deleting Config").exec(configPage, delete, configPage)
 
-  val configUpdate = scenario("Users Updating Config").exec(configPage, updateConfig, configPage)
+  /** operation = Update, file_path = ,  endpoint = adminbasicservice/adminbasic/configs */
+  val configUpdate = scenario("Users Updating Config").exec(configPage, action, configPage)
 
   setUp(
     configAdd.inject(rampUsers(20).during(10)),

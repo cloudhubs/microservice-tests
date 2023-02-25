@@ -11,11 +11,14 @@ import com.gatling.tests.Modules.AdminModules.*
 
 class ContactListTest extends Simulation {
 
-  val contactAdd = scenario("Users Adding Contact").exec(contactsPage, addContact, contactsPage)
+  /** operation = Add, file_path = , endpoint = adminbasicservice/adminbasic/contacts */
+  val contactAdd = scenario("Users Adding Contact").exec(contactsPage, action, contactsPage)
 
-  val contactDelete = scenario("Users Deleting Contact").exec(contactsPage, deleteContact, contactsPage)
+  /** delete_id = 5729b7bf-f1c8-4d82-8773-9bbb682489f5, type = Contact, endpoint = adminbasicservice/adminbasic/contacts */
+  val contactDelete = scenario("Users Deleting Contact").exec(contactsPage, delete, contactsPage)
 
-  val contactUpdate = scenario("Users Updating Contact").exec(contactsPage, updateContact, contactsPage)
+  /** operation = Update, file_path = , endpoint = adminbasicservice/adminbasic/contacts */
+  val contactUpdate = scenario("Users Updating Contact").exec(contactsPage, action, contactsPage)
 
   setUp(
     contactAdd.inject(rampUsers(20).during(15)),
