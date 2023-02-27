@@ -20,7 +20,7 @@ public class Login {
   JavascriptExecutor js;
   @Before
   public void setUp() throws Exception {
-    System.setProperty("webdriver.chrome.driver", "C:\\Users\\Ethan_Robinson2\\Desktop\\Capstone-Project5\\Selenium\\chromedriver.exe");
+    System.setProperty("webdriver.chrome.driver", "C:\\Users\\Timmy_Frederiksen1\\Documents\\GitHub\\Capstone-Project5\\Selenium\\chromedriver.exe");
     driver = new ChromeDriver();
     baseUrl = "https://www.google.com/";
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
