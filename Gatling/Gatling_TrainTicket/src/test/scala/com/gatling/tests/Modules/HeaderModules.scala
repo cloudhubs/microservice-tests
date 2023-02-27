@@ -24,8 +24,8 @@ object HeaderModules {
     "Accept" -> "application/json, text/plain, text/javascript, */*; q=0.01",
     "Content-Type" -> "application/json",
     "Origin" -> "http://192.168.3.205:32677",
-    "X-Requested-With" -> "XMLHttpRequest",
-    "authorization" -> "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZHNlX21pY3Jvc2VydmljZSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpZCI6IjRkMmE0NmM3LTcxY2ItNGNmMS1iNWJiLWI2ODQwNmQ5ZGE2ZiIsImlhdCI6MTY3NjQ1NDc0NywiZXhwIjoxNjc2NDU4MzQ3fQ.21_qzgFtYVOc5SNqC_2XDLkXtouFJiP3jti_IuvkYYY")
+    "X-Requested-With" -> "XMLHttpRequest")
+    //"authorization" -> "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZHNlX21pY3Jvc2VydmljZSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpZCI6IjRkMmE0NmM3LTcxY2ItNGNmMS1iNWJiLWI2ODQwNmQ5ZGE2ZiIsImlhdCI6MTY3NjQ1NDc0NywiZXhwIjoxNjc2NDU4MzQ3fQ.21_qzgFtYVOc5SNqC_2XDLkXtouFJiP3jti_IuvkYYY")
 
   val orderListHeader = Map(
     "Accept" -> "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",

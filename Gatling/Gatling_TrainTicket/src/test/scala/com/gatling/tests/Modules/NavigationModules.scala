@@ -8,11 +8,6 @@ import io.gatling.core.structure.ChainBuilder
 
 object NavigationModules {
 
-  val homePage = exec(http("Home Page")
-    .get("/index.html")
-    .headers(mainPageHeader))
-    .pause(2)
-
   val viewOrderListPage = exec(http("View Order List")
     .get("/client_order_list.html")
     .headers(orderListHeader)
@@ -98,18 +93,6 @@ object NavigationModules {
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/Booking/booking_1st_class_form.json")))
     .pause(5)
-
-  val userLoginPage = exec(http("Go to Login Page")
-    .get("/client_login.html")
-    .resources(http("Generate CAPTCHA")
-      .get("/api/v1/verifycode/generate")
-      .headers(apiV1Header)))
-    .pause(4)
-
-  val submitUserLogin = exec(http("Request Login")
-    .post("/api/v1/users/login")
-    .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/Login/user_login.json")))
 
   val ticketPage = exec(http("Ticket Page")
     .get("/client_ticket_collect.html")

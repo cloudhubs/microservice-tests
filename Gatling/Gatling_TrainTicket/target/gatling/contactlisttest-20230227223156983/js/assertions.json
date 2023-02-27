@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.ContactListAdmin.ContactListTest",
+  "simulationId": "contactlisttest",
+  "start": 1677537116983,
+  "description": "",
+  "scenarios": ["Admins Adding Contact", "Admins Updating Contact", "Admins Deleting Contacts"],
+  "assertions": [
+
+  ]
+}

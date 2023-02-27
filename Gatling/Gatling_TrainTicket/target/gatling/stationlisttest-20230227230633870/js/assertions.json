@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.StationListAdmin.StationListTest",
+  "simulationId": "stationlisttest",
+  "start": 1677539193870,
+  "description": "",
+  "scenarios": ["Admins Adding Station", "Admins Deleting Station"],
+  "assertions": [
+
+  ]
+}

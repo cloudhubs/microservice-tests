@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.TravelListAdmin.TravelListTest",
+  "simulationId": "travellisttest",
+  "start": 1677539736472,
+  "description": "",
+  "scenarios": ["Admins Adding Travel", "Admins Deleting Travel"],
+  "assertions": [
+
+  ]
+}

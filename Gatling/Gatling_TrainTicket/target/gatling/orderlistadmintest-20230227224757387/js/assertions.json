@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.OrderListAdmin.OrderListAdminTest",
+  "simulationId": "orderlistadmintest",
+  "start": 1677538077387,
+  "description": "",
+  "scenarios": ["Admins Adding Order", "Admins Deleting Order"],
+  "assertions": [
+
+  ]
+}

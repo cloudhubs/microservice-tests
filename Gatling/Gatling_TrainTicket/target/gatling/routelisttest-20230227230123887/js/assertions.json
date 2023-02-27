@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.RouteListAdmin.RouteListTest",
+  "simulationId": "routelisttest",
+  "start": 1677538883887,
+  "description": "",
+  "scenarios": ["Admins Adding Route", "Admins Deleting Route"],
+  "assertions": [
+
+  ]
+}

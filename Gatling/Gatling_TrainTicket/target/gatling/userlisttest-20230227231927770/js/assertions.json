@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.UserListAdmin.UserListTest",
+  "simulationId": "userlisttest",
+  "start": 1677539967770,
+  "description": "",
+  "scenarios": ["Admins Adding User", "Admins Deleting User"],
+  "assertions": [
+
+  ]
+}

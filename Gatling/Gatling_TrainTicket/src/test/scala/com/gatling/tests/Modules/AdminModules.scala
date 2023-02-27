@@ -7,14 +7,6 @@ import com.gatling.tests.Modules.HeaderModules.*
 
 object AdminModules {
 
-  val configPage = exec(http("Config List Page")
-    .get("/admin_config.html")
-    .headers(mainPageHeader)
-    .resources(http("Get Configs")
-      .get("/api/v1/adminbasicservice/adminbasic/configs")
-      .headers(apiV1Header)))
-    .pause(6)
-
   /**
    * Function to complete either add and update of a certain item
    *
@@ -23,9 +15,9 @@ object AdminModules {
    * file_path = the file path to the json file
    */
   val action = exec(http("${operation} Config")
-    .post("/api/v1/#{endpoint}")
+    .post("/api/v1/${endpoint}")
     .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/#{file_path}")))
+    .body(RawFileBody("com/gatling/tests/${file_path}")))
     .pause(8)
 
   /**
@@ -36,9 +28,17 @@ object AdminModules {
    * delete_id = the id of the item to delete
    */
   val delete = exec(http("Delete ${type}")
-    .delete("/api/v1/#{endpoint}/#{delete_id}")
+    .delete("/api/v1/${endpoint}/${delete_id}")
     .headers(apiV1Header))
     .pause(4)
+
+  val configPage = exec(http("Config List Page")
+    .get("/admin_config.html")
+    .headers(mainPageHeader)
+    .resources(http("Get Configs")
+      .get("/api/v1/adminbasicservice/adminbasic/configs")
+      .headers(apiV1Header)))
+    .pause(6)
 
   val contactsPage = exec(http("Contacts List Page")
     .get("/admin_contacts.html")
@@ -118,26 +118,4 @@ object AdminModules {
       .get("/api/v1/adminuserservice/users")
       .headers(apiV1Header)))
     .pause(5)
-
-  val adminLoginPage = exec(http("Go to Login Page")
-    .get("/adminlogin.html")
-    .headers(mainPageHeader))
-    .pause(3)
-
-  val adminLogin = exec(http("Send Login Request")
-    .post("/api/v1/users/login")
-    .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/Login/admin_login.json")))
-
-    val adminHomePage = exec(http("Go to Admin Page")
-      .get("/admin.html")
-      .resources(http("Get User List")
-        .get("/api/v1/userservice/users")
-        .headers(apiV1Header),
-      http("Get Order List")
-        .get("/api/v1/adminorderservice/adminorder")
-        .headers(apiV1Header),
-      http("Get Travel List")
-        .get("/api/v1/admintravelservice/admintravel")
-        .headers(apiV1Header)))
 }

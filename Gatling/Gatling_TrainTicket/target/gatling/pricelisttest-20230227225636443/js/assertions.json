@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.PriceListAdmin.PriceListTest",
+  "simulationId": "pricelisttest",
+  "start": 1677538596443,
+  "description": "",
+  "scenarios": ["Admins Adding Price", "Admins Deleting Price"],
+  "assertions": [
+
+  ]
+}

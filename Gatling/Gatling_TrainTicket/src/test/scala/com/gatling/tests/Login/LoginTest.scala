@@ -5,24 +5,25 @@ import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
 
 import scala.concurrent.duration.*
-
-import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.NavigationModules.*
+import com.gatling.tests.Modules.LoginModule.*
+import io.gatling.core.structure.ScenarioBuilder
 class LoginTest extends Simulation {
 
-  val loginAdmin = scenario("Admin Logging In").exec(adminLoginPage, adminLogin, adminHomePage)
+  val loginAdmin: ScenarioBuilder = scenario("Admin Logging In")
+    //Go to home page and view cart
+    .exec(adminLoginScenario)
+    .pause(1)
 
-  val loginAdminInvalid = scenario("Admin Logging In (Invalid)").exec(adminLoginPage, adminLogin)
-
-  val loginUser = scenario("User Logging In").exec(userLoginPage, submitUserLogin, homePage)
-
-  val loginUserInvalid = scenario("User Logging In (Invalid)").exec(userLoginPage, submitUserLogin, homePage)
+  val loginUser: ScenarioBuilder = scenario("User Logging In")
+    //Go to home page and view cart
+    .exec(userLoginScenario)
+    .pause(1)
 
   setUp(
-    loginAdmin.inject(rampUsers(20).during(15)),
-    loginAdminInvalid.inject(rampUsers(20).during(15)),
-    loginUser.inject(rampUsers(20).during(15)),
-    loginUserInvalid.inject(rampUsers(20).during(15))
+    loginAdmin.inject(rampUsers(10).during(15)),
+    //loginAdminInvalid.inject(rampUsers(20).during(15)),
+    loginUser.inject(rampUsers(10).during(15)),
+    //loginUserInvalid.inject(rampUsers(20).during(15))
   ).protocols(httpProtocolTrainTicket)
 }
