@@ -12,7 +12,6 @@ import static com.example.Global.GlobalVariable.*;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.Select;
 
 public class UpdateCart {
     // The chrome web driver
@@ -44,11 +43,8 @@ public class UpdateCart {
         goToCart(driver);
         assertTrue(getCost() > prevCost);
         assertEquals(getQuantity(), quantity + 1);
-    }
 
-    @After
-    public void tearDown() {
-        driver.quit();
+        tearDown(driver);
     }
 
     /**

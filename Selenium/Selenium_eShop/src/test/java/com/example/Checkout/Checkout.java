@@ -5,6 +5,8 @@
 package com.example.Checkout;
 
 import org.junit.*;
+
+import static com.example.Global.GlobalVariable.tearDown;
 import static org.junit.Assert.*;
 
 import com.example.Global.GlobalVariable;
@@ -46,11 +48,8 @@ public class Checkout {
         }
         driver.get("http://host.docker.internal:5100/Order");
         assertTrue(driver.getPageSource().contains("submitted"));
-    }
 
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
+        tearDown(driver);
     }
 
     /**

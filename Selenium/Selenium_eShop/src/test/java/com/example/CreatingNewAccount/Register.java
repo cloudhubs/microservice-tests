@@ -131,11 +131,8 @@ public class Register {
 
         // Login with the new account information
         login();
-    }
 
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
+        tearDown(driver);
     }
 
     /**
