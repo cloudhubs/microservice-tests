@@ -7,6 +7,7 @@ package com.example.BrowsePagesItems;
 import com.example.Global.GlobalVariable;
 import org.junit.*;
 
+import static com.example.Global.GlobalVariable.tearDown;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
@@ -38,11 +39,8 @@ public class BrowsePages {
         driver.findElement(By.id(PREVIOUS)).click();
         assertEquals(driver.findElement(By.id(NEXT)).getText(), NEXT);
         assertEquals(PAGE1, getCurrPage(SUBTITLE));
-    }
 
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
+        tearDown(driver);
     }
 
     /**

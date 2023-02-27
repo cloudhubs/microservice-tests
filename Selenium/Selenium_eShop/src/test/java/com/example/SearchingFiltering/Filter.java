@@ -9,6 +9,7 @@ import org.junit.*;
 import com.example.Global.GlobalVariable;
 
 import static com.example.Global.GlobalVariable.*;
+import static com.example.Global.GlobalVariable.tearDown;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
@@ -51,11 +52,7 @@ public class Filter {
             }
         }
 
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
+        tearDown(driver);
     }
 
     /**
