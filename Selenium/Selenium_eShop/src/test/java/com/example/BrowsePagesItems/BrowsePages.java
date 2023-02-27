@@ -4,17 +4,16 @@
 
 package com.example.BrowsePagesItems;
 
-import com.example.Global.GlobalVariable;
+import com.example.Modules.*;
 import org.junit.*;
 
-import static com.example.Global.GlobalVariable.tearDown;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
 
 public class BrowsePages {
     // The chrome web driver
-    private final WebDriver driver = GlobalVariable.setUp();
+    private final WebDriver driver = SetUp.Execute();
 
     /**
      * Tests the UI and functionality of switching between multiple pages on the home page
@@ -40,7 +39,7 @@ public class BrowsePages {
         assertEquals(driver.findElement(By.id(NEXT)).getText(), NEXT);
         assertEquals(PAGE1, getCurrPage(SUBTITLE));
 
-        tearDown(driver);
+        TearDown.Execute(driver);
     }
 
     /**
