@@ -5,6 +5,7 @@ import io.gatling.core.Predef.*
 
 object Protocols {
 
+  //Main http protocol for eShopOnContainers
   val httpProtocolEShop = http
     .baseUrl("http://host.docker.internal:5100")
     .inferHtmlResources(BlackList(""".*\.js""", """.*\.css""", """.*\.gif""", """.*\.jpeg""", """.*\.jpg""", """.*\.ico""", """.*\.woff""", """.*\.woff2""", """.*\.(t|o)tf""", """.*\.png""", """.*detectportal\.firefox\.com.*""", """.*\.PNG""", """.*/pic/""", """.*\.svg""", """.*/js/site.js.*""", """.*/hub/notificationhub/.*"""), WhiteList())
@@ -14,6 +15,7 @@ object Protocols {
     .upgradeInsecureRequestsHeader("1")
     .userAgentHeader("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
 
+  //Form header
   val formHeader = Map(
     "Cache-Control" -> "max-age=0",
     "Origin" -> "http://host.docker.internal:5105")

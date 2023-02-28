@@ -14,7 +14,10 @@ import io.gatling.commons.validation.Validation.*
 
 class CompleteOrderTest extends Simulation {
 
+  //CSV file that holds account information
   val validLoginFeeder = csv("data/valid_accounts.csv").random
+
+  //CSV file that holds information used at checkout
   val validCheckoutFeeder = csv("data/valid_checkout.csv").random
 
   val userValid: ScenarioBuilder = scenario("Users Checking Out")
@@ -24,9 +27,11 @@ class CompleteOrderTest extends Simulation {
         .exec(loginScenario, homePage, viewCart)
     }
     .exec {
-      feed(validCheckoutFeeder)
+      feed(validCheckoutFeeder) //Get checkout information from file
+        //Complete checkout actions
         .exec(selectCheckout, submitCheckout, viewPastOrders)
     }
+    //Randomly either cancel order to view order details
     .randomSwitch(
       50.0 -> exec(cancelOrder),
       50.0 -> exec(viewOrderDetails, viewPastOrders)
@@ -35,9 +40,7 @@ class CompleteOrderTest extends Simulation {
     .exec(logoutScenario)
     .pause(1)
 
-  /**
-   * Add in invalid checkout form
-   */
+   //TODO: Add in invalid checkout form
 
   setUp(
     userValid.inject(rampUsers(5).during(15)),

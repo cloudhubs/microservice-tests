@@ -14,10 +14,13 @@ import scala.util.Random
 
 class UpdateCartTest extends Simulation {
 
+  //CSV file  holds account information
   val validLoginFeeder = csv("data/valid_accounts.csv").circular
 
+  //CSV file that contains item information
   val itemFeeder = csv("data/item_info.csv").random
 
+  //Scenario to test updating a users cart
   val user: ScenarioBuilder = scenario("Users Updating Cart")
     .repeat(1) {
       feed(validLoginFeeder)
@@ -25,7 +28,7 @@ class UpdateCartTest extends Simulation {
         .exec(loginScenario, homePage, viewCart)
     }
     .repeat(2) {
-      feed(itemFeeder)
+      feed(itemFeeder) //Update the cart with a random item
         .exec(updateCart)
     }
     //Logout scenario

@@ -13,39 +13,30 @@ import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 import scala.util.Random
 class LoginTest extends Simulation {
 
+	//CSV file feeder that hold valid or invalid account information
 	val validLoginFeeder = csv("data/valid_accounts.csv").circular
 	val invalidLoginFeeder = csv("data/invalid_accounts.csv").random
 
+	//Scenario that tests valid login
 	val validUser: ScenarioBuilder = scenario("Valid Login Users")
 		.repeat(1) {
-			feed(validLoginFeeder)
-				.exec { session =>
-					println("Email: " + session("email").as[String])
-					println("Password: " + session("password").as[String])
-					session
-				}
-				//Login scenario
-				.exec(loginScenario)
-				//Go to home page and view cart
-				.exec(homePage, viewCart)
-				//Logout scenario
-				.exec(logoutScenario)
+			feed(validLoginFeeder) //Get valid account information from file
+
+				//Login, go home, view cart, and logout
+				.exec(loginScenario, homePage, viewCart, loginScenario)
 				.pause(1)
 		}
 
+	//Scenario that tests invalid login information
 	val invalidUser: ScenarioBuilder = scenario("Invalid Login Users")
 		.exec {
-			feed(invalidLoginFeeder)
-				.exec { session =>
-					println("Email: " + session("email").as[String])
-					println("Password: " + session("password").as[String])
-					session
-				}
-				//Scenario 2: Login with invalid credentials, go back to home page
+			feed(invalidLoginFeeder) //Get invalid account information
+				//Login with invalid credentials, go back to home page
 				.exec(homePage, loginPage, login)
 				.pause(1)
 		}
 
+	//Inject valid and invalid users into system
 	setUp(
 		validUser.inject(rampUsers(4).during(10)),
 		invalidUser.inject(rampUsers(4).during(10))

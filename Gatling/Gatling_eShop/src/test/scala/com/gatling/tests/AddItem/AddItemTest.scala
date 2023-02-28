@@ -15,24 +15,25 @@ import scala.util.Random
 class AddItemTest extends Simulation {
 
   //CSV file that holds account information
-  val feeder = csv("data/valid_accounts.csv").random
+  val accountFeeder = csv("data/valid_accounts.csv").random
 
+  //CSV file that holds item information
   val itemFeeder = csv("data/item_info.csv").random
 
   //Scenario will sort on random parameters within the csv file
   val users: ScenarioBuilder = scenario("Users Adding Items")
     .exec {
-      feed(feeder)
-        .exec(loginScenario)
+      //Feeder to give account information
+      feed(accountFeeder)
+        .exec(loginScenario) //Log into system
+        .repeat(2){
+          feed(itemFeeder) //Feeder to provide item information
+            .exec(addItem)
+        }
     }
-    .repeat(2) {
-      feed(itemFeeder)
-        //go to home page, login, add random items (1-14), view cart
-        .exec(addItem)
-    }
-    .exec(viewCart)
-    .exec(logoutScenario)
+    .exec(viewCart, logoutScenario)
 
+  //Run the test by ramping up the virtual users
   setUp(
     users.inject(rampUsers(20).during(10))
   ).protocols(httpProtocolEShop)
