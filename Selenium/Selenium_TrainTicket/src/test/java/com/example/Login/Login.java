@@ -11,7 +11,12 @@ import com.example.Modules.TearDownDriver;
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.junit.Assert.*;
 
@@ -28,14 +33,20 @@ public class Login {
     private final String INVALID_PASSWORD = "bad-password";
 
     private final String ADMIN_LOGIN_URL = "http://192.168.3.205:32677/adminlogin.html";
+    private final String CLIENT_LOGIN_URL = "http://192.168.3.205:32677/client_login.html";
 
     @Test
     public void testLogin() {
+        // Check that you are logged out, and try to navigate to login page by clicking on profile
+        driver.findElement(By.id("client_name")).click();
+        driver.switchTo().alert().accept();
+        assertEquals(CLIENT_LOGIN_URL, driver.getCurrentUrl());
+
         // Navigate to the login screen for a client
         ClientClickLogin.Execute(driver);
 
         // Check that the fields are auto-populated
-        assertEquals(driver.findElement(By.id("flow_preserve_login_email")).getAttribute("value"), USERNAME);
+        assertEquals(driver.findElement(By.id("flow_preserve_login_email")).getAttribute("value"), CLIENT_USERNAME);
         assertNotEquals(driver.findElement(By.id("flow_preserve_login_password")).getAttribute("value"), "");
         assertNotEquals(driver.findElement(By.id("flow_preserve_login_verification_code")).getAttribute("value"), "");
 
@@ -56,7 +67,7 @@ public class Login {
         assertEquals(getLoginStatus(), INVALID_LOGIN);
 
         // Login with valid credentials
-        clientLogin(USERNAME, PASSWORD);
+        clientLogin(CLIENT_USERNAME, CLIENT_PASSWORD);
         assertEquals(getLoginStatus(), VALID_LOGIN);
 
 
@@ -74,7 +85,7 @@ public class Login {
         assertEquals(ADMIN_LOGIN_URL, driver.getCurrentUrl());
 
         // Login with valid credentials
-        adminLogin(USERNAME, PASSWORD);
+        adminLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
         // Logout as an admin
@@ -91,15 +102,24 @@ public class Login {
     }
 
     /**
+     * Dismisses an alert if an alert is present
+     */
+    private void dismissAlert() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        try {
+            wait.until(ExpectedConditions.alertIsPresent());
+            driver.switchTo().alert().accept();
+        } catch(TimeoutException e) {
+            // no alert found
+        }
+    }
+
+    /**
      * Clicks the login submit button on the admin login page
      */
     private void adminSubmit() {
         driver.findElement(By.tagName("BUTTON")).click();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        dismissAlert();
     }
 
     /**
@@ -107,11 +127,7 @@ public class Login {
      */
     private void clientSubmit() {
         driver.findElement(By.id("client_login_button")).click();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        dismissAlert();
     }
 
     /**
@@ -157,7 +173,6 @@ public class Login {
         driver.findElement(By.id("doc-ipt-pwd-1")).sendKeys(password);
 
         adminSubmit();
-        driver.switchTo().alert().accept();
     }
 
     /**
@@ -175,4 +190,6 @@ public class Login {
     private void logout() {
         driver.findElement(By.className("am-icon-sign-out")).click();
     }
+
+
 }
