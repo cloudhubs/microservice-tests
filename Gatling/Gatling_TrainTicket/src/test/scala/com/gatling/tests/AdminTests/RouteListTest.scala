@@ -12,27 +12,29 @@ import scala.concurrent.duration.*
 
 class RouteListTest extends Simulation {
 
+  //Scenario that tests adding route
   val routeAdd: ScenarioBuilder = scenario("Admins Adding Route")
-    .exec(adminLoginScenario)
+    .exec(adminLoginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add",
         "endpoint" -> "adminrouteservice/adminroute",
         "file_path" -> "RouteListAdmin/add_route_form.json")
       newSession
     }
-    //Go to home page and view cart
+    //Go to route page and complete add
     .exec(routePage, action, routePage)
     .pause(1)
 
+  //Scenario that tests deleting route
   val routeDelete: ScenarioBuilder = scenario("Admins Deleting Route")
     .exec(adminLoginScenario)
-    .exec { session =>
+    .exec { session => //Set up session information
       val newSession = session.setAll("delete_id" -> "0b23bd3e-876a-4af3-b920-c50a90c90b04",
         "endpoint" -> "adminrouteservice/adminroute",
         "type" -> "Route")
       newSession
     }
-    //Go to home page and view cart
+    //Go to route page and delete route
     .exec(routePage, delete, routePage)
     .pause(1)
 

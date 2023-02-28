@@ -13,27 +13,29 @@ import scala.concurrent.duration.*
 
 class StationListTest extends Simulation {
 
+  //Scenario that tests adding station
   val stationAdd: ScenarioBuilder = scenario("Admins Adding Station")
-    .exec(adminLoginScenario)
+    .exec(adminLoginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add",
         "endpoint" -> "adminbasicservice/adminbasic/stations",
         "file_path" -> "StationListAdmin/add_station_form.json")
       newSession
     }
-    //Go to home page and view cart
+    //Go to station page and complete add
     .exec(stationPage, action, stationPage)
     .pause(1)
 
+  //Scenario that tests deleting station
   val stationDelete: ScenarioBuilder = scenario("Admins Deleting Station")
     .exec(adminLoginScenario)
-    .exec { session =>
+    .exec { session => //Set up session information
       val newSession = session.setAll("delete_id" -> "5307f68c-dc6d-4461-a262-354be961827f",
         "endpoint" -> "adminbasicservice/adminbasic/stations",
         "type" -> "Station")
       newSession
     }
-    //Go to home page and view cart
+    //Go to station page and delete station
     .exec(stationPage, delete, stationPage)
     .pause(1)
 

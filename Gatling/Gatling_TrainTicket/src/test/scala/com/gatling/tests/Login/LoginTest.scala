@@ -10,11 +10,13 @@ import com.gatling.tests.Modules.LoginModule.*
 import io.gatling.core.structure.ScenarioBuilder
 class LoginTest extends Simulation {
 
+  //Scenario to test valid login for admin
   val loginAdmin: ScenarioBuilder = scenario("Admin Logging In")
-    //Go to home page and view cart
+    //Go to login and complete process
     .exec(adminLoginScenario)
     .pause(1)
 
+  //Scenario to test valid login for user
   val loginUser: ScenarioBuilder = scenario("User Logging In")
     //Go to home page and view cart
     .exec(userLoginScenario)
@@ -22,8 +24,6 @@ class LoginTest extends Simulation {
 
   setUp(
     loginAdmin.inject(rampUsers(10).during(15)),
-    //loginAdminInvalid.inject(rampUsers(20).during(15)),
-    loginUser.inject(rampUsers(10).during(15)),
-    //loginUserInvalid.inject(rampUsers(20).during(15))
+    loginUser.inject(rampUsers(10).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

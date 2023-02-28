@@ -11,14 +11,14 @@ object NavigationModules {
   val viewOrderListPage = exec(http("View Order List")
     .get("/client_order_list.html")
     .headers(orderListHeader)
-    .resources(http("Refresh Page Test")
+    /*.resources(http("Refresh Page Test")
       .post("/api/v1/orderservice/order/refresh")
       .headers(apiV1Header)
       .body(RawFileBody("com/gatling/tests/OrderListUser/account_request.json")),
       http("Refresh Page")
         .post("/api/v1/orderOtherService/orderOther/refresh")
         .headers(apiV1Header)
-        .body(RawFileBody("com/gatling/tests/OrderListUser/account_request.json"))))
+        .body(RawFileBody("com/gatling/tests/OrderListUser/account_request.json")))*/)
     .pause(8)
 
   val payTicket = exec(http("Confirm Payment")

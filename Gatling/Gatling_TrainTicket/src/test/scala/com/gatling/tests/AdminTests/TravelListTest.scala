@@ -12,27 +12,29 @@ import scala.concurrent.duration.*
 
 class TravelListTest extends Simulation {
 
+  //Scenario that tests adding travel
   val travelAdd: ScenarioBuilder = scenario("Admins Adding Travel")
-    .exec(adminLoginScenario)
+    .exec(adminLoginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add",
         "endpoint" -> "admintravelservice/admintravel",
         "file_path" -> "TravelListAdmin/update_travel_invalid.json")
       newSession
     }
-    //Go to home page and view cart
+    //Go to travel page and complete add
     .exec(travelPage, action, travelPage)
     .pause(1)
 
+  //Scenario that tests deleting travel
   val travelDelete: ScenarioBuilder = scenario("Admins Deleting Travel")
     .exec(adminLoginScenario)
-    .exec { session =>
+    .exec { session => //Set up session information
       val newSession = session.setAll("delete_id" -> "Z1235",
         "endpoint" -> "admintravelservice/admintravel",
         "type" -> "Travel")
       newSession
     }
-    //Go to home page and view cart
+    //Go to travel page and delete travel
     .exec(travelPage, delete, travelPage)
     .pause(1)
 

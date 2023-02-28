@@ -32,6 +32,7 @@ object AdminModules {
     .headers(apiV1Header))
     .pause(4)
 
+  //Go to configuration page and get needed resources
   val configPage = exec(http("Config List Page")
     .get("/admin_config.html")
     .headers(mainPageHeader)
@@ -40,6 +41,7 @@ object AdminModules {
       .headers(apiV1Header)))
     .pause(6)
 
+  //Go to contacts page and get needed resources
   val contactsPage = exec(http("Contacts List Page")
     .get("/admin_contacts.html")
     .headers(mainPageHeader)
@@ -48,6 +50,7 @@ object AdminModules {
       .headers(apiV1Header)))
     .pause(5)
 
+  //Go to admin order list page and get needed resources
   val adminOrderPage = exec(http("Admin Order List Page")
     .get("/admin.html")
     .headers(mainPageHeader)
@@ -62,6 +65,7 @@ object AdminModules {
         .headers(apiV1Header)))
     .pause(6)
 
+  //Go to price list page and get needed resources
   val pricePage = exec(http("Price List Page")
     .get("/admin_price.html")
     .headers(mainPageHeader)
@@ -70,6 +74,7 @@ object AdminModules {
       .headers(apiV1Header)))
     .pause(5)
 
+  //Go to route list page and get needed resources
   val routePage = exec(http("Route List Page")
     .get("/admin_route.html")
     .headers(mainPageHeader)
@@ -78,6 +83,7 @@ object AdminModules {
       .headers(apiV1Header)))
     .pause(4)
 
+  //Go to station list page and get needed resources
   val stationPage = exec(http("Station List Page")
     .get("/admin_station.html")
     .headers(mainPageHeader)
@@ -86,6 +92,7 @@ object AdminModules {
       .headers(apiV1Header)))
     .pause(5)
 
+  //Go to train list page and get needed resources
   val trainPage = exec(http("Train List Page")
     .get("/admin_train.html")
     .headers(mainPageHeader)
@@ -94,6 +101,7 @@ object AdminModules {
       .headers(apiV1Header)))
     .pause(7)
 
+  //Go to travel list page and get needed resources
   val travelPage = exec(http("Travel List Page")
     .get("/admin_travel.html")
     .headers(mainPageHeader)
@@ -111,6 +119,7 @@ object AdminModules {
         .headers(apiV1Header)))
     .pause(6)
 
+  //Go to user list page and get needed resources
   val userPage = exec(http("User List Page")
     .get("/admin_user.html")
     .headers(mainPageHeader)

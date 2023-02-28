@@ -12,27 +12,29 @@ import scala.concurrent.duration.*
 
 class UserListTest extends Simulation {
 
+  //Scenario that tests adding user
   val userAdd: ScenarioBuilder = scenario("Admins Adding User")
-    .exec(adminLoginScenario)
+    .exec(adminLoginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add",
         "endpoint" -> "adminuserservice/users",
         "file_path" -> "UserListAdmin/add_user_form.json")
       newSession
     }
-    //Go to home page and view cart
+    //Go to user page and complete add
     .exec(userPage, action, userPage)
     .pause(1)
 
+  //Scenario that tests deleting user
   val userDelete: ScenarioBuilder = scenario("Admins Deleting User")
     .exec(adminLoginScenario)
-    .exec { session =>
+    .exec { session => //Set up session information
       val newSession = session.setAll("delete_id" -> "6b5b0b6d-b233-4443-89e4-d28c72dc237b",
         "endpoint" -> "adminuserservice/users",
         "type" -> "User")
       newSession
     }
-    //Go to home page and view cart
+    //Go to user page and delete user
     .exec(userPage, delete, userPage)
     .pause(1)
 
