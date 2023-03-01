@@ -22,7 +22,7 @@ class TrainListTest extends Simulation {
       newSession
     }
     //Go to train page and complete add
-    .exec(trainPage, action, trainPage)
+    .exec(trainPage, completeAction, trainPage)
     .pause(1)
 
   //Scenario that tests deleting train

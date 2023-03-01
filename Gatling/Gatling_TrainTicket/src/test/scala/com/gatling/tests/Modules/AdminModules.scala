@@ -14,7 +14,7 @@ object AdminModules {
    * endpoint = the needed endpoint depending on item to update/add
    * file_path = the file path to the json file
    */
-  val action = exec(http("${operation} Config")
+  val completeAction = exec(http("${operation} Config")
     .post("/api/v1/${endpoint}")
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${file_path}")))

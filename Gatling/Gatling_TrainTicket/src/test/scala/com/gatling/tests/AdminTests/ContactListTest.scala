@@ -22,7 +22,7 @@ class ContactListTest extends Simulation {
       newSession
     }
     //Go to contacts page and complete add
-    .exec(contactsPage, action, contactsPage)
+    .exec(contactsPage, completeAction, contactsPage)
     .pause(1)
 
   //Scenario that tests deleting contact

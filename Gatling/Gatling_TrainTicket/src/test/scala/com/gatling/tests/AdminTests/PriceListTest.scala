@@ -22,7 +22,7 @@ class PriceListTest extends Simulation {
       newSession
     }
     //Go to price page and complete add
-    .exec(pricePage, action, pricePage)
+    .exec(pricePage, completeAction, pricePage)
     .pause(1)
 
   //Scenario that tests deleting price

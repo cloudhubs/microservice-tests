@@ -22,7 +22,7 @@ class ConfigListTest extends Simulation {
       newSession
     }
     //Go to configuration page and complete add
-    .exec(configPage, action, configPage)
+    .exec(configPage, completeAction, configPage)
     .pause(1)
 
   //Scenario that tests deleting configuration
@@ -41,7 +41,7 @@ class ConfigListTest extends Simulation {
   /**TODO: Same process as add just different file*/
 
   setUp(
-    configAdd.inject(rampUsers(10).during(10)),
-    configDelete.inject(rampUsers(10).during(10))
+    configAdd.inject(rampUsers(50).during(15)),
+    configDelete.inject(rampUsers(50).during(10))
   ).protocols(httpProtocolTrainTicket)
 }

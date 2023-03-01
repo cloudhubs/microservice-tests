@@ -23,7 +23,7 @@ class StationListTest extends Simulation {
       newSession
     }
     //Go to station page and complete add
-    .exec(stationPage, action, stationPage)
+    .exec(stationPage, completeAction, stationPage)
     .pause(1)
 
   //Scenario that tests deleting station

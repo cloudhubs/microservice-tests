@@ -22,7 +22,7 @@ class OrderListAdminTest extends Simulation {
       newSession
     }
     //Go to order page and complete add
-    .exec(adminOrderPage, action, adminOrderPage)
+    .exec(adminOrderPage, completeAction, adminOrderPage)
     .pause(1)
 
   //Scenario that tests deleting contact

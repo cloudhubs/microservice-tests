@@ -15,13 +15,13 @@ object LoginModule {
     .pause(2)
 
   //Go to admin login page
-  val adminLoginPage = exec(http("Go to Login Page")
+  val adminLoginPage = exec(http("Go to Admin Login Page")
     .get("/adminlogin.html")
     .headers(mainPageHeader))
     .pause(3)
 
   //Complete login for admin
-  val adminLogin = exec(http("Send Login Request")
+  val adminLogin = exec(http("Send Admin Login Request")
     .post("/api/v1/users/login")
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${login_file}")))
@@ -40,7 +40,7 @@ object LoginModule {
         .headers(apiV1Header)))
 
   //Go to main user login page
-  val userLoginPage = exec(http("Go to Login Page")
+  val userLoginPage = exec(http("Go to User Login Page")
     .get("/client_login.html")
     .resources(http("Generate CAPTCHA")
       .get("/api/v1/verifycode/generate")
@@ -48,7 +48,7 @@ object LoginModule {
     .pause(4)
 
   //Submit login request for user
-  val submitUserLogin = exec(http("Request Login")
+  val submitUserLogin = exec(http("Send User Login Request")
     .post("/api/v1/users/login")
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${login_file}")))

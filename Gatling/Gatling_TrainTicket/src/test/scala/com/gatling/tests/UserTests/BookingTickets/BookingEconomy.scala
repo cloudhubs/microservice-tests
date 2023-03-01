@@ -7,7 +7,7 @@ import io.gatling.jdbc.Predef.*
 import scala.concurrent.duration.*
 
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.NavigationModules.*
+import com.gatling.tests.Modules.UserModules.*
 import com.gatling.tests.Modules.LoginModule.*
 
 class BookingEconomy extends Simulation {

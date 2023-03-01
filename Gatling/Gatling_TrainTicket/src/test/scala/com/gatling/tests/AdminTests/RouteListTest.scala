@@ -22,7 +22,7 @@ class RouteListTest extends Simulation {
       newSession
     }
     //Go to route page and complete add
-    .exec(routePage, action, routePage)
+    .exec(routePage, completeAction, routePage)
     .pause(1)
 
   //Scenario that tests deleting route

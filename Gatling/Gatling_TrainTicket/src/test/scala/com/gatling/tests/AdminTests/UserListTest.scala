@@ -22,7 +22,7 @@ class UserListTest extends Simulation {
       newSession
     }
     //Go to user page and complete add
-    .exec(userPage, action, userPage)
+    .exec(userPage, completeAction, userPage)
     .pause(1)
 
   //Scenario that tests deleting user

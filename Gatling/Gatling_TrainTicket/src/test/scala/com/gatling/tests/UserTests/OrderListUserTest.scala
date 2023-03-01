@@ -2,7 +2,7 @@ package com.gatling.tests.UserTests
 
 import com.gatling.tests.Modules.HeaderModules.*
 import com.gatling.tests.Modules.LoginModule.*
-import com.gatling.tests.Modules.NavigationModules.*
+import com.gatling.tests.Modules.UserModules.*
 import io.gatling.core.Predef.*
 import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*

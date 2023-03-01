@@ -36,20 +36,20 @@ object NavigationModules {
   //Submit checkout information with given parameters
   val submitCheckout = exec(http("Submit Checkout")
     .post("/Order/Checkout")
-    .formParam("Street", "#{street}")
-    .formParam("City", "#{city}")
-    .formParam("State", "#{state}")
-    .formParam("Country", "#{country}")
-    .formParam("CardNumber", "#{cardNum}")
-    .formParam("CardHolderName", "#{cardHolder}")
-    .formParam("CardExpirationShort", "#{cardExp}")
-    .formParam("CardSecurityNumber", "#{securityNum}")
+    .formParam("Street", "${street}")
+    .formParam("City", "${city}")
+    .formParam("State", "${state}")
+    .formParam("Country", "${country}")
+    .formParam("CardNumber", "${cardNum}")
+    .formParam("CardHolderName", "${cardHolder}")
+    .formParam("CardExpirationShort", "${cardExp}")
+    .formParam("CardSecurityNumber", "${securityNum}")
     .formParam("orderitems[0].ProductName", ".NET Black & White Mug")
     .formParam("orderitems[0].UnitPrice", "8.5")
     .formParam("orderitems[0].Units", "1")
     .formParam("Total", "8.5")
     .formParam("action", "[ Place Order ]")
-    .formParam("ZipCode", "#{zip}"))
+    .formParam("ZipCode", "${zip}"))
     .pause(8)
 
   //View the past orders of the user
@@ -65,13 +65,13 @@ object NavigationModules {
   //Filter items with given parameters
   val filterItems = exec(http("Filter Items on ${filter_1_name} and ${filter_2_name}")
     .post("/")
-    .formParam("BrandFilterApplied", "#{filter_1}") //dynamically filter using parameters from csv
-    .formParam("TypesFilterApplied", "#{filter_2}"))
+    .formParam("BrandFilterApplied", "${filter_1}") //dynamically filter using parameters from csv
+    .formParam("TypesFilterApplied", "${filter_2}"))
     .pause(2)
 
   //Navigate to different pages on the home page
   val navigateHomePage = exec(http("GoTo Page ${pageNumber}")
-    .get("/?page=#{pageNumber}"))
+    .get("/?page=${pageNumber}"))
     .pause(4)
 
   //View order details of given order

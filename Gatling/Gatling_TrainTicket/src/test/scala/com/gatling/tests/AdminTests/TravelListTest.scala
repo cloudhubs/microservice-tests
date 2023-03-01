@@ -22,7 +22,7 @@ class TravelListTest extends Simulation {
       newSession
     }
     //Go to travel page and complete add
-    .exec(travelPage, action, travelPage)
+    .exec(travelPage, completeAction, travelPage)
     .pause(1)
 
   //Scenario that tests deleting travel

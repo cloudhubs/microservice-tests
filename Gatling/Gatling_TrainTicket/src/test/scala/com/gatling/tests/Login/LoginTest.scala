@@ -23,7 +23,7 @@ class LoginTest extends Simulation {
     .pause(1)
 
   setUp(
-    loginAdmin.inject(rampUsers(10).during(15)),
-    loginUser.inject(rampUsers(10).during(15))
+    loginAdmin.inject(rampUsers(40).during(15)),
+    loginUser.inject(rampUsers(60).during(20))
   ).protocols(httpProtocolTrainTicket)
 }
