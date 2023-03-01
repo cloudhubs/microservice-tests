@@ -28,7 +28,41 @@
   - [ ] Enter Station
 
 ### Admin
+### [ ] Admin Login
 ### [ ] Order List
   - [ ] Add Order
-    - [ ] Past/Future Dates
-    - 
+  - [ ] Delete Order
+  - [ ] Update Order
+### [ ] Route List
+  - [ ] Add Route
+  - [ ] Delete Route
+  - [ ] Update Route
+   - [ ] Invalid Start Station
+### [ ] Travel List
+  - [ ] Add Travel 
+  - [ ] Delete Travel 
+  - [ ] Update Travel 
+### [ ] User List
+  - [ ] Add User 
+  - [ ] Delete User 
+  - [ ] Update User 
+### [ ] Contact List
+  - [ ] Add Contact 
+  - [ ] Delete Contact 
+  - [ ] Update Contact 
+### [ ] Station List
+  - [ ] Add Station 
+  - [ ] Delete Station 
+  - [ ] Update Station 
+### [ ] Train List
+  - [ ] Add Train 
+  - [ ] Delete Train 
+  - [ ] Update Train 
+### [ ] Price List
+  - [ ] Add Price 
+  - [ ] Delete Price 
+  - [ ] Update Price 
+### [ ] Config List
+  - [ ] Add Config
+  - [ ] Delete Config 
+  - [ ] Update Config

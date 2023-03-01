@@ -1,0 +1,6 @@
+username, lastname, street, city, state, country, zipcode, phoneNum, cardNum, cardHolder, cardExp, securityNum, email, password, confirmPass
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+NewTestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 21354567657, 5555555, TestUser, 02/23, 123, new@mail.com, password1!, password1!
+TestUser, NewUserLast, 123 Main St, Waco, TX, USA, 76706, 555-555-5555, 55554234, TestUser, 02/23, 654, good@mail.com, password1!, password1!
+TestUser, UserLast, Main St, Waco, TX, USA, 76706, 1234566789, 5555555, TestUser, 01/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 90 Main Rd, Waco, TX, USA, 76706, 5555555555, 123455, TestUser, 02/15, 12343, good@mail.com, password1!, password1!
