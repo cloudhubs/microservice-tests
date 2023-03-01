@@ -14,7 +14,7 @@ public class ClientLogin {
      * @param driver WebDriver
      */
     public static void Execute(WebDriver driver) {
-        AdminClickLogin.Execute(driver);
+        ClientClickLogin.Execute(driver);
         driver.findElement(By.id("client_login_button")).click();
     }
 }

@@ -4,10 +4,7 @@
 
 package com.example.Login;
 
-import com.example.Modules.AdminClickLogin;
-import com.example.Modules.ClientClickLogin;
-import com.example.Modules.SetUpDriver;
-import com.example.Modules.TearDownDriver;
+import com.example.Modules.*;
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -102,24 +99,11 @@ public class Login {
     }
 
     /**
-     * Dismisses an alert if an alert is present
-     */
-    private void dismissAlert() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
-        try {
-            wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
-        } catch(TimeoutException e) {
-            // no alert found
-        }
-    }
-
-    /**
      * Clicks the login submit button on the admin login page
      */
     private void adminSubmit() {
         driver.findElement(By.tagName("BUTTON")).click();
-        dismissAlert();
+        DismissAlert.Execute(driver);
     }
 
     /**
@@ -127,7 +111,7 @@ public class Login {
      */
     private void clientSubmit() {
         driver.findElement(By.id("client_login_button")).click();
-        dismissAlert();
+        DismissAlert.Execute(driver);
     }
 
     /**
@@ -190,6 +174,4 @@ public class Login {
     private void logout() {
         driver.findElement(By.className("am-icon-sign-out")).click();
     }
-
-
 }
