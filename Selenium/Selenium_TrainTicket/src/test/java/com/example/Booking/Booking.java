@@ -9,17 +9,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-
-import static com.example.Modules.GlobalVariables.*;
-import static com.example.Modules.GlobalVariables.ADMIN_PASSWORD;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 public class Booking {
     // The Chrome WebDriver
@@ -36,9 +26,6 @@ public class Booking {
         driver.findElement(By.xpath("/html/body/div/div/div[1]/div[2]/ul/li[1]/a/span")).click();
 
         searchTicket("Shang Hai", "Su Zhou", "2023-03-01", 2);
-
-        System.out.println("Hey");
-
     }
 
     /**
