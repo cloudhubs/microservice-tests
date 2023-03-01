@@ -17,7 +17,7 @@ class FilterNavigationTest extends Simulation {
 
 	//Scenario will sort on random parameters within the csv file
 	val usersFiltering: ScenarioBuilder = scenario("Users Filtering")
-		.repeat(1) {
+		.exec {
 			feed(feeder) //Select filter pattern from file
 				//Virtual users will load the home page, filter the items, navigate to a random page, then filter again
 				.exec(homePage, filterItems, navigateHomePage, filterItems)

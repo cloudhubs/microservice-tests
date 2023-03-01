@@ -10,7 +10,6 @@ import com.gatling.tests.Modules.NavigationModules.*
 import com.gatling.tests.Modules.LoginModules.*
 import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 
-import scala.util.Random
 class LoginTest extends Simulation {
 
 	//CSV file feeder that hold valid or invalid account information
@@ -19,11 +18,11 @@ class LoginTest extends Simulation {
 
 	//Scenario that tests valid login
 	val validUser: ScenarioBuilder = scenario("Valid Login Users")
-		.repeat(1) {
+		.exec {
 			feed(validLoginFeeder) //Get valid account information from file
 
-				//Login, go home, view cart, and logout
-				.exec(loginScenario, homePage, viewCart, loginScenario)
+				//Login, go home, and logout
+				.exec(loginScenario, homePage, logoutScenario)
 				.pause(1)
 		}
 
@@ -32,13 +31,13 @@ class LoginTest extends Simulation {
 		.exec {
 			feed(invalidLoginFeeder) //Get invalid account information
 				//Login with invalid credentials, go back to home page
-				.exec(homePage, loginPage, login)
+				.exec(loginScenario)
 				.pause(1)
 		}
 
 	//Inject valid and invalid users into system
 	setUp(
-		validUser.inject(rampUsers(4).during(10)),
-		invalidUser.inject(rampUsers(4).during(10))
+		validUser.inject(rampUsers(100).during(10)),
+		invalidUser.inject(rampUsers(50).during(10))
 	).protocols(httpProtocolEShop).assertions(global.failedRequests.count.is(0))
 }
