@@ -4,27 +4,25 @@
 
 package com.example.Login;
 
+import com.example.Modules.*;
 import org.junit.*;
 
-import com.example.Global.GlobalVariable;
-
 import static com.example.Global.GlobalVariable.*;
-import static com.example.Global.GlobalVariable.tearDown;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
 
 public class Login {
     // The chrome web driver
-    private final WebDriver driver = GlobalVariable.setUp();
+    private final WebDriver driver = SetUp.Execute();
 
     @Test
     public void testLogin() throws Exception {
         // Cancel the login, check the boxes are empty
-        clickLogin(driver);
+        ClickLogin.Execute(driver);
         fillCredentials(DEFAULT_EMAIL, DEFAULT_PASS);
         cancel();
-        clickLogin(driver);
+        ClickLogin.Execute(driver);
         assertEquals("", driver.findElement(By.id("Email")).getText());
         assertEquals("", driver.findElement(By.id("Password")).getText());
 
@@ -44,11 +42,11 @@ public class Login {
         assertTrue(driver.getPageSource().contains(DEFAULT_EMAIL));
 
         // Test the logout button
-        logout(driver);
+        Logout.Execute(driver);
         Thread.sleep(100);
-        clickLogin(driver);
+        ClickLogin.Execute(driver);
 
-        tearDown(driver);
+        TearDown.Execute(driver);
     }
 
     /**

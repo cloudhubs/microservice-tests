@@ -4,25 +4,24 @@
 
 package com.example.Checkout;
 
+import com.example.Modules.*;
 import org.junit.*;
 
-import static com.example.Global.GlobalVariable.tearDown;
 import static org.junit.Assert.*;
 
-import com.example.Global.GlobalVariable;
 import static com.example.Global.GlobalVariable.*;
 
 import org.openqa.selenium.*;
 
 public class Checkout {
     // The chrome web driver
-    private final WebDriver driver = GlobalVariable.setUp();
+    private final WebDriver driver = SetUp.Execute();
 
     @Test
     public void testCheckout() {
         // Navigate to the checkout page
-        login(driver);
-        populateCart(driver);
+        Login.Execute(driver);
+        PopulateCart.Execute(driver);
         checkout();
 
         // Verify that all of the user's information is automatically filled in
@@ -49,14 +48,14 @@ public class Checkout {
         driver.get("http://host.docker.internal:5100/Order");
         assertTrue(driver.getPageSource().contains("submitted"));
 
-        tearDown(driver);
+        TearDown.Execute(driver);
     }
 
     /**
      * Navigates to the checkout page
      */
     private void checkout() {
-        goToCart(driver);
+        GoToCart.Execute(driver);
         driver.findElement(By.name("action")).click();
     }
 }

@@ -4,26 +4,24 @@
 
 package com.example.UpdatingCart;
 
+import com.example.Modules.*;
 import org.junit.*;
 
-import com.example.Global.GlobalVariable;
-
-import static com.example.Global.GlobalVariable.*;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
 
 public class UpdateCart {
     // The chrome web driver
-    private final WebDriver driver = GlobalVariable.setUp();
+    private final WebDriver driver = SetUp.Execute();
 
 
     @Test
     public void testUpdateCart() throws Exception {
         // Login to the system and populate the cart
-        login(driver);
-        populateCart(driver);
-        goToCart(driver);
+        Login.Execute(driver);
+        PopulateCart.Execute(driver);
+        GoToCart.Execute(driver);
 
         // Get the cost & quantity of the first item and increment the cart
         double prevCost = getCost();
@@ -40,11 +38,11 @@ public class UpdateCart {
 
         // Increment the cart, reload page and see if the cart has been updated
         incrementCart();
-        goToCart(driver);
+        GoToCart.Execute(driver);
         assertTrue(getCost() > prevCost);
         assertEquals(getQuantity(), quantity + 1);
 
-        tearDown(driver);
+        TearDown.Execute(driver);
     }
 
     /**
