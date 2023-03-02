@@ -40,7 +40,7 @@ class OrderListUserTest extends Simulation {
     .exec(userLoginScenario)
     .exec { session =>
       val newSession = session.setAll("account_file" -> s"${account_file}",
-        "payment_form" -> "OrderListUser/orderlistpayticket/payment_request.json")
+        "payment_form" -> "OrderListUser/payment_info.json")
       newSession
     }
     .exec(homePage, viewOrderListPage, payTicket, homePage)
@@ -57,9 +57,9 @@ class OrderListUserTest extends Simulation {
     .exec(homePage, viewOrderListPage, viewConsign, updateConsign, homePage)
 
   setUp(
-    orderCancel.inject(rampUsers(30).during(20)),
-    orderChange.inject(rampUsers(30).during(20)),
-    orderPay.inject(rampUsers(30).during(20)),
-    consignUpdate.inject(rampUsers(30).during(20))
+    orderCancel.inject(rampUsers(10).during(20)),
+    orderChange.inject(rampUsers(10).during(20)),
+    orderPay.inject(rampUsers(10).during(20)),
+    consignUpdate.inject(rampUsers(10).during(20))
   ).protocols(httpProtocolTrainTicket)
 }

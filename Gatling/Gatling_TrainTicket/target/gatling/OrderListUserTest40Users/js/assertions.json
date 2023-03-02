@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.UserTests.OrderListUserTest",
+  "simulationId": "orderlistusertest",
+  "start": 1677777790253,
+  "description": "",
+  "scenarios": ["Users Cancelling Order", "Users Changing Order", "Users Paying for Ticket", "Users Updating Consign"],
+  "assertions": [
+
+  ]
+}
