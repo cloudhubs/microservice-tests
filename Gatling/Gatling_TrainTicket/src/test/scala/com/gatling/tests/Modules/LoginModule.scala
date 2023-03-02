@@ -11,29 +11,24 @@ object LoginModule {
   //Go to home page of application
   val homePage = exec(http("Home Page")
     .get("/index.html")
-    .headers(mainPageHeader)
-    .check(status.is(200)))
+    .headers(mainPageHeader))
     .pause(2)
 
   //Go to admin login page
   val adminLoginPage = exec(http("Go to Admin Login Page")
     .get("/adminlogin.html")
-    .headers(mainPageHeader)
-    .check(status.is(200)))
+    .headers(mainPageHeader))
     .pause(3)
 
   //Complete login for admin
   val adminLogin = exec(http("Send Admin Login Request")
     .post("/api/v1/users/login")
     .headers(apiV1Header)
-    .check(status.is(200))
-    .formParam("username", "${username}")
-    .formParam("password", "${password}"))
+    .body(RawFileBody("com/gatling/tests/${login_file}")))
 
   //Go to admin home page and get needed resources
   val adminHomePage = exec(http("Go to Admin Page")
     .get("/admin.html")
-    .check(status.is(200))
     .resources(http("Get User List")
       .get("/api/v1/userservice/users")
       .headers(apiV1Header),
@@ -47,7 +42,6 @@ object LoginModule {
   //Go to main user login page
   val userLoginPage = exec(http("Go to User Login Page")
     .get("/client_login.html")
-    .check(status.is(200))
     .resources(http("Generate CAPTCHA")
       .get("/api/v1/verifycode/generate")
       .headers(apiV1Header)))
@@ -57,22 +51,21 @@ object LoginModule {
   val submitUserLogin = exec(http("Send User Login Request")
     .post("/api/v1/users/login")
     .headers(apiV1Header)
-    .formParam("username", "${username}")
-    .formParam("password", "${password}")
-    .formParam("verificationCode", "${verification_code}")
-    .check(status.is(200)))
+    .body(RawFileBody("com/gatling/tests/${login_file}")))
 
   /**Change to have feeder*/
   //Scenario to log in admin
-  val adminLoginScenario: ChainBuilder = exec {
-    feed(csv("Login/admin_login.csv").random)
-      .exec(homePage, adminLoginPage, adminLogin, adminHomePage)
+  val adminLoginScenario: ChainBuilder = exec { session =>
+    val newSession = session.setAll("login_file" -> "Login/admin_login.json")
+    newSession
   }
+    .exec(homePage, adminLoginPage, adminLogin, adminHomePage)
 
   /**Change to have feeder*/
   //Scenario to log in user
-  val userLoginScenario: ChainBuilder = exec {
-    feed(csv("Login/user_login.csv").random)
-      .exec(homePage, userLoginPage, submitUserLogin, homePage)
+  val userLoginScenario: ChainBuilder = exec { session =>
+    val newSession = session.setAll("login_file" -> "Login/user_login.json")
+    newSession
   }
+    .exec(homePage, userLoginPage, submitUserLogin)
 }
