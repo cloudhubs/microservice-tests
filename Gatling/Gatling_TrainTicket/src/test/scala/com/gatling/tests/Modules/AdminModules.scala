@@ -50,21 +50,6 @@ object AdminModules {
       .headers(apiV1Header)))
     .pause(5)
 
-  //Go to admin order list page and get needed resources
-  val adminOrderPage = exec(http("Admin Order List Page")
-    .get("/admin.html")
-    .headers(mainPageHeader)
-    .resources(http("Get Users")
-      .get("/api/v1/userservice/users")
-      .headers(apiV1Header),
-      http("Get Orders")
-        .get("/api/v1/adminorderservice/adminorder")
-        .headers(apiV1Header),
-      http("Get Travels")
-        .get("/api/v1/admintravelservice/admintravel")
-        .headers(apiV1Header)))
-    .pause(6)
-
   //Go to price list page and get needed resources
   val pricePage = exec(http("Price List Page")
     .get("/admin_price.html")

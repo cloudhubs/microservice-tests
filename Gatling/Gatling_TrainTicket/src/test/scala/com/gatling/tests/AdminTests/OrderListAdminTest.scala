@@ -2,7 +2,7 @@ package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.LoginModule.adminLoginScenario
+import com.gatling.tests.Modules.LoginModule.{adminHomePage, adminLoginScenario}
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*
@@ -22,7 +22,7 @@ class OrderListAdminTest extends Simulation {
       newSession
     }
     //Go to order page and complete add
-    .exec(adminOrderPage, completeAction, adminOrderPage)
+    .exec(adminHomePage, completeAction, adminHomePage)
     .pause(1)
 
   //Scenario that tests deleting contact
@@ -35,7 +35,7 @@ class OrderListAdminTest extends Simulation {
       newSession
     }
     //Go to order page and delete order
-    .exec(adminOrderPage, delete, adminOrderPage)
+    .exec(adminHomePage, delete, adminHomePage)
     .pause(1)
 
   //TODO: Add feeder for update files
