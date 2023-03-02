@@ -34,19 +34,12 @@ public class Checkout {
         assertEquals(driver.findElement(By.id("CardExpirationShort")).getAttribute("value"), CARD_DATE);
         assertEquals(driver.findElement(By.id("CardSecurityNumber")).getAttribute("value"), CARD_CODE);
 
-        // Get the total amount for the order
-        String totalStr = driver.findElement(By.xpath("/html/body/div[2]/form/section[4]/article[2]/section[2]")).getText().substring(2);
-        double total = Double.parseDouble(totalStr);
-
         // Place the order, wait until its processed, and verify the order has been placed
-        driver.findElement(By.name("action")).click();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        driver.get("http://host.docker.internal:5100/Order");
+        placeOrder();
         assertTrue(driver.getPageSource().contains("submitted"));
+
+        // Navigate to my orders from the home page
+        goToOrders();
 
         TearDown.Execute(driver);
     }
@@ -57,5 +50,23 @@ public class Checkout {
     private void checkout() {
         GoToCart.Execute(driver);
         driver.findElement(By.name("action")).click();
+    }
+
+    /**
+     * Places an order and navigates to the order page
+     */
+    private void placeOrder() {
+        driver.findElement(By.name("action")).click();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.get("http://host.docker.internal:5100/Order");
+    }
+
+    private void goToOrders() {
+        driver.get("http://host.docker.internal:5100/");
+        driver.findElement(By.xpath("/html/body/header/div/article/section[2]/div/form/section[2]/a[1]/div")).click();
     }
 }
