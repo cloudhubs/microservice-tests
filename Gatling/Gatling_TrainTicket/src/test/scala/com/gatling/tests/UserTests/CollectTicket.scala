@@ -11,7 +11,13 @@ import scala.concurrent.duration.*
 
 class CollectTicket extends Simulation {
 
-  val users = scenario("Users Collecting Ticket").exec(homePage, ticketPage, collectTicket)
+  val users = scenario("Users Collecting Ticket")
+    .exec(userLoginScenario)
+    .exec { session =>
+      val newSession = session.setAll("ticket_id" -> "4220e6bf-7c4b-4b74-9a02-f448b28b79be")
+      newSession
+    }
+    .exec(ticketPage, collectTicket)
 
   setUp(
     users.inject(rampUsers(20).during(15))
