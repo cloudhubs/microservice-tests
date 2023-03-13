@@ -8,7 +8,6 @@ import com.example.Modules.*;
 import org.junit.*;
 
 import static org.junit.Assert.*;
-
 import org.openqa.selenium.*;
 
 public class BrowsePages {
@@ -25,6 +24,9 @@ public class BrowsePages {
         final String NEXT = "Next";
         final String PREVIOUS = "Previous";
         final String SUBTITLE = "/html/body/div/div[2]/div/article/nav/span";
+
+
+
 
         // Check that the default page is page 1
         assertEquals(PAGE1, getCurrPage(SUBTITLE));
