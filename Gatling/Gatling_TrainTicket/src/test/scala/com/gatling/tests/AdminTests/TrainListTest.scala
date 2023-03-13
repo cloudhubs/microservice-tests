@@ -38,7 +38,10 @@ class TrainListTest extends Simulation {
     .exec(trainPage, delete, trainPage)
     .pause(1)
 
-  //TODO: Add feeder for update files
+  val checkTrain = scenario("Check Train Endpoint")
+    .exec(
+      http("Check Train Seats")
+        .post("/api/v1/seatservice/seats"))
 
   setUp(
     trainAdd.inject(rampUsers(20).during(15)),

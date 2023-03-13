@@ -39,7 +39,11 @@ class StationListTest extends Simulation {
     .exec(stationPage, delete, stationPage)
     .pause(1)
 
-  //TODO: Add feeder for update files
+  val checkStation = scenario("Check Station")
+    .exec(
+      http("Get Station ID by Name")
+        .get("/api/v1/basicservice/basic/beijing")
+    )
 
   setUp(
     stationAdd.inject(rampUsers(20).during(15)),

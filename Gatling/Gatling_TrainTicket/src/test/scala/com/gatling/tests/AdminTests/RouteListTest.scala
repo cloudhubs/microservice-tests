@@ -38,7 +38,17 @@ class RouteListTest extends Simulation {
     .exec(routePage, delete, routePage)
     .pause(1)
 
-  //TODO: Add feeder for update files
+  val checkRoute = scenario("Check Route Endpoints")
+    .exec(
+      http("Get Cheapest Route")
+        .post("/api/v1/routeplanservice/routePlan/cheapestRoute"))
+    .exec(
+      http("Get Cheapest Travel Plan")
+        .post("/api/v1/travelplanservice/travelPlan/cheapest"))
+    .exec(
+      http("Get Payment")
+        .get("/api/v1/paymentservice/payment")
+        .headers(apiV1Header))
 
   setUp(
     routeAdd.inject(rampUsers(20).during(15)),

@@ -38,10 +38,25 @@ class UserListTest extends Simulation {
     .exec(userPage, delete, userPage)
     .pause(1)
 
-  //TODO: Add feeder for update files
+  val checkUser = scenario("Check User Endpoints")
+    .exec(
+      http("Get User by ID")
+        .get("/api/v1/userservice/users/id/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"))
+   .exec(
+    http("Get User by Username")
+      .get("/api/v1/userservice/users/fdse_microservice"))
+    .exec(
+      http("Delete User by ID")
+        .delete("/api/v1/userservice/users/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f")
+        .headers(apiV1Header))
+    .exec(
+      http("Delete User by ID")
+        .delete("/api/v1/users/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f")
+        .headers(apiV1Header))
 
   setUp(
-    userAdd.inject(rampUsers(20).during(15)),
-    userDelete.inject(rampUsers(20).during(15))
+    //userAdd.inject(rampUsers(20).during(15)),
+    //userDelete.inject(rampUsers(20).during(15)),
+    checkUser.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 }

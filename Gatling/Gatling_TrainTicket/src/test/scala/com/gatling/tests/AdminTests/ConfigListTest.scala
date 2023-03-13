@@ -38,10 +38,16 @@ class ConfigListTest extends Simulation {
     .exec(configPage, delete, configPage)
     .pause(1)
 
-  /**TODO: Same process as add just different file*/
+  val configGet: ScenarioBuilder = scenario("Get Configs")
+    .exec (
+      http("Get Configs")
+        .get("/api/v1/configservice/configs")
+    )
+    .pause(1)
 
   setUp(
     configAdd.inject(rampUsers(50).during(15)),
-    configDelete.inject(rampUsers(50).during(10))
+    configDelete.inject(rampUsers(50).during(10)),
+    configGet.inject(rampUsers(50).during(10))
   ).protocols(httpProtocolTrainTicket)
 }
