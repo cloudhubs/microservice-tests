@@ -34,7 +34,11 @@ public class Login {
         assertTrue(driver.getPageSource().contains(MISSING_PASS));
 
         // Test logging in with invalid fields
-        fillCredentials("email@email.com", "pass");
+        fillCredentials("email@email.com", DEFAULT_PASS);
+        submit();
+        assertTrue(driver.getPageSource().contains(INVALID_LOGIN));
+
+        fillCredentials(DEFAULT_EMAIL, "pass");
         submit();
         assertTrue(driver.getPageSource().contains(INVALID_LOGIN));
 

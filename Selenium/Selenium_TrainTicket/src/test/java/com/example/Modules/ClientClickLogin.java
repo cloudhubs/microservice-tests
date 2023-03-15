@@ -16,6 +16,6 @@ public class ClientClickLogin {
      */
     public static void Execute(WebDriver driver) {
         driver.findElement(By.className("am-icon-sign-out")).click();
-        driver.switchTo().alert().accept();
+        DismissAlert.Execute(driver);
     }
 }
