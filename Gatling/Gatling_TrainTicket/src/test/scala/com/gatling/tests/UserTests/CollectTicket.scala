@@ -20,6 +20,6 @@ class CollectTicket extends Simulation {
     .exec(ticketPage, collectTicket)
 
   setUp(
-    users.inject(rampUsers(20).during(15))
+    users.inject(rampUsers(5).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

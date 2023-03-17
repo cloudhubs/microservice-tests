@@ -1,7 +1,7 @@
 package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.*
-import com.gatling.tests.Modules.HeaderModules.*
+import com.gatling.tests.Modules.HeaderModules.httpProtocolTrainTicket
 import com.gatling.tests.Modules.LoginModule.*
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
@@ -46,8 +46,8 @@ class ConfigListTest extends Simulation {
     .pause(1)
 
   setUp(
-    configAdd.inject(rampUsers(50).during(15)),
-    configDelete.inject(rampUsers(50).during(10)),
-    configGet.inject(rampUsers(50).during(10))
+    configAdd.inject(rampUsers(1).during(15)),
+    configDelete.inject(rampUsers(1).during(10)),
+    configGet.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 }

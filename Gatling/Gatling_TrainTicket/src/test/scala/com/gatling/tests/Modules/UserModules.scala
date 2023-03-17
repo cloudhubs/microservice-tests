@@ -5,6 +5,7 @@ import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
 import HeaderModules.*
 import io.gatling.core.structure.ChainBuilder
+import com.gatling.tests.Modules.LoginModule.*
 
 object UserModules {
 

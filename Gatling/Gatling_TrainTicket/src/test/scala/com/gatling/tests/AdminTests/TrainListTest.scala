@@ -44,7 +44,8 @@ class TrainListTest extends Simulation {
         .post("/api/v1/seatservice/seats"))
 
   setUp(
-    trainAdd.inject(rampUsers(20).during(15)),
-    trainDelete.inject(rampUsers(20).during(15))
+    trainAdd.inject(rampUsers(1).during(15)),
+    //trainDelete.inject(rampUsers(20).during(15)),
+    checkTrain.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 }

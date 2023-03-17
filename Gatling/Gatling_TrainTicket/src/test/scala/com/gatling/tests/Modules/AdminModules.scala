@@ -4,6 +4,7 @@ import io.gatling.core.Predef.*
 import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
 import com.gatling.tests.Modules.HeaderModules.*
+import com.gatling.tests.Modules.LoginModule.*
 
 object AdminModules {
 

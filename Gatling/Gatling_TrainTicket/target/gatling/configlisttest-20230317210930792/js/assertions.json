@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.AdminTests.ConfigListTest",
+  "simulationId": "configlisttest",
+  "start": 1679087370792,
+  "description": "",
+  "scenarios": ["Admins Adding Config", "Admins Deleting Config", "Get Configs"],
+  "assertions": [
+
+  ]
+}

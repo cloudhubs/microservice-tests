@@ -46,7 +46,8 @@ class StationListTest extends Simulation {
     )
 
   setUp(
-    stationAdd.inject(rampUsers(20).during(15)),
-    stationDelete.inject(rampUsers(20).during(15))
+    //stationAdd.inject(rampUsers(20).during(15)),
+    //stationDelete.inject(rampUsers(20).during(15)),
+    checkStation.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 }

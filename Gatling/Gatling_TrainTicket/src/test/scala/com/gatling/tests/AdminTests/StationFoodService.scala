@@ -1,10 +1,11 @@
 package com.gatling.tests.AdminTests
 
-import com.gatling.tests.Modules.HeaderModules.{apiV1Header, httpProtocolTrainTicket}
+import com.gatling.tests.Modules.HeaderModules.{httpProtocolTrainTicket}
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
+import com.gatling.tests.Modules.LoginModule.*
 
 class StationFoodService extends Simulation {
 
@@ -46,6 +47,7 @@ class StationFoodService extends Simulation {
 
   setUp(
     checkStationFood.inject(rampUsers(1).during(10)),
-    checkTrainFood.inject(rampUsers(1).during(10))
+    checkTrainFood.inject(rampUsers(1).during(10)),
+    checkFoodDelivery.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 }

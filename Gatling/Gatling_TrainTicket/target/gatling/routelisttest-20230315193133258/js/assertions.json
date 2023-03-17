@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.AdminTests.RouteListTest",
+  "simulationId": "routelisttest",
+  "start": 1678908693258,
+  "description": "",
+  "scenarios": ["Check Route Endpoints"],
+  "assertions": [
+
+  ]
+}

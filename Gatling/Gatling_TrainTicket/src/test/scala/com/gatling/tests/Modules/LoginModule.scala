@@ -8,6 +8,24 @@ import io.gatling.core.structure.ChainBuilder
 
 object LoginModule {
 
+  var token = "test"
+
+  //Header that has information needed for api requests
+  val apiV1Header = Map(
+    "Accept" -> "application/json, text/plain, text/javascript, */*; q=0.01",
+    "Content-Type" -> "application/json",
+    "Origin" -> "http://192.168.3.205:32677",
+    "X-Requested-With" -> "XMLHttpRequest",
+    "authorization" -> "Bearer ${token}")
+
+  val loginHeader = Map(
+    "Accept" -> "application/json, text/plain, */*",
+    "Accept-Encoding" -> "gzip, deflate",
+    "Accept-Language" -> "en-US,en;q=0.9",
+    "Content-Type" -> "application/json;charset=UTF-8",
+    "Origin" -> "http://192.168.3.205:32677",
+    "User-Agent" -> "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
+
   //Go to home page of application
   val homePage = exec(http("Home Page")
     .get("/index.html")
@@ -23,8 +41,14 @@ object LoginModule {
   //Complete login for admin
   val adminLogin = exec(http("Send Admin Login Request")
     .post("/api/v1/users/login")
-    .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/${login_file}")))
+    .headers(loginHeader)
+    .body(RawFileBody("com/gatling/tests/Login/admin_login.json"))
+    .check(jsonPath("$.data.token").saveAs("token")))
+    .exec { session =>
+      token = session("token").as[String]
+      println(s"Token: $token")
+      session
+    }
 
   //Go to admin home page and get needed resources
   val adminHomePage = exec(http("Go to Admin Page")
@@ -55,11 +79,7 @@ object LoginModule {
 
   /**Change to have feeder*/
   //Scenario to log in admin
-  val adminLoginScenario: ChainBuilder = exec { session =>
-    val newSession = session.setAll("login_file" -> "Login/admin_login.json")
-    newSession
-  }
-    .exec(homePage, adminLoginPage, adminLogin, adminHomePage)
+  val adminLoginScenario: ChainBuilder = exec(homePage, adminLoginPage, adminLogin, adminHomePage)
 
   /**Change to have feeder*/
   //Scenario to log in user

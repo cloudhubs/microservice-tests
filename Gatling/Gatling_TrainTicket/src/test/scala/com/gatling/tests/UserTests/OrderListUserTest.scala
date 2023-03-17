@@ -57,9 +57,9 @@ class OrderListUserTest extends Simulation {
     .exec(homePage, viewOrderListPage, viewConsign, updateConsign, homePage)
 
   setUp(
-    orderCancel.inject(rampUsers(10).during(20)),
-    orderChange.inject(rampUsers(10).during(20)),
-    orderPay.inject(rampUsers(10).during(20)),
-    consignUpdate.inject(rampUsers(10).during(20))
+    orderCancel.inject(rampUsers(5).during(20)),
+    orderChange.inject(rampUsers(5).during(20)),
+    orderPay.inject(rampUsers(5).during(20)),
+    consignUpdate.inject(rampUsers(5).during(20))
   ).protocols(httpProtocolTrainTicket)
 }

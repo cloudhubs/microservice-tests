@@ -41,7 +41,7 @@ class TravelListTest extends Simulation {
   //TODO: Add feeder for update files
 
   setUp(
-    travelAdd.inject(rampUsers(20).during(15)),
-    travelDelete.inject(rampUsers(20).during(15))
+    travelAdd.inject(rampUsers(1).during(15)),
+    travelDelete.inject(rampUsers(1).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

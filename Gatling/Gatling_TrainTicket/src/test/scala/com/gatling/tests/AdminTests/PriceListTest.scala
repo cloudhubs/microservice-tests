@@ -38,10 +38,14 @@ class PriceListTest extends Simulation {
     .exec(pricePage, delete, pricePage)
     .pause(1)
 
-  //TODO: Add feeder for update files
+  val checkPrice = scenario("Check Price Endpoints")
+    .exec(
+      http("Get Prices")
+        .get("/api/v1/priceservice/prices"))
 
   setUp(
-    priceAdd.inject(rampUsers(20).during(15)),
-    priceDelete.inject(rampUsers(20).during(15))
+    //priceAdd.inject(rampUsers(20).during(15)),
+    //priceDelete.inject(rampUsers(20).during(15)),
+    checkPrice.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 }
