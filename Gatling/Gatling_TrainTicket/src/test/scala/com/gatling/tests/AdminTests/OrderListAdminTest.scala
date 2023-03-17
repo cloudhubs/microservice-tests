@@ -17,7 +17,7 @@ class OrderListAdminTest extends Simulation {
     .exec(adminLoginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add", //Set up general session info
-        "endpoint" -> "adminbasicservice/adminorder",
+        "endpoint" -> "adminorderservice/adminorder",
         "file_path" -> "OrderListAdmin/add_order_form.json")
       newSession
     }
@@ -37,8 +37,6 @@ class OrderListAdminTest extends Simulation {
     //Go to order page and delete order
     .exec(adminHomePage, delete, adminHomePage)
     .pause(1)
-
-  //TODO: Add feeder for update files
 
   setUp(
     orderAdd.inject(rampUsers(20).during(15)),

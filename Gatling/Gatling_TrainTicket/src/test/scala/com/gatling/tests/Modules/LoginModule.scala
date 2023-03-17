@@ -68,13 +68,13 @@ object LoginModule {
     .get("/client_login.html")
     .resources(http("Generate CAPTCHA")
       .get("/api/v1/verifycode/generate")
-      .headers(apiV1Header)))
+      .headers(loginHeader)))
     .pause(4)
 
   //Submit login request for user
   val submitUserLogin = exec(http("Send User Login Request")
     .post("/api/v1/users/login")
-    .headers(apiV1Header)
+    .headers(loginHeader)
     .body(RawFileBody("com/gatling/tests/${login_file}")))
 
   /**Change to have feeder*/

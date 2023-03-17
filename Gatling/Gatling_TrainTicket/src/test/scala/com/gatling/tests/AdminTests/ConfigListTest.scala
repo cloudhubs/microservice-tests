@@ -40,10 +40,12 @@ class ConfigListTest extends Simulation {
 
   val configGet: ScenarioBuilder = scenario("Get Configs")
     .exec (
-      http("Get Configs")
-        .get("/api/v1/configservice/configs")
-    )
+      http("Get Configs Manually")
+        .get("/api/v1/configservice/configs"))
     .pause(1)
+    .exec(
+      http("Config Service Welcome")
+        .get("/api/v1/configservice/welcome"))
 
   setUp(
     configAdd.inject(rampUsers(1).during(15)),
