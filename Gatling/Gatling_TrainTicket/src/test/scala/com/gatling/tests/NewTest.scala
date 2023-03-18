@@ -61,7 +61,7 @@ class NewTest extends Simulation {
 		.exec(http("Login Request")
 			.post("/api/v1/users/login")
 			.headers(headers_6)
-			.body(RawFileBody("com/gatling/tests/newtest/0006_request.json"))
+			.body(RawFileBody("com/gatling/tests/Login/admin_login.json"))
 			.check(bodyString.saveAs("BodyString"))
 			.check(jsonPath("$.data.token").saveAs("token")))
 		.exec { session =>

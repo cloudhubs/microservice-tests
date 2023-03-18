@@ -2,7 +2,7 @@ package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.LoginModule.{adminHomePage, adminLoginScenario}
+import com.gatling.tests.Modules.LoginModule.{adminHomePage, adminLoginScenario, apiV1Header}
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*
@@ -38,8 +38,26 @@ class OrderListAdminTest extends Simulation {
     .exec(adminHomePage, delete, adminHomePage)
     .pause(1)
 
+  val orderUpdate: ScenarioBuilder = scenario("Admins Updating Order")
+    .exec(adminLoginScenario, adminHomePage) //Log into system as admin
+    .exec(
+      http("Update Order")
+        .put("/api/v1/adminorderservice/adminorder")
+        .body(RawFileBody("com/gatling/tests/OrderListAdmin/add_order_form.json"))
+        .headers(apiV1Header))
+    .pause(1)
+
+  val orderGeneral = scenario("Check General Admin Order Endpoints")
+    .exec(adminLoginScenario)
+    .exec(
+      http("Get Admin Order Welcome")
+      .get("/api/v1/adminorderservice/welcome")
+      .headers(apiV1Header))
+
   setUp(
-    orderAdd.inject(rampUsers(20).during(15)),
-    orderDelete.inject(rampUsers(20).during(15))
+    orderAdd.inject(rampUsers(1).during(15)),
+    orderDelete.inject(rampUsers(1).during(15)),
+    orderUpdate.inject(rampUsers(1).during(15)),
+    orderGeneral.inject(rampUsers(1).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

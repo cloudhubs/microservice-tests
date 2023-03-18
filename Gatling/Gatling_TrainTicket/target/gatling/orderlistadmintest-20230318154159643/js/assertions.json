@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.AdminTests.OrderListAdminTest",
+  "simulationId": "orderlistadmintest",
+  "start": 1679154119643,
+  "description": "",
+  "scenarios": ["Admins Updating Order", "Admins Adding Order", "Admins Deleting Order", "Check General Admin Order Endpoints"],
+  "assertions": [
+
+  ]
+}

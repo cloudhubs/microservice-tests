@@ -2,7 +2,7 @@ package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.LoginModule.adminLoginScenario
+import com.gatling.tests.Modules.LoginModule.*
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.*
 import io.gatling.http.Predef.*
@@ -38,10 +38,26 @@ class TravelListTest extends Simulation {
     .exec(travelPage, delete, travelPage)
     .pause(1)
 
-  //TODO: Add feeder for update files
+  val travelUpdate: ScenarioBuilder = scenario("Admins Updating Travel")
+    .exec(adminLoginScenario, travelPage) //Log into system as admin
+    .exec(
+      http("Update Travel")
+        .put("/api/v1/admintravelservice/admintravel")
+        .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json"))
+        .headers(apiV1Header))
+    .pause(1)
+
+  val travelGeneral = scenario("Check General Travel Endpoints")
+    .exec(adminLoginScenario)
+    .exec(
+      http("Get Admin Travel Service Welcome")
+        .get("/api/v1/admintravelservice/welcome")
+        .headers(apiV1Header))
 
   setUp(
     travelAdd.inject(rampUsers(1).during(15)),
-    travelDelete.inject(rampUsers(1).during(15))
+    travelDelete.inject(rampUsers(1).during(15)),
+    travelUpdate.inject(rampUsers(1).during(15)),
+    travelGeneral.inject(rampUsers(1).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

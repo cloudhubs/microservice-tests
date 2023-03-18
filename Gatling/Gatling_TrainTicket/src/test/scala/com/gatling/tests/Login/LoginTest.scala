@@ -22,8 +22,27 @@ class LoginTest extends Simulation {
     .exec(userLoginScenario)
     .pause(1)
 
+  val loginGeneral = scenario("Check General Login Endpoints")
+    .exec(adminLoginScenario)
+    .exec(
+      http("Get Login Information")
+        .get("/api/v1/users/login"))
+    .exec(
+      http("Delete Login Information")
+        .delete("/api/v1/users/login"))
+    .exec(
+      http("Post Authorization")
+        .post("/api/v1/auth")
+        .body(RawFileBody("com/gatling/tests/Login/auth.json"))
+        .headers(apiV1Header))
+    .exec(
+      http("Verify Code")
+        .get("/api/v1/verifycode/verify/test")
+    )
+
   setUp(
-    loginAdmin.inject(rampUsers(40).during(15)),
-    loginUser.inject(rampUsers(60).during(20))
+    loginAdmin.inject(rampUsers(1).during(15)),
+    loginUser.inject(rampUsers(1).during(20)),
+    loginGeneral.inject(rampUsers(1).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

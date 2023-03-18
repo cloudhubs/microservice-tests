@@ -39,20 +39,33 @@ class UserListTest extends Simulation {
     .exec(userPage, delete, userPage)
     .pause(1)
 
-  val checkUser = scenario("Check User Endpoints")
+  val userUpdate: ScenarioBuilder = scenario("Admins Updating User")
+    .exec(adminLoginScenario, userPage) //Log into system as admin
+    .exec(
+      http("Update User")
+        .put("/api/v1/adminuserservice/users")
+        .body(RawFileBody("com/gatling/tests/UserListAdmin/add_user_form.json"))
+        .headers(apiV1Header))
+    .pause(1)
+
+  val userGeneral = scenario("Check General User Endpoints")
+    .exec(adminLoginScenario)
+    .exec(
+      http("Get Admin User Service Welcome")
+        .get("/api/v1/adminuserservice/users/welcome")
+        .headers(apiV1Header))
+    .exec(
+      http("Get All Users")
+        .get("/api/v1/userservice/users"))
     .exec(
       http("Get User by ID")
         .get("/api/v1/userservice/users/id/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"))
-   .exec(
-    http("Get User by Username")
-      .get("/api/v1/userservice/users/fdse_microservice"))
     .exec(
-      http("Delete User by ID (userservice)")
-        .delete("/api/v1/userservice/users/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f")
-        .headers(apiV1Header))
+      http("Get User by Username")
+        .get("/api/v1/userservice/users/fdse_microservice"))
     .exec(
       http("Delete User by ID")
-        .delete("/api/v1/users/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f")
+        .delete("/api/v1/userservice/users/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f")
         .headers(apiV1Header))
     .exec(
       http("Register User")
@@ -61,8 +74,9 @@ class UserListTest extends Simulation {
         .headers(apiV1Header))
 
   setUp(
-    userAdd.inject(rampUsers(1).during(15)),
-    //userDelete.inject(rampUsers(20).during(15)),
-    checkUser.inject(rampUsers(1).during(10))
+    //userAdd.inject(rampUsers(1).during(15)),
+    //userDelete.inject(rampUsers(1).during(15)),
+    //userUpdate.inject(rampUsers(1).during(15)),
+    userGeneral.inject(rampUsers(1).during(15))
   ).protocols(httpProtocolTrainTicket)
 }
