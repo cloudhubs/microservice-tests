@@ -1,6 +1,6 @@
 package com.gatling.tests.AdminTests
 
-import com.gatling.tests.Modules.HeaderModules.{httpProtocolTrainTicket}
+import com.gatling.tests.Modules.HeaderModules.httpProtocolTrainTicket
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*

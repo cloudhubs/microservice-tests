@@ -14,28 +14,19 @@ class UserListTest extends Simulation {
 
   //Scenario that tests adding user
   val userAdd: ScenarioBuilder = scenario("Admins Adding User")
-    .exec(loginScenario) //Log into system as admin
-    .exec { session =>
-      val newSession = session.setAll("operation" -> "Add",
-        "endpoint" -> "adminuserservice/users",
-        "file_path" -> "UserListAdmin/add_user_form.json")
-      newSession
-    }
-    //Go to user page and complete add
-    .exec(userPage, completeAction, userPage)
+    .exec(loginScenario, userPage) //Log into system as admin
+    .exec(http("Add User")
+      .post("/api/v1/adminuserservice/users")
+      .headers(apiV1Header)
+      .body(RawFileBody("com/gatling/tests/UserListAdmin/add_user_form.json")))
     .pause(1)
 
   //Scenario that tests deleting user
   val userDelete: ScenarioBuilder = scenario("Admins Deleting User")
-    .exec(loginScenario)
-    .exec { session => //Set up session information
-      val newSession = session.setAll("delete_id" -> "6b5b0b6d-b233-4443-89e4-d28c72dc237b",
-        "endpoint" -> "adminuserservice/users",
-        "type" -> "User")
-      newSession
-    }
-    //Go to user page and delete user
-    .exec(userPage, delete, userPage)
+    .exec(loginScenario, userPage)
+    .exec(http("Delete User")
+      .delete("/api/v1/adminuserservice/users/6b5b0b6d-b233-4443-89e4-d28c72dc237b")
+      .headers(apiV1Header))
     .pause(1)
 
   val userUpdate: ScenarioBuilder = scenario("Admins Updating User")
@@ -73,9 +64,9 @@ class UserListTest extends Simulation {
         .headers(apiV1Header))
 
   setUp(
-    //userAdd.inject(rampUsers(1).during(15)),
-    //userDelete.inject(rampUsers(1).during(15)),
-    //userUpdate.inject(rampUsers(1).during(15)),
+    userAdd.inject(rampUsers(1).during(15)),
+    userDelete.inject(rampUsers(1).during(15)),
+    userUpdate.inject(rampUsers(1).during(15)),
     userGeneral.inject(rampUsers(1).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

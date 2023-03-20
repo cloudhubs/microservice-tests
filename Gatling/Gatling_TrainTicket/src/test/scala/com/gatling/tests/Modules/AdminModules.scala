@@ -8,31 +8,6 @@ import com.gatling.tests.Modules.LoginModule.*
 
 object AdminModules {
 
-  /**
-   * Function to complete either add and update of a certain item
-   *
-   * operation = either Add or Update
-   * endpoint = the needed endpoint depending on item to update/add
-   * file_path = the file path to the json file
-   */
-  val completeAction = exec(http("${operation} Config")
-    .post("/api/v1/${endpoint}")
-    .headers(apiV1Header)
-    .body(RawFileBody("com/gatling/tests/${file_path}")))
-    .pause(8)
-
-  /**
-   * Function to execute a delete of a given item
-   * 
-   * type = the type of item to be deleted
-   * endpoint = the needed endpoint for deletion
-   * delete_id = the id of the item to delete
-   */
-  val delete = exec(http("Delete ${type}")
-    .delete("/api/v1/${endpoint}/${delete_id}")
-    .headers(apiV1Header))
-    .pause(4)
-
   //Go to configuration page and get needed resources
   val configPage = exec(http("Config List Page")
     .get("/admin_config.html")

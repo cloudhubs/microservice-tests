@@ -14,28 +14,19 @@ class TravelListTest extends Simulation {
 
   //Scenario that tests adding travel
   val travelAdd: ScenarioBuilder = scenario("Admins Adding Travel")
-    .exec(loginScenario) //Log into system as admin
-    .exec { session =>
-      val newSession = session.setAll("operation" -> "Add",
-        "endpoint" -> "admintravelservice/admintravel",
-        "file_path" -> "TravelListAdmin/update_travel_invalid.json")
-      newSession
-    }
-    //Go to travel page and complete add
-    .exec(travelPage, completeAction, travelPage)
+    .exec(loginScenario, travelPage) //Log into system as admin
+    .exec(http("Add Travel")
+      .post("/api/v1/admintravelservice/admintravel")
+      .headers(apiV1Header)
+      .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json")))
     .pause(1)
 
   //Scenario that tests deleting travel
   val travelDelete: ScenarioBuilder = scenario("Admins Deleting Travel")
-    .exec(loginScenario)
-    .exec { session => //Set up session information
-      val newSession = session.setAll("delete_id" -> "Z1235",
-        "endpoint" -> "admintravelservice/admintravel",
-        "type" -> "Travel")
-      newSession
-    }
-    //Go to travel page and delete travel
-    .exec(travelPage, delete, travelPage)
+    .exec(loginScenario, travelPage)
+    .exec(http("Delete Travel")
+      .delete("/api/v1/admintravelservice/admintravel/Z1235")
+      .headers(apiV1Header))
     .pause(1)
 
   val travelUpdate: ScenarioBuilder = scenario("Admins Updating Travel")

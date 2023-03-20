@@ -99,21 +99,9 @@ object UserModules {
     .get("/client_ticket_collect.html"))
     .pause(3)
 
-  //Collect a given ticket
-  val collectTicket = exec(http("Collect Ticket")
-    .get("/api/v1/executeservice/execute/collected/${ticket_id}")
-    .headers(apiV1Header))
-    .pause(5)
-
   //Visit the station list page
   val stationPage = exec(http("Station Page")
     .get("/client_enter_station.html")
     .headers(mainPageHeader))
     .pause(5)
-
-  //Enter the station with a given ticket id
-  val enterStation = exec(http("Enter Station")
-    .get("/api/v1/executeservice/execute/execute/${ticket_id}")
-    .headers(apiV1Header))
-    .pause(4)
 }

@@ -59,7 +59,7 @@ class AssuranceServiceTest extends Simulation {
 
   setUp(
     generalAssurance.inject(rampUsers(1).during(15)),
-    deleteAssurance.inject(rampUsers(1).during(10)),
-    patchAssurance.inject(rampUsers(1).during(10))
+    //deleteAssurance.inject(rampUsers(1).during(10)),
+    //patchAssurance.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 }

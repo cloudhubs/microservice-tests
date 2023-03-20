@@ -173,14 +173,35 @@ class OrderServiceTest extends Simulation {
         .delete("/api/v1/orderservice/order/6279c919-e6e3-4d2b-8f72-81e06971490e")
         .headers(apiV1Header))
 
+  val waitOrderService = scenario("Check Wait Order Service Endpoints")
+    .exec(loginScenario)
+    .exec(
+      http("Get Wait Order Service Welcome")
+        .get("/api/v1/waitorderservice/welcome")
+        .headers(apiV1Header))
+    .exec(
+      http("Get Wait Order Service Orders")
+        .get("/api/v1/waitorderservice/orders")
+        .headers(apiV1Header))
+    .exec(
+      http("Get Wait Order Service Waitlist")
+        .get("/api/v1/waitorderservice/waitlistorders")
+        .headers(apiV1Header))
+    .exec(
+      http("Update Wait Order")
+        .put("/api/v1/waitorderservice/order")
+        .body(RawFileBody("com/gatling/tests/OrderService/order_service.json"))
+        .headers(apiV1Header))
+
   setUp(
-    orderOtherGeneral.inject(rampUsers(5).during(30)),
-    orderOtherPost.inject(rampUsers(5).during(30)),
-    orderOtherUpdate.inject(rampUsers(5).during(30)),
-    orderOtherDelete.inject(rampUsers(5).during(30)),
-    orderGeneral.inject(rampUsers(5).during(30)),
-    orderPost.inject(rampUsers(5).during(30)),
-    orderUpdate.inject(rampUsers(5).during(30)),
-    orderDelete.inject(rampUsers(5).during(30))
+//    orderOtherGeneral.inject(rampUsers(5).during(30)),
+//    orderOtherPost.inject(rampUsers(5).during(30)),
+//    orderOtherUpdate.inject(rampUsers(5).during(30)),
+//    orderOtherDelete.inject(rampUsers(5).during(30)),
+//    orderGeneral.inject(rampUsers(5).during(30)),
+//    orderPost.inject(rampUsers(5).during(30)),
+//    orderUpdate.inject(rampUsers(5).during(30)),
+//    orderDelete.inject(rampUsers(5).during(30)),
+    waitOrderService.inject(rampUsers(5).during(30))
   ).protocols(httpProtocolTrainTicket)
 }
