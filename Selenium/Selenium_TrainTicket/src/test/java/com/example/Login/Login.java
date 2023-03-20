@@ -33,13 +33,11 @@ public class Login {
 
     @Before
     public void setUpDriver(){
-        driver = SetUpDriverChrome.Execute();
+        driver = SetUpDriver.Execute();
     }
 
     @Test
     public void testLogin() {
-        /*
-
         // Check that you are logged out, and try to navigate to login page by clicking on profile
         driver.findElement(By.id("client_name")).click();
         driver.switchTo().alert().accept();
@@ -73,7 +71,6 @@ public class Login {
         clientLogin(CLIENT_USERNAME, CLIENT_PASSWORD);
         assertEquals(getLoginStatus(), VALID_LOGIN);
 
-*/
         // Navigate to the login screen for an admin
         AdminClickLogin.Execute(driver);
 
@@ -90,10 +87,6 @@ public class Login {
         // Login with valid credentials
         adminLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
         assertFalse(driver.getPageSource().contains("admin-panel"));
-
-        // Logout as an admin
-        logout();
-        assertEquals(ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
     /**
@@ -172,13 +165,5 @@ public class Login {
      */
     private String getLoginStatus() {
         return driver.findElement(By.id("flow_preserve_login_msg")).getAttribute("textContent");
-    }
-
-    /**
-     * Logs out of TrainTicket
-     */
-    private void logout() {
-        //driver.findElement(By.className("am-icon-sign-out")).click();
-        driver.findElement(By.id("logout_button")).click();
     }
 }

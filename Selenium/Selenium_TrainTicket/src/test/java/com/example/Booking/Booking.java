@@ -27,14 +27,11 @@ public class Booking {
 
     @Before
     public void setUpDriver(){
-        driver = SetUpDriverChrome.Execute();
+        driver = SetUpDriver.Execute();
     }
 
     @Test
     public void testBooking() {
-        // TODO: This should go away with HtmlUnit
-        driver.manage().window().maximize();
-
         // Navigate to the TicketReserve page and try to book a ticket without logging in
         // Verify an alert popped up
         //bookTrainTicket();
@@ -52,6 +49,7 @@ public class Booking {
         // Cancel a ticket order and submit it
         fillBookingInfo();
         cancelOrder();
+        addContact();
         bookingInfoConfirm();
         submitOrder();
     }
@@ -73,6 +71,7 @@ public class Booking {
      * @param type Filter by train type
      */
     private void searchTicket(String start, String end, String date, String type) {
+        System.out.println(driver.getCurrentUrl());
         driver.findElement(By.id("travel_booking_startingPlace")).click();
         driver.findElement(By.id("travel_booking_startingPlace")).clear();
         driver.findElement(By.id("travel_booking_startingPlace")).sendKeys(start);
