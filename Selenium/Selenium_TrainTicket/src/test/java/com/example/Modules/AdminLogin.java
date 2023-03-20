@@ -18,9 +18,9 @@ public class AdminLogin {
     public static void Execute(WebDriver driver) {
         AdminClickLogin.Execute(driver);
         driver.findElement(By.id("doc-ipt-email-1")).click();
-        driver.findElement(By.id("doc-ipt-email-1")).sendKeys(USERNAME);
+        driver.findElement(By.id("doc-ipt-email-1")).sendKeys(ADMIN_USERNAME);
         driver.findElement(By.id("doc-ipt-pwd-1")).click();
-        driver.findElement(By.id("doc-ipt-pwd-1")).sendKeys(PASSWORD);
+        driver.findElement(By.id("doc-ipt-pwd-1")).sendKeys(ADMIN_PASSWORD);
         driver.findElement(By.tagName("BUTTON")).click();
     }
 }

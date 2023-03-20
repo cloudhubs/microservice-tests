@@ -6,8 +6,10 @@ package com.example.Modules;
 
 public class GlobalVariables {
     // The values for the username and password
-    public static final String USERNAME = "fdse_microservice";
-    public static final String PASSWORD = "111111";
+    public static final String CLIENT_USERNAME = "fdse_microservice";
+    public static final String CLIENT_PASSWORD = "111111";
+    public static final String ADMIN_USERNAME = "admin";
+    public static final String ADMIN_PASSWORD = "222222";
 
     // The list of management services offered to a client
     public static final String CLIENT_MGT_LIST[] = new String[]

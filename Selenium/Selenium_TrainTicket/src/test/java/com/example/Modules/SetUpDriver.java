@@ -3,25 +3,33 @@
  */
 package com.example.Modules;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import java.time.Duration;
 
 public class SetUpDriver {
-    // The path to the Chrome WebDriver
-    public static final String CHROME_DRIVER = "C:\\Users\\Ethan_Robinson2\\Desktop\\Capstone-Project5\\Selenium\\chromedriver.exe";
-
     /**
-     * Sets up the Chrome WebDriver and returns it
+     * Sets up a headless, HTML unit driver and navigate to the TrainTicket home page
      *
-     * @return Chrome WebDriver
+     * @return Chrome HTML Unit Driver
      */
     public static WebDriver Execute() {
-        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER);
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true) {
+            @Override
+            protected WebClient modifyWebClient(WebClient client) {
+                final WebClient webClient = super.modifyWebClient(client);
+                // you might customize the client here
+                webClient.getOptions().setCssEnabled(false);
+                webClient.getOptions().setThrowExceptionOnScriptError(false);
+
+                return webClient;
+            }
+        };
+
         driver.get("http://192.168.3.205:32677/");
+
         return driver;
     }
 }

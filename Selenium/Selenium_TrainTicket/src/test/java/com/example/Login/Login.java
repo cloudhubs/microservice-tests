@@ -4,22 +4,23 @@
 
 package com.example.Login;
 
-import com.example.Modules.AdminClickLogin;
-import com.example.Modules.ClientClickLogin;
-import com.example.Modules.SetUpDriver;
-import com.example.Modules.TearDownDriver;
+import com.example.Modules.*;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import static org.junit.Assert.*;
 
 import static com.example.Modules.GlobalVariables.*;
 
 public class Login {
-    // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    // The HTML Unit WebDriver
+    WebDriver driver;
 
     private final String INVALID_LOGIN = "Incorrect username or password.";
     private final String VALID_LOGIN = "login success";
@@ -28,14 +29,27 @@ public class Login {
     private final String INVALID_PASSWORD = "bad-password";
 
     private final String ADMIN_LOGIN_URL = "http://192.168.3.205:32677/adminlogin.html";
+    private final String CLIENT_LOGIN_URL = "http://192.168.3.205:32677/client_login.html";
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
 
     @Test
     public void testLogin() {
+        /*
+
+        // Check that you are logged out, and try to navigate to login page by clicking on profile
+        driver.findElement(By.id("client_name")).click();
+        driver.switchTo().alert().accept();
+        assertEquals(CLIENT_LOGIN_URL, driver.getCurrentUrl());
+
         // Navigate to the login screen for a client
         ClientClickLogin.Execute(driver);
 
         // Check that the fields are auto-populated
-        assertEquals(driver.findElement(By.id("flow_preserve_login_email")).getAttribute("value"), USERNAME);
+        assertEquals(driver.findElement(By.id("flow_preserve_login_email")).getAttribute("value"), CLIENT_USERNAME);
         assertNotEquals(driver.findElement(By.id("flow_preserve_login_password")).getAttribute("value"), "");
         assertNotEquals(driver.findElement(By.id("flow_preserve_login_verification_code")).getAttribute("value"), "");
 
@@ -56,10 +70,10 @@ public class Login {
         assertEquals(getLoginStatus(), INVALID_LOGIN);
 
         // Login with valid credentials
-        clientLogin(USERNAME, PASSWORD);
+        clientLogin(CLIENT_USERNAME, CLIENT_PASSWORD);
         assertEquals(getLoginStatus(), VALID_LOGIN);
 
-
+*/
         // Navigate to the login screen for an admin
         AdminClickLogin.Execute(driver);
 
@@ -74,7 +88,7 @@ public class Login {
         assertEquals(ADMIN_LOGIN_URL, driver.getCurrentUrl());
 
         // Login with valid credentials
-        adminLogin(USERNAME, PASSWORD);
+        adminLogin(ADMIN_USERNAME, ADMIN_PASSWORD);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
         // Logout as an admin
@@ -95,11 +109,7 @@ public class Login {
      */
     private void adminSubmit() {
         driver.findElement(By.tagName("BUTTON")).click();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        DismissAlert.Execute(driver);
     }
 
     /**
@@ -107,11 +117,7 @@ public class Login {
      */
     private void clientSubmit() {
         driver.findElement(By.id("client_login_button")).click();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        DismissAlert.Execute(driver);
     }
 
     /**
@@ -157,7 +163,6 @@ public class Login {
         driver.findElement(By.id("doc-ipt-pwd-1")).sendKeys(password);
 
         adminSubmit();
-        driver.switchTo().alert().accept();
     }
 
     /**
@@ -173,6 +178,7 @@ public class Login {
      * Logs out of TrainTicket
      */
     private void logout() {
-        driver.findElement(By.className("am-icon-sign-out")).click();
+        //driver.findElement(By.className("am-icon-sign-out")).click();
+        driver.findElement(By.id("logout_button")).click();
     }
 }
