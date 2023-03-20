@@ -14,8 +14,13 @@ import static com.example.Global.GlobalVariable.*;
 import org.openqa.selenium.*;
 
 public class Checkout {
-    // The chrome web driver
-    private final WebDriver driver = SetUp.Execute();
+    // The HTML Unit web driver
+    WebDriver driver;
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriver.Execute();
+    }
 
     @Test
     public void testCheckout() {
@@ -41,7 +46,7 @@ public class Checkout {
         // Navigate to my orders from the home page
         goToOrders();
 
-        TearDown.Execute(driver);
+        TearDownDriver.Execute(driver);
     }
 
     /**

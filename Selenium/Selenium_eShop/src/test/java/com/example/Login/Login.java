@@ -13,8 +13,13 @@ import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 
 public class Login {
-    // The chrome web driver
-    private final WebDriver driver = SetUp.Execute();
+    // The HTML Unit web driver
+    WebDriver driver;
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriver.Execute();
+    }
 
     @Test
     public void testLogin() throws Exception {
@@ -50,7 +55,7 @@ public class Login {
         Thread.sleep(100);
         ClickLogin.Execute(driver);
 
-        TearDown.Execute(driver);
+        TearDownDriver.Execute(driver);
     }
 
     /**

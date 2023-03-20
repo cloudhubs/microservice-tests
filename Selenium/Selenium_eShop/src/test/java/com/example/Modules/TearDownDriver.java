@@ -1,12 +1,12 @@
 /**
- * Tears down the WebDriver after every test
+ * Tears down WebDriver after test execution
  */
 
 package com.example.Modules;
 
 import org.openqa.selenium.WebDriver;
 
-public class TearDown {
+public class TearDownDriver {
     /**
      * Tears down the WebDriver after execution of the test
      *

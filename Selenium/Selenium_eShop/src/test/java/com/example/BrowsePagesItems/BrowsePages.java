@@ -11,8 +11,13 @@ import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 
 public class BrowsePages {
-    // The chrome web driver
-    private final WebDriver driver = SetUp.Execute();
+    // The HTML Unit web driver
+    WebDriver driver;
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriver.Execute();
+    }
 
     /**
      * Tests the UI and functionality of switching between multiple pages on the home page
@@ -24,9 +29,6 @@ public class BrowsePages {
         final String NEXT = "Next";
         final String PREVIOUS = "Previous";
         final String SUBTITLE = "/html/body/div/div[2]/div/article/nav/span";
-
-
-
 
         // Check that the default page is page 1
         assertEquals(PAGE1, getCurrPage(SUBTITLE));
@@ -41,7 +43,7 @@ public class BrowsePages {
         assertEquals(driver.findElement(By.id(NEXT)).getText(), NEXT);
         assertEquals(PAGE1, getCurrPage(SUBTITLE));
 
-        TearDown.Execute(driver);
+        TearDownDriver.Execute(driver);
     }
 
     /**
