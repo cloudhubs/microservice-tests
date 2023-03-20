@@ -174,13 +174,13 @@ class OrderServiceTest extends Simulation {
         .headers(apiV1Header))
 
   setUp(
-    orderOtherGeneral.inject(rampUsers(1).during(15)),
-    orderOtherPost.inject(rampUsers(1).during(15)),
-    orderOtherUpdate.inject(rampUsers(1).during(15)),
-    orderOtherDelete.inject(rampUsers(1).during(15)),
-    orderGeneral.inject(rampUsers(1).during(15)),
-    orderPost.inject(rampUsers(1).during(15)),
-    orderUpdate.inject(rampUsers(1).during(15)),
-    orderDelete.inject(rampUsers(1).during(15))
+    orderOtherGeneral.inject(rampUsers(5).during(30)),
+    orderOtherPost.inject(rampUsers(5).during(30)),
+    orderOtherUpdate.inject(rampUsers(5).during(30)),
+    orderOtherDelete.inject(rampUsers(5).during(30)),
+    orderGeneral.inject(rampUsers(5).during(30)),
+    orderPost.inject(rampUsers(5).during(30)),
+    orderUpdate.inject(rampUsers(5).during(30)),
+    orderDelete.inject(rampUsers(5).during(30))
   ).protocols(httpProtocolTrainTicket)
 }

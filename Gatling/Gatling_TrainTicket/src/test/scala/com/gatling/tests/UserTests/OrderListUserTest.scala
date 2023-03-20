@@ -25,7 +25,8 @@ class OrderListUserTest extends Simulation {
     .exec(viewOrderListPage, cancelOrder, viewOrderListPage)
     .exec(
       http("Get Cancel Service Welcome")
-      .get("/api/v1/cancelservice/welcome"))
+      .get("/api/v1/cancelservice/welcome")
+      .headers(apiV1Header))
 
   //Scenario to test the order change feature
   val orderChange = scenario("Users Changing Order")
@@ -60,9 +61,9 @@ class OrderListUserTest extends Simulation {
     .exec(homePage, viewOrderListPage, viewConsign, updateConsign, homePage)
 
   setUp(
-    orderCancel.inject(rampUsers(5).during(20))
-    //orderChange.inject(rampUsers(5).during(20)),
-    //orderPay.inject(rampUsers(5).during(20)),
-    //consignUpdate.inject(rampUsers(5).during(20))
+    orderCancel.inject(rampUsers(1).during(20)),
+    orderChange.inject(rampUsers(1).during(20)),
+    orderPay.inject(rampUsers(1).during(20)),
+    consignUpdate.inject(rampUsers(1).during(20))
   ).protocols(httpProtocolTrainTicket)
 }

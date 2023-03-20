@@ -12,7 +12,7 @@ object UserModules {
   //View order list page
   val viewOrderListPage = exec(http("View Order List")
     .get("/client_order_list.html")
-    .headers(orderListHeader)
+    .headers(apiV1Header)
     .resources(http("Refresh Page")
       .post("/api/v1/orderservice/order/refresh")
       .headers(apiV1Header)
@@ -68,24 +68,14 @@ object UserModules {
   //Search for given trip using parameters
   val searchTrip = exec(http("Search for Trip")
     .post("/api/v1/travel2service/trips/left")
-    .headers(searchTripHeader)
+    .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${search_file}")))
     .pause(6)
 
-  //Break this up into defined parts: assurance, contacts, food service
-  /** Custom Contact Steps
-   * exec(http("Custom Contact Form")
-   * .post("/api/v1/contactservice/contacts")
-   * .headers(headers_9)
-   * .body(RawFileBody("com/gatling/tests/Booking/booking1stclass2/custom_contact_form.json"))
-   * .resources(http("Custom Contact Form")
-   * .get("/api/v1/contactservice/contacts/account/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f")
-   * .headers(headers_6)))
-   */
   //Select trip and get needs resources
-  val selectTrip = exec(http("Select Trip") /** change seat_price to 22.5 for economy*/
+  val selectTrip = exec(http("Select Trip")
     .get("/client_ticket_book.html?tripId=${trip_id}&from=${from}&to=${to}&seatType=${seat_type}&seat_price=${seat_price}&date=${date}")
-    .headers(selectTripHeader)
+    .headers(apiV1Header)
     .resources(http("Get Assurance Types")
       .get("/api/v1/assuranceservice/assurances/types")
       .headers(apiV1Header),
