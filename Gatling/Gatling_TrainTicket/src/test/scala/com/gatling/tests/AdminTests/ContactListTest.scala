@@ -14,7 +14,7 @@ class ContactListTest extends Simulation {
 
   //Scenario that tests adding contact
   val contactAdd: ScenarioBuilder = scenario("Admins Adding Contact")
-    .exec(adminLoginScenario, contactsPage) //Log into system as admin
+    .exec(loginScenario, contactsPage) //Log into system as admin
     .exec(http("Add Contact (Admin Service)")
       .post("/api/v1/adminbasicservice/adminbasic/contacts")
       .headers(apiV1Header)
@@ -32,7 +32,7 @@ class ContactListTest extends Simulation {
 
   //Scenario that tests deleting contact
   val contactDelete: ScenarioBuilder = scenario("Admins Deleting Contacts")
-    .exec(adminLoginScenario, configPage)
+    .exec(loginScenario, configPage)
     .exec(http("Delete Contact (Admin)")
       .delete("/api/v1/adminbasicservice/adminbasic/contacts/459731a3-70a5-4c93-acbc-e0c42fd1813d")
       .headers(apiV1Header))
@@ -44,7 +44,7 @@ class ContactListTest extends Simulation {
     .pause(1)
 
   val contactUpdate: ScenarioBuilder = scenario("Admins Updating Contact")
-    .exec(adminLoginScenario, contactsPage) //Log into system as admin
+    .exec(loginScenario, contactsPage) //Log into system as admin
     .exec(http("Update Contact (Admin)")
       .put("/api/v1/adminbasicservice/adminbasic/contacts")
       .headers(apiV1Header)
@@ -56,7 +56,7 @@ class ContactListTest extends Simulation {
     .pause(1)
 
   val contactGeneral = scenario("Check General Contact Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Contact Service Welcome")
         .get("/api/v1/contactservice/contacts/welcome")

@@ -8,7 +8,7 @@ import io.gatling.http.Predef.*
 class SecurityTest extends Simulation {
 
   val securityGeneral = scenario("Checking General Security Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Get Security Service Welcome")
       .get("/api/v1/securityservice/welcome")
       .headers(apiV1Header))
@@ -20,20 +20,20 @@ class SecurityTest extends Simulation {
       .headers(apiV1Header))
 
   val securityAdd = scenario("Admin Adding Security Config")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Add Security Config")
       .post("/api/v1/securityservice/securityConfigs")
       .headers(apiV1Header)
       .body(RawFileBody("com/gatling/tests/security_config.json")))
 
   val securityDelete = scenario("Admin Deleting Security Config")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Delete Security Config")
       .delete("/api/v1/securityservice/securityConfigs/9933e4d8-1d9d-41a4-b2cf-e468640cf106")
       .headers(apiV1Header))
 
   val securityUpdate = scenario("Admin Updating Security Config")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Update Security Config")
       .put("/api/v1/securityservice/securityConfigs")
       .headers(apiV1Header)

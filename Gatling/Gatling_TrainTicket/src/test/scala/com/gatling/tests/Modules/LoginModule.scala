@@ -39,7 +39,7 @@ object LoginModule {
     .pause(3)
 
   //Complete login for admin
-  val adminLogin = exec(http("Send Admin Login Request")
+  val login = exec(http("Send Login Request")
     .post("/api/v1/users/login")
     .headers(loginHeader)
     .body(RawFileBody("com/gatling/tests/Login/admin_login.json"))
@@ -49,7 +49,6 @@ object LoginModule {
       println(s"Token: $token")
       session
     }
-
   //Go to admin home page and get needed resources
   val adminHomePage = exec(http("Go to Admin Page")
     .get("/admin.html")
@@ -62,6 +61,7 @@ object LoginModule {
       http("Get Travel List")
         .get("/api/v1/admintravelservice/admintravel")
         .headers(apiV1Header)))
+
 
   //Go to main user login page
   val userLoginPage = exec(http("Go to User Login Page")
@@ -84,8 +84,8 @@ object LoginModule {
     }
 
   //Scenario to log in admin
-  val adminLoginScenario: ChainBuilder = exec(homePage, adminLoginPage, adminLogin, adminHomePage)
+  val loginScenario: ChainBuilder = exec(homePage, adminLoginPage, login)
 
   //Scenario to log in user
-  val userLoginScenario: ChainBuilder = exec(homePage, userLoginPage, submitUserLogin)
+  //val userLoginScenario: ChainBuilder = exec(homePage, userLoginPage, submitUserLogin)
 }

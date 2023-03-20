@@ -10,7 +10,7 @@ import com.gatling.tests.Modules.LoginModule.*
 class FoodServiceTest extends Simulation {
 
   val checkStationFood = scenario("Check Station Food Service")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Station Food Service Welcome")
         .get("/api/v1/stationfoodservice/stationfoodstores/welcome"))

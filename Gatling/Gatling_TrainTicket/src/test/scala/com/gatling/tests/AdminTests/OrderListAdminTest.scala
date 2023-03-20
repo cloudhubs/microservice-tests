@@ -2,7 +2,7 @@ package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.LoginModule.{adminHomePage, adminLoginScenario, apiV1Header}
+import com.gatling.tests.Modules.LoginModule.*
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*
@@ -14,7 +14,7 @@ class OrderListAdminTest extends Simulation {
 
   //Scenario that tests adding order
   val orderAdd: ScenarioBuilder = scenario("Admins Adding Order")
-    .exec(adminLoginScenario) //Log into system as admin
+    .exec(loginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add", //Set up general session info
         "endpoint" -> "adminorderservice/adminorder",
@@ -27,7 +27,7 @@ class OrderListAdminTest extends Simulation {
 
   //Scenario that tests deleting contact
   val orderDelete: ScenarioBuilder = scenario("Admins Deleting Order")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec { session => //Set up session information
       val newSession = session.setAll("delete_id" -> "301f39ba-f31d-4795-bac2-cbc8909a7e97/G1237",
         "endpoint" -> "adminorderservice/adminorder",
@@ -39,7 +39,7 @@ class OrderListAdminTest extends Simulation {
     .pause(1)
 
   val orderUpdate: ScenarioBuilder = scenario("Admins Updating Order")
-    .exec(adminLoginScenario, adminHomePage) //Log into system as admin
+    .exec(loginScenario, adminHomePage) //Log into system as admin
     .exec(
       http("Update Order")
         .put("/api/v1/adminorderservice/adminorder")
@@ -48,7 +48,7 @@ class OrderListAdminTest extends Simulation {
     .pause(1)
 
   val orderGeneral = scenario("Check General Admin Order Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Admin Order Welcome")
       .get("/api/v1/adminorderservice/welcome")

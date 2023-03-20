@@ -2,7 +2,7 @@ package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.LoginModule.{adminLoginScenario, apiV1Header}
+import com.gatling.tests.Modules.LoginModule.*
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.*
 import io.gatling.http.Predef.*
@@ -14,7 +14,7 @@ class TrainListTest extends Simulation {
 
   //Scenario that tests adding train
   val trainAdd: ScenarioBuilder = scenario("Admins Adding Train")
-    .exec(adminLoginScenario, trainPage) //Log into system as admin
+    .exec(loginScenario, trainPage) //Log into system as admin
     //Go to train page and complete add
     .exec(http("Add Train (Admin)")
       .post("/api/v1/adminbasicservice/adminbasic/trains")
@@ -32,7 +32,7 @@ class TrainListTest extends Simulation {
 
   //Scenario that tests deleting train
   val trainDelete: ScenarioBuilder = scenario("Admins Deleting Train")
-    .exec(adminLoginScenario, trainPage)
+    .exec(loginScenario, trainPage)
     //Go to train page and delete train
     .exec(http("Delete Train (Admin)")
       .delete("/api/v1/adminbasicservice/adminbasic/trains/4d02f2f3-d08e-4bae-bf38-dc2c955f7afd")
@@ -43,7 +43,7 @@ class TrainListTest extends Simulation {
     .pause(1)
 
   val trainUpdate: ScenarioBuilder = scenario("Admins Updating Train")
-    .exec(adminLoginScenario, trainPage) //Log into system as admin
+    .exec(loginScenario, trainPage) //Log into system as admin
     //Go to train page and complete add
     .exec(http("Update Train (Admin)")
       .put("/api/v1/adminbasicservice/adminbasic/trains")

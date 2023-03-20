@@ -14,7 +14,7 @@ class TravelListTest extends Simulation {
 
   //Scenario that tests adding travel
   val travelAdd: ScenarioBuilder = scenario("Admins Adding Travel")
-    .exec(adminLoginScenario) //Log into system as admin
+    .exec(loginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add",
         "endpoint" -> "admintravelservice/admintravel",
@@ -27,7 +27,7 @@ class TravelListTest extends Simulation {
 
   //Scenario that tests deleting travel
   val travelDelete: ScenarioBuilder = scenario("Admins Deleting Travel")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec { session => //Set up session information
       val newSession = session.setAll("delete_id" -> "Z1235",
         "endpoint" -> "admintravelservice/admintravel",
@@ -39,7 +39,7 @@ class TravelListTest extends Simulation {
     .pause(1)
 
   val travelUpdate: ScenarioBuilder = scenario("Admins Updating Travel")
-    .exec(adminLoginScenario, travelPage) //Log into system as admin
+    .exec(loginScenario, travelPage) //Log into system as admin
     .exec(
       http("Update Travel")
         .put("/api/v1/admintravelservice/admintravel")
@@ -48,7 +48,7 @@ class TravelListTest extends Simulation {
     .pause(1)
 
   val travelGeneral = scenario("Check General Travel Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Admin Travel Service Welcome")
         .get("/api/v1/admintravelservice/welcome")

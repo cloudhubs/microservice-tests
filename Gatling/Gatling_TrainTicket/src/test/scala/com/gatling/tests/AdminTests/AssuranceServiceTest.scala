@@ -13,7 +13,7 @@ import scala.concurrent.duration.*
 class AssuranceServiceTest extends Simulation {
 
   val generalAssurance = scenario("Check General Assurance Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Assurance Service Welcome")
         .get("/api/v1/assuranceservice/welcome")
@@ -40,7 +40,7 @@ class AssuranceServiceTest extends Simulation {
         .headers(apiV1Header))
 
   val deleteAssurance = scenario("Check Delete Assurance Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Delete Assurance by Assurance ID")
         .delete("/api/v1/assuranceservice/assurances/assuranceid/1")
@@ -51,7 +51,7 @@ class AssuranceServiceTest extends Simulation {
         .headers(apiV1Header))
 
   val patchAssurance = scenario("Check Patch Assurance Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Assurance by Assurance ID")
         .patch("/api/v1/assuranceservice/assurances/1/6279c919-e6e3-4d2b-8f72-81e06971490e/1")

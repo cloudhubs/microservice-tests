@@ -15,7 +15,7 @@ class OrderListUserTest extends Simulation {
 
   //Scenario to test the order cancellation feature
   val orderCancel = scenario("Users Cancelling Order")
-    .exec(userLoginScenario)
+    .exec(loginScenario)
     .exec { session =>
       val newSession = session.setAll("account_file" -> s"${account_file}",
         "order_id" -> "cfd74f18-9135-422f-8c16-73aa8e019059",
@@ -29,7 +29,7 @@ class OrderListUserTest extends Simulation {
 
   //Scenario to test the order change feature
   val orderChange = scenario("Users Changing Order")
-    .exec(userLoginScenario)
+    .exec(loginScenario)
     .exec { session =>
       val newSession = session.setAll("account_file" -> s"${account_file}",
         "select_trip_file" -> "OrderListUser/select_trip_form.json",
@@ -40,7 +40,7 @@ class OrderListUserTest extends Simulation {
 
   //Scenario to test paying for an order/ticket
   val orderPay = scenario("Users Paying for Ticket")
-    .exec(userLoginScenario)
+    .exec(loginScenario)
     .exec { session =>
       val newSession = session.setAll("account_file" -> s"${account_file}",
         "payment_form" -> "OrderListUser/payment_info.json")
@@ -50,7 +50,7 @@ class OrderListUserTest extends Simulation {
 
   //Scenario to update the consign of a ticket
   val consignUpdate: ScenarioBuilder = scenario("Users Updating Consign")
-    .exec(userLoginScenario)
+    .exec(loginScenario)
     .exec { session =>
       val newSession = session.setAll("account_file" -> s"${account_file}",
         "consign_id" -> "8c019509-7b40-44c2-803f-a15c17f83b1",

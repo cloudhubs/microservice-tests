@@ -2,7 +2,6 @@ package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.LoginModule.adminLoginScenario
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*
@@ -15,7 +14,7 @@ class UserListTest extends Simulation {
 
   //Scenario that tests adding user
   val userAdd: ScenarioBuilder = scenario("Admins Adding User")
-    .exec(adminLoginScenario) //Log into system as admin
+    .exec(loginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add",
         "endpoint" -> "adminuserservice/users",
@@ -28,7 +27,7 @@ class UserListTest extends Simulation {
 
   //Scenario that tests deleting user
   val userDelete: ScenarioBuilder = scenario("Admins Deleting User")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec { session => //Set up session information
       val newSession = session.setAll("delete_id" -> "6b5b0b6d-b233-4443-89e4-d28c72dc237b",
         "endpoint" -> "adminuserservice/users",
@@ -40,7 +39,7 @@ class UserListTest extends Simulation {
     .pause(1)
 
   val userUpdate: ScenarioBuilder = scenario("Admins Updating User")
-    .exec(adminLoginScenario, userPage) //Log into system as admin
+    .exec(loginScenario, userPage) //Log into system as admin
     .exec(
       http("Update User")
         .put("/api/v1/adminuserservice/users")
@@ -49,7 +48,7 @@ class UserListTest extends Simulation {
     .pause(1)
 
   val userGeneral = scenario("Check General User Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Admin User Service Welcome")
         .get("/api/v1/adminuserservice/users/welcome")

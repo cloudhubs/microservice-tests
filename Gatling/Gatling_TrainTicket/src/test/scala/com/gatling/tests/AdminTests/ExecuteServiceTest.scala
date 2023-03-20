@@ -2,7 +2,7 @@ package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.pricePage
 import com.gatling.tests.Modules.HeaderModules.httpProtocolTrainTicket
-import com.gatling.tests.Modules.LoginModule.{adminLoginScenario, apiV1Header}
+import com.gatling.tests.Modules.LoginModule.{apiV1Header, loginScenario}
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*
@@ -10,7 +10,7 @@ import io.gatling.http.Predef.*
 class ExecuteServiceTest extends Simulation {
 
   val executeGeneral: ScenarioBuilder = scenario("Check General Execute Service Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Get Execute Service Welcome")
       .get("/api/v1/executeservice/welcome")
       .headers(apiV1Header))

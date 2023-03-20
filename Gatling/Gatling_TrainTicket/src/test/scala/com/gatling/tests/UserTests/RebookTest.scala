@@ -9,14 +9,14 @@ import io.gatling.http.Predef.*
 class RebookTest extends Simulation {
 
   val rebookGeneral = scenario("Checking General Rebook Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Get Rebook Welcome")
       .get("/api/v1/rebookservice/welcome")
       .headers(apiV1Header))
 
   //Scenario to test the order change feature
   val rebookTests = scenario("Users Rebooking Order")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Rebook")
       .post("/api/v1/rebookservice/rebook")
       .headers(apiV1Header)

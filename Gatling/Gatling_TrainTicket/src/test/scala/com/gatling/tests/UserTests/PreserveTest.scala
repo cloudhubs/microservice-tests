@@ -8,7 +8,7 @@ import com.gatling.tests.Modules.LoginModule.*
 class PreserveTest extends Simulation {
 
   val preserveGeneral = scenario("Check General Preserve Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Get Preserve Welcome")
       .get("/api/v1/preserveservice/welcome")
       .headers(apiV1Header))
@@ -17,7 +17,7 @@ class PreserveTest extends Simulation {
       .headers(apiV1Header))
 
   val preservePost = scenario("Check Preserve Post Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(http("Post Preserve Service")
       .post("/api/v1/preserveservice/preserve")
       .headers(apiV1Header)

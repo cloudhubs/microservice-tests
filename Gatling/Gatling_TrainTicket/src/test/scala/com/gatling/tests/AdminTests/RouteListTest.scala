@@ -14,7 +14,7 @@ class RouteListTest extends Simulation {
 
   //Scenario that tests adding route
   val routeAdd: ScenarioBuilder = scenario("Admins Adding Route")
-    .exec(adminLoginScenario) //Log into system as admin
+    .exec(loginScenario) //Log into system as admin
     .exec { session =>
       val newSession = session.setAll("operation" -> "Add",
         "endpoint" -> "adminrouteservice/adminroute",
@@ -27,7 +27,7 @@ class RouteListTest extends Simulation {
 
   //Scenario that tests deleting route
   val routeDelete: ScenarioBuilder = scenario("Admins Deleting Route")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec { session => //Set up session information
       val newSession = session.setAll("delete_id" -> "0b23bd3e-876a-4af3-b920-c50a90c90b04",
         "endpoint" -> "adminrouteservice/adminroute",
@@ -39,7 +39,7 @@ class RouteListTest extends Simulation {
     .pause(1)
 
   val routeGeneral = scenario("Check General Route Endpoints")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Admin Route Service Welcome")
         .get("/api/v1/adminrouteservice/welcome")

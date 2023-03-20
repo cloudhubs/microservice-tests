@@ -9,7 +9,7 @@ import com.gatling.tests.Modules.LoginModule.*
 class BasicServiceTest extends Simulation {
 
   val generalTest = scenario("Check Basic Tests")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Get Basic Service Welcome")
         .get("/api/v1/basicservice/welcome"))
@@ -19,20 +19,20 @@ class BasicServiceTest extends Simulation {
         .headers(apiV1Header))
     .exec(
       http("Get Basic Service by Station Name")
-        .get("/api/v1/basicservice/basic/nanjing")) /**FIXME: change to station name*/
+        .get("/api/v1/basicservice/basic/nanjing"))
 
   val postTest = scenario("Check Post Basic Tests")
-    .exec(adminLoginScenario)
+    .exec(loginScenario)
     .exec(
       http("Post Travel")
         .post("/api/v1/basicservice/basic/travel")
         .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json"))
-        .headers(apiV1Header)) /**FIXME: change file path*/
+        .headers(apiV1Header))
     .exec(
       http("Post Travels")
         .post("/api/v1/basicservice/basic/travels")
         .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json"))
-        .headers(apiV1Header)) /**FIXME: change file path*/
+        .headers(apiV1Header))
 
   setUp(
     generalTest.inject(rampUsers(1).during(15)),

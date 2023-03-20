@@ -12,7 +12,7 @@ import scala.concurrent.duration.*
 class BookingTest extends Simulation {
 
 	val bookUsers = scenario("Users Booking")
-		.exec(userLoginScenario)
+		.exec(loginScenario)
 		.exec { session =>
 			val newSession = session.setAll("trip_id" -> "D1345", //Select Needs
 				"from" -> "shanghai",

@@ -2,7 +2,7 @@ package com.gatling.tests.AdminTests
 
 import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
-import com.gatling.tests.Modules.LoginModule.{adminLoginScenario, apiV1Header}
+import com.gatling.tests.Modules.LoginModule.*
 import io.gatling.core.Predef.*
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*
@@ -14,7 +14,7 @@ class StationListTest extends Simulation {
 
   //Scenario that tests adding station
   val stationAdd: ScenarioBuilder = scenario("Admins Adding Station")
-    .exec(adminLoginScenario, stationPage) //Log into system as admin
+    .exec(loginScenario, stationPage) //Log into system as admin
     .exec(http("Add Station (Admin)")
       .post("/api/v1/adminbasicservice/adminbasic/stations")
       .headers(apiV1Header)
@@ -36,7 +36,7 @@ class StationListTest extends Simulation {
 
   //Scenario that tests deleting station
   val stationDelete: ScenarioBuilder = scenario("Admins Deleting Station")
-    .exec(adminLoginScenario, stationPage)
+    .exec(loginScenario, stationPage)
     .exec(http("Delete Station (Admin)")
       .delete("/api/v1/adminbasicservice/adminbasic/stations/5307f68c-dc6d-4461-a262-354be961827f")
       .headers(apiV1Header))
@@ -47,7 +47,7 @@ class StationListTest extends Simulation {
 
   //Scenario that tests adding station
   val stationUpdate: ScenarioBuilder = scenario("Admins Updating Station")
-    .exec(adminLoginScenario, stationPage) //Log into system as admin
+    .exec(loginScenario, stationPage) //Log into system as admin
     .exec(http("Update Station (Admin)")
       .put("/api/v1/adminbasicservice/adminbasic/stations")
       .headers(apiV1Header)
