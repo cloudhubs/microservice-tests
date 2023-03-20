@@ -14,58 +14,52 @@ class ConfigListTest extends Simulation {
 
   //Scenario that tests adding configurations
   val configAdd: ScenarioBuilder = scenario("Admins Adding Config")
-    .exec(adminLoginScenario) //Log into system as admin
-    .exec { session =>
-      val newSession = session.setAll("operation" -> "Add", //Set up general session info
-        "endpoint" -> "adminbasicservice/adminbasic/configs",
-        "file_path" -> "ConfigListAdmin/add_config_form.json")
-      newSession
-    }
+    .exec(adminLoginScenario, configPage) //Log into system as admin
     //Go to configuration page and complete add
-    .exec(configPage, completeAction, configPage)
-    .exec(
-      http("Add Config")
+    .exec(http("Add Config (Admin)")
+      .post("/api/v1/adminbasicservice/adminbasic/configs")
+      .headers(apiV1Header)
+      .body(RawFileBody("com/gatling/tests/ConfigListAdmin/add_config_form.json")))
+    .exec(http("Add Config")
       .post("/api/v1/configservice/configs")
-      .body(RawFileBody("com/gatling/tests/ConfigListAdmin/add_config_form.json"))
-      .headers(apiV1Header))
+      .headers(apiV1Header)
+      .body(RawFileBody("com/gatling/tests/ConfigListAdmin/add_config_form.json")))
     .pause(1)
 
   //Scenario that tests deleting configuration
   val configDelete: ScenarioBuilder = scenario("Admins Deleting Config")
-    .exec(adminLoginScenario)
-    .exec { session => //Set up session information
-      val newSession = session.setAll("delete_id" -> "DirectTicketAllocationProportion",
-        "endpoint" -> "adminbasicservice/adminbasic/configs",
-        "type" -> "Config")
-      newSession
-    }
+    .exec(adminLoginScenario, configPage)
     //Go to configuration page and delete configuration
-    .exec(configPage, delete, configPage)
-    .exec(
-      http("Delete Config")
-        .delete("/api/v1/configservice/configs/DirectTicketAllocationProportion")
-        .headers(apiV1Header))
+    .exec(http("Delete Config (Admin)")
+      .delete("/api/v1/adminbasicservice/adminbasic/configs/DirectTicketAllocationProportion")
+      .headers(apiV1Header))
+    .exec(http("Delete Config")
+      .delete("/api/v1/configservice/configs/DirectTicketAllocationProportion")
+      .headers(apiV1Header))
     .pause(1)
 
-  val configUpdate: ScenarioBuilder = scenario("Admins Updating Config")
+  val configUpdate: ScenarioBuilder = scenario("Admins Update Config")
     .exec(adminLoginScenario, configPage) //Log into system as admin
-    .exec(
-      http("Add Config")
-        .put("/api/v1/configservice/configs")
-        .body(RawFileBody("com/gatling/tests/ConfigListAdmin/add_config_form.json"))
-        .headers(apiV1Header))
+    //Go to configuration page and complete add
+    .exec(http("Update Config (Admin)")
+      .put("/api/v1/adminbasicservice/adminbasic/configs")
+      .headers(apiV1Header)
+      .body(RawFileBody("com/gatling/tests/ConfigListAdmin/add_config_form.json")))
+    .exec(http("Update Config")
+      .put("/api/v1/configservice/configs")
+      .headers(apiV1Header)
+      .body(RawFileBody("com/gatling/tests/ConfigListAdmin/add_config_form.json")))
     .pause(1)
 
-  val configGeneral: ScenarioBuilder = scenario("Check General Config Service Endpoints")
+  val configGeneral: ScenarioBuilder = scenario("Check General Config Endpoints")
     .exec (
       http("Get Configs Manually")
         .get("/api/v1/configservice/configs"))
-    .pause(1)
     .exec(
       http("Get Configs By Name")
         .get("/api/v1/configservice/configs/DirectTicketAllocationProportion"))
     .exec(
-      http("Get Config Service Welcome")
+      http("Config Service Welcome")
         .get("/api/v1/configservice/welcome"))
 
   setUp(

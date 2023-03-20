@@ -75,17 +75,17 @@ object LoginModule {
   val submitUserLogin = exec(http("Send User Login Request")
     .post("/api/v1/users/login")
     .headers(loginHeader)
-    .body(RawFileBody("com/gatling/tests/${login_file}")))
+    .body(RawFileBody("com/gatling/tests/Login/user_login.json"))
+    .check(jsonPath("$.data.token").saveAs("token")))
+    .exec { session =>
+      token = session("token").as[String]
+      println(s"Token: $token")
+      session
+    }
 
-  /**Change to have feeder*/
   //Scenario to log in admin
   val adminLoginScenario: ChainBuilder = exec(homePage, adminLoginPage, adminLogin, adminHomePage)
 
-  /**Change to have feeder*/
   //Scenario to log in user
-  val userLoginScenario: ChainBuilder = exec { session =>
-    val newSession = session.setAll("login_file" -> "Login/user_login.json")
-    newSession
-  }
-    .exec(homePage, userLoginPage, submitUserLogin)
+  val userLoginScenario: ChainBuilder = exec(homePage, userLoginPage, submitUserLogin)
 }
