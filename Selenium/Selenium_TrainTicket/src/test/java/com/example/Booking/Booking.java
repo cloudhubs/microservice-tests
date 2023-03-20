@@ -6,6 +6,7 @@ package com.example.Booking;
 
 import com.example.Modules.*;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,14 +16,19 @@ import static org.junit.Assert.*;
 
 
 public class Booking {
-    // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    // The HTML Unit WebDriver
+    WebDriver driver;
 
     // The default ticket values
     private final String START_STATION = "Shang Hai";
     private final String END_STATION = "Su Zhou";
     private final String TICKET_DATE = "01013000";
     private final String TICKET_TYPE = "All";
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
 
     @Test
     public void testBooking() {
