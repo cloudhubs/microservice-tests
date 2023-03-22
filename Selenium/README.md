@@ -15,3 +15,4 @@ How to test:
 
 4. Run the tests
    
+Here is a link to our test coverage chart: https://docs.google.com/spreadsheets/d/1nv7ujaC-f8ISk4wRBlQfzwtZ97V31xH0HtejANI76sw/edit?usp=sharing
