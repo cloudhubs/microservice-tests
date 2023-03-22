@@ -18,7 +18,7 @@ class TravelListTest extends Simulation {
     .exec(http("Add Travel")
       .post("/api/v1/admintravelservice/admintravel")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json")))
+      .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_form.json")))
     .pause(1)
 
   //Scenario that tests deleting travel
@@ -34,7 +34,7 @@ class TravelListTest extends Simulation {
     .exec(
       http("Update Travel")
         .put("/api/v1/admintravelservice/admintravel")
-        .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json"))
+        .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_form.json"))
         .headers(apiV1Header))
     .pause(1)
 
@@ -46,9 +46,9 @@ class TravelListTest extends Simulation {
         .headers(apiV1Header))
 
   setUp(
-    travelAdd.inject(rampUsers(1).during(15)),
-    travelDelete.inject(rampUsers(1).during(15)),
-    travelUpdate.inject(rampUsers(1).during(15)),
-    travelGeneral.inject(rampUsers(1).during(15))
+    travelAdd.inject(rampUsers(100).during(15)),
+    travelDelete.inject(rampUsers(100).during(15)),
+    travelUpdate.inject(rampUsers(100).during(15)),
+    travelGeneral.inject(rampUsers(100).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

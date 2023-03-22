@@ -46,27 +46,27 @@ class PaymentTest extends Simulation {
     .exec(
       http("Post Inside Payment")
         .post("/api/v1/inside_pay_service/inside_payment")
-        .body(RawFileBody("com/gatling/tests/payment_form.json"))
+        .body(RawFileBody("com/gatling/tests/PaymentService/payment_form.json"))
         .headers(apiV1Header))
     .exec(
       http("Post Inside Payment Account")
         .post("/api/v1/inside_pay_service/inside_payment/account")
-        .body(RawFileBody("com/gatling/tests/payment_form.json"))
+        .body(RawFileBody("com/gatling/tests/PaymentService/payment_form.json"))
         .headers(apiV1Header))
     .exec(
       http("Post Inside Payment Difference")
         .post("/api/v1/inside_pay_service/inside_payment/difference")
-        .body(RawFileBody("com/gatling/tests/payment_form.json"))
+        .body(RawFileBody("com/gatling/tests/PaymentService/payment_form.json"))
         .headers(apiV1Header))
     .exec(
       http("Post Payment")
         .post("/api/v1/paymentservice/payment")
-        .body(RawFileBody("com/gatling/tests/payment_form.json"))
+        .body(RawFileBody("com/gatling/tests/PaymentService/payment_form.json"))
         .headers(apiV1Header))
     .exec(
       http("Post Payment Money")
         .post("/api/v1/paymentservice/payment/money")
-        .body(RawFileBody("com/gatling/tests/payment_form.json"))
+        .body(RawFileBody("com/gatling/tests/PaymentService/payment_form.json"))
         .headers(apiV1Header))
 
   setUp(

@@ -26,12 +26,12 @@ class BasicServiceTest extends Simulation {
     .exec(
       http("Post Travel")
         .post("/api/v1/basicservice/basic/travel")
-        .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json"))
+        .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_form.json"))
         .headers(apiV1Header))
     .exec(
       http("Post Travels")
         .post("/api/v1/basicservice/basic/travels")
-        .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_invalid.json"))
+        .body(RawFileBody("com/gatling/tests/TravelListAdmin/update_travel_form.json"))
         .headers(apiV1Header))
 
   setUp(

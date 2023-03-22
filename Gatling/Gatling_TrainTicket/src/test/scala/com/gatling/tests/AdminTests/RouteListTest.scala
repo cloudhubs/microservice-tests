@@ -22,11 +22,13 @@ class RouteListTest extends Simulation {
     .exec(
       http("Add Route")
         .post("/api/v1/routeservice/routes")
-        .body(RawFileBody("com/gatling/tests/RouteListAdmin/add_route_form.json")))
+        .body(RawFileBody("com/gatling/tests/RouteListAdmin/add_route_form.json"))
+        .headers(apiV1Header))
     .exec(
       http("Add Route by IDs")
         .post("/api/v1/routeservice/routes/byIds")
-        .body(RawFileBody("com/gatling/tests/RouteListAdmin/add_route_form.json")))
+        .body(RawFileBody("com/gatling/tests/RouteListAdmin/add_route_form.json"))
+        .headers(apiV1Header))
     .pause(1)
 
   //Scenario that tests deleting route

@@ -34,12 +34,12 @@ class ContactListTest extends Simulation {
   val contactDelete: ScenarioBuilder = scenario("Admins Deleting Contacts")
     .exec(loginScenario, configPage)
     .exec(http("Delete Contact (Admin)")
-      .delete("/api/v1/adminbasicservice/adminbasic/contacts/459731a3-70a5-4c93-acbc-e0c42fd1813d")
+      .delete("/api/v1/adminbasicservice/adminbasic/contacts/6324ed73-482e-411b-bc26-d79b5bccec06")
       .headers(apiV1Header))
     //Go to contact page and delete contact
     .exec(
       http("Delete Contact")
-        .delete("/api/v1/contactservice/contacts/b4206321-eece-41a0-9525-fcab6fd594d3")
+        .delete("/api/v1/contactservice/contacts/6324ed73-482e-411b-bc26-d79b5bccec06")
         .headers(apiV1Header))
     .pause(1)
 
@@ -48,11 +48,11 @@ class ContactListTest extends Simulation {
     .exec(http("Update Contact (Admin)")
       .put("/api/v1/adminbasicservice/adminbasic/contacts")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/ContactListAdmin/add_contact_form.json")))
+      .body(RawFileBody("com/gatling/tests/ContactListAdmin/update_contact_form.json")))
     .exec(http("Update Contact")
       .put("/api/v1/contactservice/contacts")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/ContactListAdmin/add_contact_form.json")))
+      .body(RawFileBody("com/gatling/tests/ContactListAdmin/update_contact_form.json")))
     .pause(1)
 
   val contactGeneral = scenario("Check General Contact Endpoints")

@@ -24,7 +24,7 @@ class FoodServiceTest extends Simulation {
     .exec(
       http("Post Station Food Store")
         .post("/api/v1/stationfoodservice/stationfoodstores")
-        .body(RawFileBody("com/gatling/tests/station_food.json"))
+        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json"))
         .headers(apiV1Header))
     .exec(
       http("Get Station Food Store By Store ID")
@@ -60,21 +60,22 @@ class FoodServiceTest extends Simulation {
     .exec(
       http("Add Food Delivery")
         .post("/api/v1/fooddeliveryservice/orders")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
     .exec(
       http("Update Food Delivery by Trip ID")
         .put("/api/v1/fooddeliveryservice/orders/tripid")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
     .exec(
       http("Update Food Delivery by Seat Num")
         .put("/api/v1/fooddeliveryservice/orders/seatnos")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
     .exec(
       http("Update Food Delivery by Departure Time")
         .put("/api/v1/fooddeliveryservice/orders/dtime")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
 
   val foodService = scenario("Check Food Service Endpoints")
+    .exec(loginScenario)
     .exec(
       http("Get Food Service Welcome")
         .get("/api/v1/foodservice/welcome"))
@@ -93,15 +94,18 @@ class FoodServiceTest extends Simulation {
     .exec(
       http("Add Food Order")
         .post("/api/v1/foodservice/orders")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/FoodService/food_service_form.json"))
+        .headers(apiV1Header))
     .exec(
       http("Add Food Order Batch")
         .post("/api/v1/foodservice/createOrderBatch")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/FoodService/food_service_form.json"))
+        .headers(apiV1Header))
     .exec(
       http("Update Food Order")
         .put("/api/v1/foodservice/orders")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/FoodService/food_service_form.json"))
+        .headers(apiV1Header))
     .exec(
       http("Delete Food Order")
         .delete("/api/v1/foodservice/orders/a7e77fa2-8197-4682-9f6e-85e7d34d90a8"))
@@ -127,7 +131,7 @@ class FoodServiceTest extends Simulation {
     .exec(
       http("Add Food Store")
         .post("/api/v1/foodmapservice/foodstores")
-        .body(RawFileBody("com/gatling/tests/station_food.json"))
+        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json"))
         .headers(apiV1Header))
 
   setUp(

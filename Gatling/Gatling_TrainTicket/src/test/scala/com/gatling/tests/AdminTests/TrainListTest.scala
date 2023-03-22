@@ -48,11 +48,11 @@ class TrainListTest extends Simulation {
     .exec(http("Update Train (Admin)")
       .put("/api/v1/adminbasicservice/adminbasic/trains")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/TrainListAdmin/add_train_form.json")))
+      .body(RawFileBody("com/gatling/tests/TrainListAdmin/update_train_form.json")))
     .exec(http("Update Train")
       .put("/api/v1/trainservice/trains")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/TrainListAdmin/add_train_form.json")))
+      .body(RawFileBody("com/gatling/tests/TrainListAdmin/update_train_form.json")))
     .pause(1)
 
   val trainGeneral: ScenarioBuilder = scenario("Check General Train Endpoints")

@@ -45,11 +45,11 @@ class PriceListTest extends Simulation {
     .exec(http("Update Price (Admin)")
       .put("/api/v1/adminbasicservice/adminbasic/prices")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/PriceListAdmin/add_price_form.json")))
+      .body(RawFileBody("com/gatling/tests/PriceListAdmin/update_price_form.json")))
     .exec(http("Update Price")
       .put("/api/v1/priceservice/prices")
       .headers(apiV1Header)
-      .body(RawFileBody("com/gatling/tests/PriceListAdmin/add_price_form.json")))
+      .body(RawFileBody("com/gatling/tests/PriceListAdmin/update_price_form.json")))
     .pause(1)
 
   val priceGeneral = scenario("Check General Price Endpoints")

@@ -20,14 +20,15 @@ class LoginTest extends Simulation {
     .exec(loginScenario)
     .exec(
       http("Get Login Information")
-        .get("/api/v1/users/login"))
+        .get("/api/v1/users/login")
+        .headers(apiV1Header))
     .exec(
       http("Delete Login Information")
         .delete("/api/v1/users/login"))
     .exec(
       http("Post Authorization")
         .post("/api/v1/auth")
-        .body(RawFileBody("com/gatling/tests/Login/auth.json"))
+        .body(RawFileBody("com/gatling/tests/Login/admin_login.json"))
         .headers(apiV1Header))
     .exec(
       http("Verify Code")

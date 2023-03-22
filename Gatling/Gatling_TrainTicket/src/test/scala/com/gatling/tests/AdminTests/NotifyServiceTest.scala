@@ -15,22 +15,27 @@ class NotifyServiceTest extends Simulation {
         .get("/api/v1/notifyservice/welcome"))
 
   val notifyPost = scenario("Check Notify Post Endpoints")
+    .exec(loginScenario)
     .exec(
       http("Post Preserve Success")
         .post("/api/v1/notifyservice/notification/preserve_success")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/SecurityService/security_config.json"))
+        .headers(apiV1Header))
     .exec(
       http("Post Order Create Success")
         .post("/api/v1/notifyservice/notification/order_create_success")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/SecurityService/security_config.json"))
+        .headers(apiV1Header))
     .exec(
       http("Post Order Changed Success")
         .post("/api/v1/notifyservice/notification/order_changed_success")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/SecurityService/security_config.json"))
+        .headers(apiV1Header))
     .exec(
       http("Post Order Cancel Success")
         .post("/api/v1/notifyservice/notification/order_cancel_success")
-        .body(RawFileBody("com/gatling/tests/station_food.json")))
+        .body(RawFileBody("com/gatling/tests/SecurityService/security_config.json"))
+        .headers(apiV1Header))
 
   setUp(
     notifyGeneral.inject(rampUsers(1).during(10)),
