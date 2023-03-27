@@ -23,6 +23,8 @@ public class SetUpDriver {
                 // you might customize the client here
                 webClient.getOptions().setCssEnabled(false);
                 webClient.getOptions().setThrowExceptionOnScriptError(false);
+                webClient.getOptions().setJavaScriptEnabled(true);
+
 
                 return webClient;
             }
