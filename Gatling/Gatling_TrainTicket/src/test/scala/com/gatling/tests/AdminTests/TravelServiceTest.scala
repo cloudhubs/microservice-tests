@@ -48,11 +48,6 @@ class TravelServiceTest extends Simulation {
         .body(RawFileBody("com/gatling/tests/TravelService/travel_service_trips.json"))
         .headers(apiV1Header))
     .exec(
-      http("Post Travel Left")
-        .post("/api/v1/travelservice/left")
-        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_form.json"))
-        .headers(apiV1Header))
-    .exec(
       http("Post Travel Left Parallel")
         .post("/api/v1/travelservice/trips/left_parallel")
         .body(RawFileBody("com/gatling/tests/TravelService/travel_service_form.json"))
@@ -106,11 +101,6 @@ class TravelServiceTest extends Simulation {
       http("Post Travel 2 Trips")
         .post("/api/v1/travel2service/trips")
         .body(RawFileBody("com/gatling/tests/TravelService/travel_service_trips.json"))
-        .headers(apiV1Header))
-    .exec(
-      http("Post Travel 2 Left")
-        .post("/api/v1/travel2service/left")
-        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_form.json"))
         .headers(apiV1Header))
     .exec(
       http("Post Travel 2 Details")

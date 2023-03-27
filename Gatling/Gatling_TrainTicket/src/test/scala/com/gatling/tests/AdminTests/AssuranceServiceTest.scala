@@ -1,6 +1,5 @@
 package com.gatling.tests.AdminTests
 
-import com.gatling.tests.Modules.AdminModules.*
 import com.gatling.tests.Modules.HeaderModules.*
 import com.gatling.tests.Modules.LoginModule.*
 import io.gatling.core.Predef.*

@@ -25,18 +25,8 @@ class GeneralTest extends Simulation {
         .body(RawFileBody("com/gatling/tests/FoodService/station_food.json"))
         .headers(apiV1Header))
 
-  val ticketInfoService = scenario("Check Ticket Info Service Endpoints")
-    .exec(
-      http("Get Ticket Service by Name")
-        .get("/api/v1/ticketinfoservice/ticketinfo/test"))
-    .exec(
-      http("Add Ticket Info Service")
-        .post("/api/v1/ticketinfoservice/ticketinfo")
-        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
-
   setUp(
-    seatService.inject(rampUsers(1).during(10)),
-    ticketInfoService.inject(rampUsers(1).during(10))
+    seatService.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 
 }

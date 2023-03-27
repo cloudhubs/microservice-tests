@@ -41,39 +41,6 @@ class FoodServiceTest extends Simulation {
       http("Get Train Food by Trip ID")
         .get("/api/v1/trainfoodservice/trainfoods/G1234"))
 
-  val foodDeliveryService = scenario("Check Food Delivery")
-    .exec(
-      http("Get Food Delivery Service Welcome")
-        .get("/api/v1/fooddeliveryservice/welcome"))
-    .exec(
-      http("Get Food Delivery Order")
-        .get("/api/v1/fooddeliveryservice/orders/a7e77fa2-8197-4682-9f6e-85e7d34d90a8"))
-    .exec(
-      http("Get All Food Delivery")
-        .get("/api/v1/fooddeliveryservice/orders/all"))
-    .exec(
-      http("Get Food Delivery Order")
-        .get("/api/v1/fooddeliveryservice/orders/store/a7e77fa2-8197-4682-9f6e-85e7d34d90a8"))
-    .exec(
-      http("Delete Food Delivery Order")
-        .delete("/api/v1/fooddeliveryservice/orders/d/a7e77fa2-8197-4682-9f6e-85e7d34d90a8"))
-    .exec(
-      http("Add Food Delivery")
-        .post("/api/v1/fooddeliveryservice/orders")
-        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
-    .exec(
-      http("Update Food Delivery by Trip ID")
-        .put("/api/v1/fooddeliveryservice/orders/tripid")
-        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
-    .exec(
-      http("Update Food Delivery by Seat Num")
-        .put("/api/v1/fooddeliveryservice/orders/seatnos")
-        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
-    .exec(
-      http("Update Food Delivery by Departure Time")
-        .put("/api/v1/fooddeliveryservice/orders/dtime")
-        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json")))
-
   val foodService = scenario("Check Food Service Endpoints")
     .exec(loginScenario)
     .exec(
@@ -110,35 +77,9 @@ class FoodServiceTest extends Simulation {
       http("Delete Food Order")
         .delete("/api/v1/foodservice/orders/a7e77fa2-8197-4682-9f6e-85e7d34d90a8"))
 
-  val foodMapService = scenario("Check Food Map Service Endpoints")
-    .exec(loginScenario)
-    .exec(
-      http("Get Food Stores")
-        .get("/api/v1/foodmapservice/foodstores")
-        .headers(apiV1Header))
-    .exec(
-      http("Get Food Stores by Station ID")
-        .get("/api/v1/foodmapservice/foodstores/3fd67b64-3c80-4b51-823f-f1219247827f")
-        .headers(apiV1Header))
-    .exec(
-      http("Get Train Foods")
-        .get("/api/v1/foodmapservice/trainfoods")
-        .headers(apiV1Header))
-    .exec(
-      http("Get Train Foods by Trip ID")
-        .get("/api/v1/foodmapservice/trainfoods/3fd67b64-3c80-4b51-823f-f1219247827f")
-        .headers(apiV1Header))
-    .exec(
-      http("Add Food Store")
-        .post("/api/v1/foodmapservice/foodstores")
-        .body(RawFileBody("com/gatling/tests/FoodService/station_food.json"))
-        .headers(apiV1Header))
-
   setUp(
-    //stationFoodService.inject(rampUsers(1).during(10)),
-    //trainFoodService.inject(rampUsers(1).during(10)),
-    //foodDeliveryService.inject(rampUsers(1).during(10)),
-    foodService.inject(rampUsers(1).during(10)),
-    //foodMapService.inject(rampUsers(1).during(10))
+    stationFoodService.inject(rampUsers(1).during(10)),
+    trainFoodService.inject(rampUsers(1).during(10)),
+    foodService.inject(rampUsers(1).during(10))
   ).protocols(httpProtocolTrainTicket)
 }
