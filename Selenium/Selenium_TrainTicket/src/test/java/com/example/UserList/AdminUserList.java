@@ -1,17 +1,17 @@
-package com.example.OrderList;
+package com.example.UserList;
 
 import com.example.Modules.*;
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.Select;
 
-import static com.example.Modules.GlobalVariables.*;
+import static com.example.Modules.GlobalVariables.A_PASSWORD;
+import static com.example.Modules.GlobalVariables.A_USERNAME;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-public class AdminOrderList {
+public class AdminUserList {
 
     // The Chrome WebDriver
     WebDriver driver = SetUpDriver.Execute();
@@ -19,7 +19,7 @@ public class AdminOrderList {
     private final String ADMIN_LOGIN_URL = "http://192.168.3.205:32677/adminlogin.html";
 
     @Test
-    public void testAdminOrderList() throws InterruptedException {
+    public void testAdminRouteList() throws InterruptedException {
 
         // Maximize window
         driver.manage().window().maximize();
@@ -35,35 +35,33 @@ public class AdminOrderList {
         Thread.sleep(500);
 
         // Navigate to OrderList
-        driver.findElement(By.className("am-icon-list-alt")).click();
-        assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Order"));
+        driver.findElement(By.className("am-icon-users")).click();
+        assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("User"));
 
-        String superUniqueString = "69696969696969";
-        String superUniqueAddon = "420";
+        String superUniqueString = "misterdoctoritsstrange";
+        String sampleName = "deez_nuts";
+        String samplePass = "";
 
-        int rowNumber = SearchTable.Execute(driver, "Doc");
-        int count = 0;
-        while (count < 1000) {
+        // Test Add Route
+        int rowNumber;
+        while ((rowNumber = SearchTable.Execute(driver, superUniqueString)) != -1) {
             // Delete record
             driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[" + rowNumber + "]/td[1]/div/div/button[2]")).click();
             driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]")).click();
 
             DismissAlert.Execute(driver);
             driver.navigate().refresh();
-            Thread.sleep(300);
-            rowNumber = SearchTable.Execute(driver, "est");
-            count++;
         }
-
+/*
         // Add order
-        driver.findElement(By.className("am-icon-plus")).click();
-        driver.findElement(By.id("add_order_document_number")).sendKeys(superUniqueString);
-        Select trainSelect = new Select(driver.findElement(By.id("add_order_train_number")));
-        trainSelect.selectByVisibleText("G1234");
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[1]/div/div/div/button")).click();
+        driver.findElement(By.id("add_route_stations")).sendKeys(inputStations);
+        driver.findElement(By.id("add_route_distances")).sendKeys(inputDistances);
+        driver.findElement(By.id("add_route_start_station")).sendKeys(inputStart);
+        driver.findElement(By.id("add_route_terminal_station")).sendKeys(inputTerminal);
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[3]/div/div[3]/span[2]")).click();
 
         DismissAlert.Execute(driver);
-        //driver.navigate().refresh();
         Thread.sleep(3000);
 
         // Check for test id DCNumber
@@ -72,15 +70,16 @@ public class AdminOrderList {
 
         // Update Order to another number
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[" + rowNumber + "]/td[1]/div/div/button[1]")).click();
-        driver.findElement(By.id("update_order_document_number")).sendKeys(superUniqueString + superUniqueAddon);
+        driver.findElement(By.id("update_route_distances")).sendKeys(addonInput);
+        driver.findElement(By.id("update_route_start_station")).sendKeys(inputStart);
+        driver.findElement(By.id("update_route_terminal_station")).sendKeys(inputTerminal);
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[1]/div/div[3]/span[2]")).click();
 
         DismissAlert.Execute(driver);
-        //driver.navigate().refresh();
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, superUniqueString + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, superUniqueAddonCheck);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -90,10 +89,24 @@ public class AdminOrderList {
         DismissAlert.Execute(driver);
         driver.navigate().refresh();
 
-        // Check for deleted record -> assert false
-        rowNumber = SearchTable.Execute(driver, superUniqueString + superUniqueAddon);
+        // Check for deleted record
+        rowNumber = SearchTable.Execute(driver, superUniqueAddonCheck);
         assertEquals(-1, rowNumber);
 
+        // Check for invalid station disallowed
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[1]/div/div/div/button")).click();
+        driver.findElement(By.id("add_route_stations")).sendKeys(invalidStation);
+        driver.findElement(By.id("add_route_distances")).sendKeys(inputDistances);
+        driver.findElement(By.id("add_route_start_station")).sendKeys(inputStart);
+        driver.findElement(By.id("add_route_terminal_station")).sendKeys(inputTerminal);
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[3]/div/div[3]/span[2]")).click();
+
+        // Check that the record was not added
+        DismissAlert.Execute(driver);
+        driver.navigate().refresh();
+        rowNumber = SearchTable.Execute(driver, invalidStation);
+        assertEquals(-1, rowNumber);
+*/
         // Logout as an admin
         logout();
         assertEquals(ADMIN_LOGIN_URL, driver.getCurrentUrl());
@@ -192,3 +205,4 @@ public class AdminOrderList {
         driver.findElement(By.className("am-icon-sign-out")).click();
     }
 }
+
