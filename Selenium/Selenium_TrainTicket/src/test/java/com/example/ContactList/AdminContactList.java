@@ -1,4 +1,4 @@
-package com.example.RouteList;
+package com.example.ContactList;
 
 import com.example.Modules.*;
 import org.junit.After;
@@ -9,13 +9,13 @@ import org.openqa.selenium.WebDriver;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-public class AdminRouteList {
+public class AdminContactList {
 
     // The Chrome WebDriver
     WebDriver driver = SetUpDriver.Execute();
 
     @Test
-    public void testAdminRouteList() throws InterruptedException {
+    public void testAdminUserList() throws InterruptedException {
 
         // Maximize window
         driver.manage().window().maximize();
@@ -28,80 +28,64 @@ public class AdminRouteList {
         // Wait for alert
         Thread.sleep(500);
 
-        // Navigate to OrderList
-        driver.findElement(By.className("am-icon-line-chart")).click();
-        assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Route"));
 
-        String superUniqueString = "[0,-69,420";
-        String addonInput = "0";
-        String superUniqueAddonCheck = "[0,-69,4200]";
-        String inputStations = "station1,station2,station3";
-        String inputDistances = "0,-69,420";
-        String inputStart = "station1";
-        String inputTerminal = "station3";
-        String invalidStation = "invalidStation";
+        // FIXME: Next time, we need to navigate first
+
+        // Navigate to OrderList
+        driver.findElement(By.className("am-icon-users")).click();
+        assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("User"));
+
+        String sampleName = "deez_nuts";
+        String samplePass = "misterdoctor";
+        String sampleEmail = "bigchungus@gmail.yahoo";
+        String sampleDCNumber = "1";
+        String superUniqueAddon = "itsstrange";
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, superUniqueString)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, samplePass)) != -1) {
             // Delete record
             DeleteRecord.Execute(driver, rowNumber);
 
             DismissAlert.Execute(driver);
             driver.navigate().refresh();
-            Thread.sleep(250);
         }
 
         // Add order
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[1]/div/div/div/button")).click();
-        driver.findElement(By.id("add_route_stations")).sendKeys(inputStations);
-        driver.findElement(By.id("add_route_distances")).sendKeys(inputDistances);
-        driver.findElement(By.id("add_route_start_station")).sendKeys(inputStart);
-        driver.findElement(By.id("add_route_terminal_station")).sendKeys(inputTerminal);
+        driver.findElement(By.id("add_user_name")).sendKeys(sampleName);
+        driver.findElement(By.id("add_user_password")).sendKeys(samplePass);
+        driver.findElement(By.id("add_user_email")).sendKeys(sampleEmail);
+        driver.findElement(By.id("add_user_document_number")).sendKeys(sampleDCNumber);
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[3]/div/div[3]/span[2]")).click();
 
         DismissAlert.Execute(driver);
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, superUniqueString);
+        rowNumber = SearchTable.Execute(driver, samplePass);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[" + rowNumber + "]/td[1]/div/div/button[1]")).click();
-        driver.findElement(By.id("update_route_distances")).sendKeys(addonInput);
-        driver.findElement(By.id("update_route_start_station")).sendKeys(inputStart);
-        driver.findElement(By.id("update_route_terminal_station")).sendKeys(inputTerminal);
+        driver.findElement(By.id("update_user_password")).sendKeys(samplePass + superUniqueAddon);
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[1]/div/div[3]/span[2]")).click();
 
         DismissAlert.Execute(driver);
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, superUniqueAddonCheck);
+        rowNumber = SearchTable.Execute(driver, samplePass + superUniqueAddon);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
         DeleteRecord.Execute(driver, rowNumber);
+
         DismissAlert.Execute(driver);
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, superUniqueAddonCheck);
-        assertEquals(-1, rowNumber);
-
-        // Check for invalid station disallowed
-        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[1]/div/div/div/button")).click();
-        driver.findElement(By.id("add_route_stations")).sendKeys(invalidStation);
-        driver.findElement(By.id("add_route_distances")).sendKeys(inputDistances);
-        driver.findElement(By.id("add_route_start_station")).sendKeys(inputStart);
-        driver.findElement(By.id("add_route_terminal_station")).sendKeys(inputTerminal);
-        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[3]/div/div[3]/span[2]")).click();
-
-        // Check that the record was not added
-        DismissAlert.Execute(driver);
-        driver.navigate().refresh();
-        rowNumber = SearchTable.Execute(driver, invalidStation);
+        rowNumber = SearchTable.Execute(driver, samplePass + superUniqueAddon);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
