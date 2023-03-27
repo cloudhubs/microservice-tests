@@ -11,6 +11,9 @@ public class GlobalVariables {
     public static final String ADMIN_USERNAME = "admin";
     public static final String ADMIN_PASSWORD = "222222";
 
+    public static final String A_USERNAME = "admin";
+    public static final String A_PASSWORD = "222222";
+
     // The list of management services offered to a client
     public static final String CLIENT_MGT_LIST[] = new String[]
             { "Ticket Reserve", "Order List", "Consign List", "Advanced Search", "Execute Flow" };

@@ -1,0 +1,2 @@
+street, city, state, country, cardNum, cardHolder, cardExp, securityNum, zip
+123 Main St, Waco, TX, USA, 555555555, TestUser, 02/23, 123, 76706

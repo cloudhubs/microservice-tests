@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.Filter.FilterTest",
+  "simulationId": "filtertest",
+  "start": 1677125251520,
+  "description": "",
+  "scenarios": ["Users Filtering"],
+  "assertions": [
+
+  ]
+}

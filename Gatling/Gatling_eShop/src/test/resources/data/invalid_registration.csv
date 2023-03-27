@@ -1,0 +1,23 @@
+username, lastname, street, city, state, country, zipcode, phoneNum, cardNum, cardHolder, cardExp, securityNum, email, password, confirmPass
+bad, bad, bad, bad, bad, bad, bad, bad, bad, bad, bad, bad, bad, bad, bad
+   ,	,	 ,	  ,	   ,	,	 ,	  ,	   ,	,	 ,	  ,    ,	,
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, pass, diffPass
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, bad_email, pass, pass
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, bad_email, password1!, password1!
+ , UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, , 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, , Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, , TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, , USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, , 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, , 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, , 5555555, TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, , TestUser, 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, , 02/23, 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, , 123, good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, , good@mail.com, password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, , password1!, password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, , password1!
+TestUser, UserLast, 123 Main St, Waco, TX, USA, 76706, 5555555555, 5555555, TestUser, 02/23, 123, good@mail.com, password1!,
+
+

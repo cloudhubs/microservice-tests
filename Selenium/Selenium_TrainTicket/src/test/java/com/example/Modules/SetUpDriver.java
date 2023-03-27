@@ -8,7 +8,6 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-
 public class SetUpDriver {
     /**
      * Sets up a headless, HTML unit driver and navigate to the TrainTicket home page
