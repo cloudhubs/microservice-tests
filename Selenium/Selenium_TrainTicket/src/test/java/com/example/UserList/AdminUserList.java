@@ -42,7 +42,7 @@ public class AdminUserList {
         int rowNumber;
         while ((rowNumber = SearchTable.Execute(driver, samplePass)) != -1) {
             // Delete record
-            DeleteRecord.Execute(driver, rowNumber);
+            DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
 
             DismissAlert.Execute(driver);
             driver.navigate().refresh();
@@ -76,7 +76,7 @@ public class AdminUserList {
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
-        DeleteRecord.Execute(driver, rowNumber);
+        DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
 
         DismissAlert.Execute(driver);
         driver.navigate().refresh();
