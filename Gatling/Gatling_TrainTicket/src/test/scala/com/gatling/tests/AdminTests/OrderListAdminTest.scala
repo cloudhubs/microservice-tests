@@ -35,7 +35,7 @@ class OrderListAdminTest extends Simulation {
     .exec(
       http("Update Order")
         .put("/api/v1/adminorderservice/adminorder")
-        .body(RawFileBody("com/gatling/tests/OrderListAdmin/add_order_form.json"))
+        .body(RawFileBody("com/gatling/tests/OrderListAdmin/update_order_form.json"))
         .headers(apiV1Header))
     .pause(1)
 

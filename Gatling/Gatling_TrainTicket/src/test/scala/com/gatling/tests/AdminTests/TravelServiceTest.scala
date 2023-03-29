@@ -40,12 +40,12 @@ class TravelServiceTest extends Simulation {
     .exec(
       http("Post Travel Routes")
         .post("/api/v1/travelservice/trips/routes")
-        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_routes.json"))
+        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_types.json"))
         .headers(apiV1Header))
     .exec(
       http("Post Travel Trips")
         .post("/api/v1/travelservice/trips")
-        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_trips.json"))
+        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_types.json"))
         .headers(apiV1Header))
     .exec(
       http("Post Travel Left Parallel")
@@ -55,7 +55,7 @@ class TravelServiceTest extends Simulation {
     .exec(
       http("Post Travel Details")
         .post("/api/v1/travelservice/trip_detail")
-        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_form.json"))
+        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_types.json"))
         .headers(apiV1Header))
 
   val travelOther = scenario("Check Other Travel Endpoints")
@@ -63,7 +63,7 @@ class TravelServiceTest extends Simulation {
     .exec(
       http("Put Travel Routes")
         .put("/api/v1/travelservice/trips")
-        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_trips.json"))
+        .body(RawFileBody("com/gatling/tests/TravelService/travel_service_form.json"))
         .headers(apiV1Header))
     .exec(
       http("Delete Travel")
@@ -124,8 +124,8 @@ class TravelServiceTest extends Simulation {
     travelGeneral.inject(rampUsers(1).during(15)),
     travelPost.inject(rampUsers(1).during(15)),
     travelOther.inject(rampUsers(1).during(15)),
-    travel2General.inject(rampUsers(1).during(15)),
-    travel2Post.inject(rampUsers(1).during(15)),
-    travel2Other.inject(rampUsers(1).during(15))
+    //travel2General.inject(rampUsers(1).during(15)),
+    //travel2Post.inject(rampUsers(1).during(15)),
+    //travel2Other.inject(rampUsers(1).during(15))
   ).protocols(httpProtocolTrainTicket)
 }

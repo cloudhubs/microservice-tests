@@ -14,6 +14,7 @@ object LoginModule {
   val apiV1Header = Map(
     "Accept" -> "application/json, text/plain, text/javascript, */*; q=0.01",
     "Content-Type" -> "application/json",
+    "Response-Type" -> "application/json",
     "Origin" -> "http://192.168.3.205:32677",
     "X-Requested-With" -> "XMLHttpRequest",
     "authorization" -> "Bearer ${token}")
@@ -46,7 +47,6 @@ object LoginModule {
     .check(jsonPath("$.data.token").saveAs("token")))
     .exec { session =>
       token = session("token").as[String]
-      println(s"Token: $token")
       session
     }
   //Go to admin home page and get needed resources
@@ -71,21 +71,7 @@ object LoginModule {
       .headers(loginHeader)))
     .pause(4)
 
-  //Submit login request for user
-  val submitUserLogin = exec(http("Send User Login Request")
-    .post("/api/v1/users/login")
-    .headers(loginHeader)
-    .body(RawFileBody("com/gatling/tests/Login/user_login.json"))
-    .check(jsonPath("$.data.token").saveAs("token")))
-    .exec { session =>
-      token = session("token").as[String]
-      println(s"Token: $token")
-      session
-    }
-
   //Scenario to log in admin
   val loginScenario: ChainBuilder = exec(homePage, adminLoginPage, login)
 
-  //Scenario to log in user
-  //val userLoginScenario: ChainBuilder = exec(homePage, userLoginPage, submitUserLogin)
 }
