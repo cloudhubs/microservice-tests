@@ -13,8 +13,8 @@ class OrderListUserTest extends Simulation {
   //View order list needs
   val account_file = "OrderListUser/account_request.json"
 
-  //Scenario to test the order cancellation feature
-  val orderCancel = scenario("Users Cancelling Order")
+  //Test scenario to test the order cancellation feature
+  val orderCancel: ScenarioBuilder = scenario("Users Cancelling Order")
     .exec(loginScenario)
     .exec { session =>
       val newSession = session.setAll("account_file" -> s"${account_file}",
@@ -25,11 +25,11 @@ class OrderListUserTest extends Simulation {
     .exec(viewOrderListPage, cancelOrder, viewOrderListPage)
     .exec(
       http("Get Cancel Service Welcome")
-      .get("/api/v1/cancelservice/welcome")
+      .get("/api/v1/cancelservice/welcome") //Ger cancel service welcome
       .headers(apiV1Header))
 
-  //Scenario to test the order change feature
-  val orderChange = scenario("Users Changing Order")
+  //Test scenario to test the order change feature
+  val orderChange: ScenarioBuilder = scenario("Users Changing Order")
     .exec(loginScenario)
     .exec { session =>
       val newSession = session.setAll("account_file" -> s"${account_file}",
@@ -39,8 +39,8 @@ class OrderListUserTest extends Simulation {
     }
     .exec(homePage, viewOrderListPage, changeOrder, homePage)
 
-  //Scenario to test paying for an order/ticket
-  val orderPay = scenario("Users Paying for Ticket")
+  //Test scenario to test paying for an order/ticket
+  val orderPay: ScenarioBuilder = scenario("Users Paying for Ticket")
     .exec(loginScenario)
     .exec { session =>
       val newSession = session.setAll("account_file" -> s"${account_file}",
@@ -49,7 +49,7 @@ class OrderListUserTest extends Simulation {
     }
     .exec(homePage, viewOrderListPage, payTicket, homePage)
 
-  //Scenario to update the consign of a ticket
+  //Test scenario to update the consign of a ticket
   val consignUpdate: ScenarioBuilder = scenario("Users Updating Consign")
     .exec(loginScenario)
     .exec { session =>
@@ -60,6 +60,7 @@ class OrderListUserTest extends Simulation {
     }
     .exec(homePage, viewOrderListPage, viewConsign, updateConsign, homePage)
 
+  //Run the test simulation with the scenarios
   setUp(
     orderCancel.inject(rampUsers(1).during(20)),
     orderChange.inject(rampUsers(1).during(20)),

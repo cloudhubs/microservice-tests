@@ -19,6 +19,7 @@ object LoginModule {
     "X-Requested-With" -> "XMLHttpRequest",
     "authorization" -> "Bearer ${token}")
 
+  //Header for login scenario
   val loginHeader = Map(
     "Accept" -> "application/json, text/plain, */*",
     "Accept-Encoding" -> "gzip, deflate",
@@ -28,19 +29,19 @@ object LoginModule {
     "User-Agent" -> "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36")
 
   //Go to home page of application
-  val homePage = exec(http("Home Page")
+  val homePage: ChainBuilder = exec(http("Home Page")
     .get("/index.html")
     .headers(mainPageHeader))
     .pause(2)
 
   //Go to admin login page
-  val adminLoginPage = exec(http("Go to Admin Login Page")
+  val adminLoginPage: ChainBuilder = exec(http("Go to Admin Login Page")
     .get("/adminlogin.html")
     .headers(mainPageHeader))
     .pause(3)
 
   //Complete login for admin
-  val login = exec(http("Send Login Request")
+  val login: ChainBuilder = exec(http("Send Login Request")
     .post("/api/v1/users/login")
     .headers(loginHeader)
     .body(RawFileBody("com/gatling/tests/Login/admin_login.json"))
@@ -50,24 +51,24 @@ object LoginModule {
       session
     }
   //Go to admin home page and get needed resources
-  val adminHomePage = exec(http("Go to Admin Page")
+  val adminHomePage: ChainBuilder = exec(http("Go to Admin Page")
     .get("/admin.html")
     .resources(http("Get User List")
-      .get("/api/v1/userservice/users")
+      .get("/api/v1/userservice/users") //Get users
       .headers(apiV1Header),
       http("Get Order List")
-        .get("/api/v1/adminorderservice/adminorder")
+        .get("/api/v1/adminorderservice/adminorder") //Get orders
         .headers(apiV1Header),
       http("Get Travel List")
-        .get("/api/v1/admintravelservice/admintravel")
+        .get("/api/v1/admintravelservice/admintravel") //Get travel
         .headers(apiV1Header)))
 
 
   //Go to main user login page
-  val userLoginPage = exec(http("Go to User Login Page")
+  val userLoginPage: ChainBuilder = exec(http("Go to User Login Page")
     .get("/client_login.html")
     .resources(http("Generate CAPTCHA")
-      .get("/api/v1/verifycode/generate")
+      .get("/api/v1/verifycode/generate") //Generate CAPTCHA
       .headers(loginHeader)))
     .pause(4)
 

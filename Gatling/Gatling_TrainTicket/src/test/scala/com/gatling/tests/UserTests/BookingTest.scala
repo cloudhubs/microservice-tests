@@ -4,6 +4,7 @@ import com.gatling.tests.Modules.HeaderModules.*
 import com.gatling.tests.Modules.LoginModule.*
 import com.gatling.tests.Modules.UserModules.*
 import io.gatling.core.Predef.*
+import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.*
 import io.gatling.jdbc.Predef.*
 
@@ -11,9 +12,10 @@ import scala.concurrent.duration.*
 
 class BookingTest extends Simulation {
 
-	val bookUsers = scenario("Users Booking")
+	//Test scenario to check book test case
+	val bookUsers: ScenarioBuilder = scenario("Users Booking")
 		.exec(loginScenario)
-		.exec { session =>
+		.exec { session => //Create session with information
 			val newSession = session.setAll("trip_id" -> "D1345", //Select Needs
 				"from" -> "shanghai",
 				"to" -> "suzhou",
@@ -27,7 +29,8 @@ class BookingTest extends Simulation {
 		}
 		.exec(searchTrip, selectTrip, submitTripBooking, homePage)
 
-		setUp(
+	//Run the test simulation with the scenarios
+	setUp(
 			bookUsers.inject(rampUsers(5).during(10))
 		).protocols(httpProtocolTrainTicket)
 }

@@ -10,70 +10,70 @@ import com.gatling.tests.Modules.LoginModule.*
 object UserModules {
 
   //View order list page
-  val viewOrderListPage = exec(http("View Order List")
+  val viewOrderListPage: ChainBuilder = exec(http("View Order List")
     .get("/client_order_list.html")
     .headers(apiV1Header)
     .resources(http("Refresh Page")
-      .post("/api/v1/orderservice/order/refresh")
+      .post("/api/v1/orderservice/order/refresh") //Refresh page
       .headers(apiV1Header)
       .body(RawFileBody("com/gatling/tests/${account_file}")),
       http("Refresh Page")
-        .post("/api/v1/orderOtherService/orderOther/refresh")
+        .post("/api/v1/orderOtherService/orderOther/refresh") //Refresh page
         .headers(apiV1Header)
         .body(RawFileBody("com/gatling/tests/${account_file}"))))
     .pause(8)
 
   //Pay ticket using given payment form
-  val payTicket = exec(http("Confirm Payment")
+  val payTicket: ChainBuilder = exec(http("Confirm Payment")
     .post("/api/v1/inside_pay_service/inside_payment")
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${payment_form}")))
     .pause(4)
 
   //Cancel a given order
-  val cancelOrder = exec(http("Select Cancel Order")
+  val cancelOrder: ChainBuilder = exec(http("Select Cancel Order")
     .get("/api/v1/cancelservice/cancel/refound/${order_id}")
     .headers(apiV1Header))
     .pause(4)
     .exec(http("View Cancellation Message")
-      .get("/api/v1/cancelservice/cancel/${order_id}/${login_id}")
+      .get("/api/v1/cancelservice/cancel/${order_id}/${login_id}") //Cancel order
       .headers(apiV1Header))
     .pause(2)
 
   //Change the order of a given ticket
-  val changeOrder = exec(http("Select Change Order")
+  val changeOrder: ChainBuilder = exec(http("Select Change Order")
     .post("/api/v1/travelservice/trips/left")
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${select_trip_file}")))
     .pause(4)
     .exec(http("Confirm Rebook")
-      .post("/api/v1/rebookservice/rebook")
+      .post("/api/v1/rebookservice/rebook") //Confirm rebook
       .headers(apiV1Header)
       .body(RawFileBody("com/gatling/tests/${rebook_form}")))
     .pause(7)
 
   //View given consign using consign id
-  val viewConsign = exec(http("View Consign")
+  val viewConsign: ChainBuilder = exec(http("View Consign")
     .get("/api/v1/consignservice/consigns/order/${consign_id}")
     .headers(apiV1Header))
     .pause(6)
 
   //Update given consign using json file
-  val updateConsign = exec(http("Update Consign")
+  val updateConsign: ChainBuilder = exec(http("Update Consign")
     .put("/api/v1/consignservice/consigns")
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${consign_form}")))
     .pause(3)
 
   //Search for given trip using parameters
-  val searchTrip = exec(http("Search for Trip")
+  val searchTrip: ChainBuilder = exec(http("Search for Trip")
     .post("/api/v1/travel2service/trips/left")
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${search_file}")))
     .pause(6)
 
   //Select trip and get needs resources
-  val selectTrip = exec(http("Select Trip")
+  val selectTrip: ChainBuilder = exec(http("Select Trip")
     .get("/client_ticket_book.html?tripId=${trip_id}&from=${from}&to=${to}&seatType=${seat_type}&seat_price=${seat_price}&date=${date}")
     .headers(apiV1Header)
     .resources(http("Get Assurance Types")
@@ -88,19 +88,19 @@ object UserModules {
     .pause(12)
 
   //Submit the booking info
-  val submitTripBooking = exec(http("Submit Booking")
+  val submitTripBooking: ChainBuilder = exec(http("Submit Booking")
     .post("/api/v1/preserveservice/preserve")
     .headers(apiV1Header)
     .body(RawFileBody("com/gatling/tests/${submit_file}")))
     .pause(5)
 
   //Visit ticket list page
-  val ticketPage = exec(http("Ticket Page")
+  val ticketPage: ChainBuilder = exec(http("Ticket Page")
     .get("/client_ticket_collect.html"))
     .pause(3)
 
   //Visit the station list page
-  val stationPage = exec(http("Station Page")
+  val stationPage: ChainBuilder = exec(http("Station Page")
     .get("/client_enter_station.html")
     .headers(mainPageHeader))
     .pause(5)
