@@ -4,12 +4,9 @@
 
 package com.example.SearchingFiltering;
 
+import com.example.Modules.*;
 import org.junit.*;
 
-import com.example.Global.GlobalVariable;
-
-import static com.example.Global.GlobalVariable.*;
-import static com.example.Global.GlobalVariable.tearDown;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
@@ -17,7 +14,7 @@ import org.openqa.selenium.support.ui.Select;
 
 public class Filter {
     // The chrome web driver
-    private final WebDriver driver = GlobalVariable.setUp();
+    private final WebDriver driver = SetUp.Execute();
 
     // The filtering options
     private final String[] BRANDS = { ".NET", "Other" };
@@ -30,7 +27,7 @@ public class Filter {
         String filterResults;
 
         // Login to system and get the initial filtering results
-        login(driver);
+        Login.Execute(driver);
         String initialResults = getFilterResults();
 
         // Check the functionality and UI of all brands and types filtered
@@ -52,7 +49,7 @@ public class Filter {
             }
         }
 
-        tearDown(driver);
+        TearDown.Execute(driver);
     }
 
     /**

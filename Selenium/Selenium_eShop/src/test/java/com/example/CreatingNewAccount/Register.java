@@ -4,6 +4,7 @@
 
 package com.example.CreatingNewAccount;
 
+import com.example.Modules.*;
 import org.junit.*;
 
 import com.example.Global.GlobalVariable;
@@ -17,7 +18,7 @@ import java.io.*;
 
 public class Register {
     // The chrome web driver
-    private final WebDriver driver = GlobalVariable.setUp();
+    private final WebDriver driver = SetUp.Execute();
 
     // The error messages for creating an invalid account
     private final String EXISTING_USER = "Username '" + DEFAULT_EMAIL + "' is already taken.";
@@ -53,7 +54,7 @@ public class Register {
     @Test
     public void testRegister() throws IOException {
         // Navigate to the register page
-        register(driver);
+        com.example.Modules.Register.Execute(driver);
 
         // Check for the empty text error messages
         submit();
@@ -132,7 +133,7 @@ public class Register {
         // Login with the new account information
         login();
 
-        tearDown(driver);
+        TearDown.Execute(driver);
     }
 
     /**
