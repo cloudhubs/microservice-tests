@@ -29,8 +29,8 @@ public class AdminTravelList {
         Thread.sleep(500);
 
         // Navigate to OrderList
-        driver.findElement(By.className("am-icon-users")).click();
-        assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("User"));
+        driver.findElement(By.className("am-icon-globe")).click();
+        assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Travel"));
 
         String sampleName = "deez_nuts";
         String samplePass = "misterdoctor";
