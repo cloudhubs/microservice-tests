@@ -35,10 +35,10 @@ public class AdminRouteList {
         String superUniqueString = "[0,-69,420";
         String addonInput = "0";
         String superUniqueAddonCheck = "[0,-69,4200]";
-        String inputStations = "station1,station2,station3";
+        String inputStations = "shanghai,nanjing,taiyuan";
         String inputDistances = "0,-69,420";
-        String inputStart = "station1";
-        String inputTerminal = "station3";
+        String inputStart = "shanghai";
+        String inputTerminal = "taiyuan";
         String invalidStation = "invalidStation";
 
         // Test Add Route

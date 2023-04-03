@@ -49,7 +49,7 @@ public class AdminOrderList {
         driver.findElement(By.className("am-icon-plus")).click();
         driver.findElement(By.id("add_order_document_number")).sendKeys(superUniqueString);
         Select trainSelect = new Select(driver.findElement(By.id("add_order_train_number")));
-        trainSelect.selectByVisibleText("G1234");
+        trainSelect.selectByVisibleText("G1235");
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[3]/div/div[3]/span[2]")).click();
 
         DismissAlert.Execute(driver);
