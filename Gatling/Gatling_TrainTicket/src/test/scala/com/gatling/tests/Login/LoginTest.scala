@@ -10,20 +10,30 @@ import com.gatling.tests.Modules.LoginModule.*
 import io.gatling.core.structure.ScenarioBuilder
 class LoginTest extends Simulation {
 
-  //Scenario to test valid login for admin
-  val loginAdmin: ScenarioBuilder = scenario("Admin Logging In")
-    //Go to login and complete process
-    .exec(adminLoginScenario)
-    .pause(1)
-
-  //Scenario to test valid login for user
+  //Test scenario to check login scenario
   val loginUser: ScenarioBuilder = scenario("User Logging In")
     //Go to home page and view cart
-    .exec(userLoginScenario)
+    .exec(loginScenario)
     .pause(1)
 
+  //Test scenario to check general login endpoints
+  val loginGeneral: ScenarioBuilder = scenario("Check General Login Endpoints")
+    .exec(loginScenario)
+    .exec(http("Get Login Information")
+      .get("/api/v1/users/login") //Get login information
+      .headers(apiV1Header))
+    .exec(http("Delete Login Information")
+      .delete("/api/v1/users/login")) //Delete login information
+    .exec(http("Post Authorization")
+      .post("/api/v1/auth") //Post authorization
+      .body(RawFileBody("com/gatling/tests/Login/admin_login.json"))
+      .headers(apiV1Header))
+    .exec(http("Verify Code")
+      .get("/api/v1/verifycode/verify/test")) //Get verification code
+
+  //Run the test simulation with the scenarios
   setUp(
-    loginAdmin.inject(rampUsers(40).during(15)),
-    loginUser.inject(rampUsers(60).during(20))
+    loginUser.inject(rampUsers(1).during(20)),
+    loginGeneral.inject(rampUsers(1).during(15))
   ).protocols(httpProtocolTrainTicket)
 }
