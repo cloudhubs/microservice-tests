@@ -14,6 +14,6 @@ public class ClickLogin {
      * @param driver the WebDriver
      */
     public static void Execute(WebDriver driver) {
-        driver.findElement(By.linkText("LOGIN")).click();
+        driver.findElement(By.xpath("/html/body/header/div/article/section[2]/div/section/div/a")).click();
     }
 }
