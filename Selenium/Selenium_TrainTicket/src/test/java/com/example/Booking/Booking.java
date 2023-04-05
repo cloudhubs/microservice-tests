@@ -25,7 +25,7 @@ public class Booking {
     // The default ticket values
     private final String START_STATION = "Shang Hai";
     private final String END_STATION = "Su Zhou";
-    private final String TICKET_DAY = "01013000";
+    private final String TICKET_DAY = "0101";
     private final String TICKET_TYPE = "All";
 
     // The consign's values
@@ -37,13 +37,84 @@ public class Booking {
     private final String CONTACT_NUM_PATH = "./src/test/java/com/example/Booking/contacts.txt";
     private final String DATE_PATH = "./src/test/java/com/example/Booking/date.txt";
 
+    // The unique contact ID & document ID that is created when booking a ticket
+    String contactID, docID;
+
+    // The date to be used for booking tickets
+    String date;
+
+    // The status messages for the order
+    private final String NOT_PAID = "Not Paid";
+    private final String PAID_NOT_COLLECTED = "Paid & Not Collected";
+    private final String COLLECTED = "Collected";
+    private final String USED = "Used";
+
     @Before
-    public void setUpDriver(){
-        driver = SetUpDriverChrome.Execute();
+        public void setUpDriver(){
+            driver = SetUpDriverChrome.Execute();
     }
 
     @Test
-    public void testBooking() throws IOException{
+    public void testClientActions() throws IOException{
+        // Test the booking system and create a new ticket order
+        testBooking();
+
+        // Get the row number & orderID for the newly created order
+        int row = getOrderRow();
+        String orderID = driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[2]")).getText();
+
+        // Test the consign edit modal within the order list
+        // TODO: I think that the consign service is not working
+        //testConsign(row);
+
+        // Test the order payment and successfully pay for the order
+        testPayment(row);
+        assertTrue(getOrderStatus(row).contains(PAID_NOT_COLLECTED));
+        // TODO: Maybe test the order statuses?
+
+        // Change the order after payment
+        changeOrder(row, START_STATION, "taiyuan", date, TICKET_TYPE);
+        DismissAlert.Execute(driver);
+        // TODO: This shouldn't actually change the order, I don't think the microservice is working
+
+        // Check that the consign shows up in the list
+        navigateConsign();
+        assertTrue(driver.getPageSource().contains(CONSIGN_NAME));
+        assertTrue(driver.getPageSource().contains(CONSIGN_PHONE));
+        assertTrue(driver.getPageSource().contains(CONSIGN_WEIGHT));
+
+        // TODO: Change the consign name, phone number, and weight to be dynamic and verify it
+
+        // Check that you can cancel the order
+        navigateOrderList();
+
+        // Collect the ticket and enter the station
+        collectTicket();
+        enterStation(orderID);
+
+        // Create a new order and then cancel it
+        bookTrainTicket();
+        fillBookingInfo();
+        submitBookingOrder();
+        // TODO: Cancel the order
+
+        // TODO: Test the advanced search menu
+    }
+
+    /**
+     * Close out of the WebDriver when finished
+     */
+    @After
+    public void tearDown() {
+        TearDownDriver.Execute(driver);
+    }
+
+    /**
+     * Tests the booking system
+     *
+     * @throws IOException
+     */
+    private void testBooking() throws IOException {
         // Navigate to the TicketReserve page and try to book a ticket without logging in
         // Verify an alert popped up
         bookTrainTicket();
@@ -59,89 +130,34 @@ public class Booking {
         DismissAlert.Execute(driver);
 
         // Cancel a ticket order and submit it
-        fillBookingInfo();
-        cancelOrder();
         useExistingContact();
         bookingInfoConfirm();
-        submitOrder();
-
-        // Navigate
-        navigateOrderList();
-
-        // Check that the consign shows up in the list
-        navigateConsign();
-        assertTrue(driver.getPageSource().contains(CONSIGN_NAME));
-        assertTrue(driver.getPageSource().contains(CONSIGN_PHONE));
-        assertTrue(driver.getPageSource().contains(CONSIGN_WEIGHT));
-
-        // TODO: Change the consign name, phone number, and weight to be dynamic and verify it
-
-        // Check that you can cancel the order
-        navigateOrderList();
-        // cancel the order
-        // place another order
-        // consign the order and cancel out of the consign button
-        // consign the order adn change the consign
-        // click pay on the order and get the id information. cancel the pay window
-        // click pay on the order and confirm the transaction (alert should pop up)
-        //
-
-
-        System.out.println("E#");
+        cancelBookingOrder();
+        fillBookingInfo();
+        submitBookingOrder();
     }
 
     /**
-     * Close out of the WebDriver when finished
-     */
-    @After
-    public void tearDown() {
-        TearDownDriver.Execute(driver);
-    }
-
-    /**
-     * Searches the ticket using the given parameters
+     * Searches and selects the booking option for a train ticket in the future
      *
-     * @param start The starting station
-     * @param end The ending station
-     * @param date The date on the ticket
-     * @param type Filter by train type
-     */
-    private void searchTicket(String start, String end, String date, String type) {
-        driver.findElement(By.id("travel_booking_startingPlace")).click();
-        driver.findElement(By.id("travel_booking_startingPlace")).clear();
-        driver.findElement(By.id("travel_booking_startingPlace")).sendKeys(start);
-
-        driver.findElement(By.id("travel_booking_terminalPlace")).click();
-        driver.findElement(By.id("travel_booking_terminalPlace")).clear();
-        driver.findElement(By.id("travel_booking_terminalPlace")).sendKeys(end);
-
-        driver.findElement(By.id("travel_booking_date")).click();
-        driver.findElement(By.id("travel_booking_date")).clear();
-        driver.findElement(By.id("travel_booking_date")).sendKeys(date);
-
-        Select typeList = new Select(driver.findElement(By.id("search_select_train_type")));
-        typeList.selectByVisibleText(type);
-
-        submitSearch();
-    }
-
-    /**
-     * Clicks the submit button on the ticket reserve page
-     */
-    private void submitSearch() {
-        driver.findElement(By.id("travel_searching_button")).click();
-    }
-
-    /**
-     * Will find and go to the book menu for a train ticket
+     * @throws IOException
      */
     private void bookTrainTicket() throws IOException {
         navigateTicketReserve();
-        String date = getTicketDate();
-        searchTicket(START_STATION, END_STATION, date, TICKET_TYPE);
+        date = getTicketDate();
+        searchTicket("travel_booking_startingPlace", "travel_booking_terminalPlace", "travel_booking_date", "search_select_train_type",
+                     START_STATION, END_STATION, date, TICKET_TYPE);
+        driver.findElement(By.id("travel_searching_button")).click();
         selectBookTicket();
     }
 
+    /**
+     * Gets the new ticket date to be used when booking a ticket
+     *
+     * @return the ticket date
+     *
+     * @throws IOException
+     */
     private String getTicketDate() throws IOException {
         // Get the new contact number from a file
         BufferedReader reader = new BufferedReader(new FileReader(DATE_PATH));
@@ -157,7 +173,41 @@ public class Booking {
     }
 
     /**
-     * Books a train ticket
+     * Search for a ticket using the given ids and parameters
+     *
+     * @param startID the id of the start station input box
+     * @param endID the id of the end station input box
+     * @param dateID the id of the date box
+     * @param typeID the id of the type dropdown box
+     * @param start the starting station
+     * @param end the ending station
+     * @param date the date of the ticket
+     * @param type the ticket type
+     */
+    private void searchTicket(String startID, String endID, String dateID, String typeID,
+                              String start, String end, String date, String type) {
+        // The starting station
+        driver.findElement(By.id(startID)).click();
+        driver.findElement(By.id(startID)).clear();
+        driver.findElement(By.id(startID)).sendKeys(start);
+
+        // The ending station
+        driver.findElement(By.id(endID)).click();
+        driver.findElement(By.id(endID)).clear();
+        driver.findElement(By.id(endID)).sendKeys(end);
+
+        // The date of the ticket
+        driver.findElement(By.id(dateID)).click();
+        driver.findElement(By.id(dateID)).clear();
+        driver.findElement(By.id(dateID)).sendKeys(date);
+
+        // The ticket type
+        Select typeList = new Select(driver.findElement(By.id(typeID)));
+        typeList.selectByVisibleText(type);
+    }
+
+    /**
+     * Select the book ticket button to begin filling out the booking information
      */
     private void selectBookTicket() {
         Select seatList = new Select(driver.findElement(By.className("booking_seat_class")));
@@ -166,12 +216,10 @@ public class Booking {
     }
 
     /**
-     * Navigates to the TicketReserve screen
+     * Fill the booking information for a ticket
+     *
+     * @throws IOException
      */
-    private void navigateTicketReserve() {
-        driver.findElement(By.className("am-icon-list-alt")).click();
-    }
-
     private void fillBookingInfo() throws IOException {
         // Fill out the information for booking a ticket and submit
         addContact();
@@ -181,10 +229,11 @@ public class Booking {
         bookingInfoConfirm();
     }
 
-    private void bookingInfoConfirm() {
-        driver.findElement(By.id("ticket_select_contacts_confirm_btn")).click();
-    }
-
+    /**
+     * Add a new, unique contact to be used when booking the ticket
+     *
+     * @throws IOException
+     */
     private void addContact() throws IOException {
         // Refresh the contacts list
         refreshContacts();
@@ -199,16 +248,20 @@ public class Booking {
         writer.write(String.valueOf(num + 1));
         writer.close();
 
+        // Update the unique docID & contactID
+        contactID = "Contacts_" + num;
+        docID = "DocumentNumber_" + num;
+
         driver.findElement(By.id("booking_new_contacts_name")).click();
         driver.findElement(By.id("booking_new_contacts_name")).clear();
-        driver.findElement(By.id("booking_new_contacts_name")).sendKeys("Contacts_" + num);
+        driver.findElement(By.id("booking_new_contacts_name")).sendKeys(contactID);
 
         Select docList = new Select(driver.findElement(By.id("booking_new_contacts_documentType")));
         docList.selectByIndex(1);
 
         driver.findElement(By.id("booking_new_contacts_documentNum")).click();
         driver.findElement(By.id("booking_new_contacts_documentNum")).clear();
-        driver.findElement(By.id("booking_new_contacts_documentNum")).sendKeys("DocumentNumber_" + num);
+        driver.findElement(By.id("booking_new_contacts_documentNum")).sendKeys(docID);
 
         driver.findElement(By.id("booking_new_contacts_phoneNum")).click();
         driver.findElement(By.id("booking_new_contacts_phoneNum")).clear();
@@ -217,15 +270,38 @@ public class Booking {
         driver.findElement(By.id("booking_new_contacts_select")).click();
     }
 
+    /**
+     * Refresh the contacts list when filling out the booking information
+     */
+    private void refreshContacts() {
+        WebElement element = driver.findElement(By.id("refresh_booking_contacts_button"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().build().perform();
+        try {
+            Thread.sleep(100);
+        } catch(InterruptedException e) {
+
+        }
+    }
+
+    /**
+     * Use an existing contact when filling out the booking information
+     */
     private void useExistingContact() {
         driver.findElement(By.xpath("//*[@id=\"contacts_booking_list_table\"]/tbody/tr[1]/td[7]/label/input")).click();
     }
 
+    /**
+     * Add assurance when filling out the booking information
+     */
     private void addAssurance() {
         Select assuranceList = new Select(driver.findElement(By.id("assurance_type")));
         assuranceList.selectByIndex(1);
     }
 
+    /**
+     * Add food when filling out the booking information
+     */
     private void addFood() {
         driver.findElement(By.id("need-food-or-not")).click();
 
@@ -236,6 +312,9 @@ public class Booking {
         foodItemList.selectByIndex(1);
     }
 
+    /**
+     * Add a new consign when filling out the booking information
+     */
     private void addConsign() {
         driver.findElement(By.id("need-consign-or-not")).click();
 
@@ -252,18 +331,17 @@ public class Booking {
         driver.findElement(By.id("weight_of_consign")).sendKeys(CONSIGN_WEIGHT);
     }
 
-    private void refreshContacts() {
-        WebElement element = driver.findElement(By.id("refresh_booking_contacts_button"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(element).click().build().perform();
-        try {
-            Thread.sleep(100);
-        } catch(InterruptedException e) {
-
-        }
+    /**
+     * Confirm the inputted booking information
+     */
+    private void bookingInfoConfirm() {
+        driver.findElement(By.id("ticket_select_contacts_confirm_btn")).click();
     }
 
-    private void cancelOrder() {
+    /**
+     * Cancel the booking order confirmation
+     */
+    private void cancelBookingOrder() {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -274,7 +352,10 @@ public class Booking {
         actions.moveToElement(element).click().build().perform();
     }
 
-    private void submitOrder() {
+    /**
+     * Submits the booking order confirmation
+     */
+    private void submitBookingOrder() {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -288,6 +369,227 @@ public class Booking {
         DismissAlert.Execute(driver);
     }
 
+    /**
+     * Tests the consign submenu
+     *
+     * @param row the row number of the new order in the order list
+     */
+    private void testConsign(int row) {
+        driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[13]/button")).click();
+
+        // Try to edit an invalid consign order information
+        fillConsignInfo(CONSIGN_NAME, CONSIGN_PHONE, "0");
+        submitConsignInfo();
+        DismissAlert.Execute(driver);
+
+        fillConsignInfo(CONSIGN_NAME, "0", CONSIGN_WEIGHT);
+        submitConsignInfo();
+        DismissAlert.Execute(driver);
+
+        // Cancel the consign edit
+        fillConsignInfo(CONSIGN_NAME, CONSIGN_PHONE, CONSIGN_WEIGHT);
+        cancelConsignInfo();
+
+        // Change the consign information
+        fillConsignInfo(CONSIGN_NAME, CONSIGN_PHONE, CONSIGN_WEIGHT);
+        submitConsignInfo();
+    }
+
+    /**
+     * Fill out the consign info in the change consign menu
+     *
+     * @param name the new name of the consign
+     * @param phone the new phone number of the consign
+     * @param weight the new weight of the consign
+     */
+    private void fillConsignInfo(String name, String phone, String weight) {
+        driver.findElement(By.id("re_booking_name")).click();
+        driver.findElement(By.id("re_booking_name")).clear();
+        driver.findElement(By.id("re_booking_name")).sendKeys(name);
+
+        driver.findElement(By.id("re_booking_phone")).click();
+        driver.findElement(By.id("re_booking_phone")).clear();
+        driver.findElement(By.id("re_booking_phone")).sendKeys(phone);
+
+        driver.findElement(By.id("re_booking_weight")).click();
+        driver.findElement(By.id("re_booking_weight")).clear();
+        driver.findElement(By.id("re_booking_weight")).sendKeys(weight);
+    }
+
+    /**
+     * Cancel the consign information change
+     */
+    private void cancelConsignInfo() {
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[3]/div/div[5]/span[1]"));
+    }
+
+    /**
+     * Submit the new consign information
+     */
+    private void submitConsignInfo() {
+        driver.findElement(By.id("submit_for_consign")).click();
+    }
+
+    /**
+     * Tests the payment process of a booked ticket
+     *
+     * @param row the row of the newly booked ticket in the order list
+     */
+    private void testPayment(int row) {
+        // Cancel before paying for order
+        payForOrder(row);
+        cancelPay();
+
+        // Successfully pay for the order
+        payForOrder(row);
+        submitPay();
+
+        // TODO: An alert pops up?
+    }
+
+    /**
+     * Pay for the order in the order list menu
+     *
+     * @param row the row of the newly booked ticket in the order list
+     */
+    private void payForOrder(int row) {
+        driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr"+row+"/td[8]/button")).click();
+    }
+
+    /**
+     * Cancel the payment process of the ticket
+     */
+    private void cancelPay() {
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[4]/div/div[5]/span[1]")).click();
+    }
+
+    /**
+     * Submit payment for a ticket
+     */
+    private void submitPay() {
+        driver.findElement(By.id("pay_for_preserve")).click();
+    }
+
+    /**
+     * Gets the order status of an order from the order list
+     *
+     * @param row the row of the newly booked ticket in the order list
+     *
+     * @return returns the order status of a ticket
+     */
+    private String getOrderStatus(int row) {
+        return driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr"+row+"/td[8]")).getText();
+    }
+
+    /**
+     * Changes the ticket order the order list
+     *
+     * @param row the row of the newly booked ticket in the order list
+     * @param start the new starting station
+     * @param end the new ending station
+     * @param date the new date
+     * @param type the new ticket type
+     */
+    private void changeOrder(int row, String start, String end, String date, String type) {
+        // Click on the change order button, and cancel the window
+        clickChangeOrder(row);
+        driver.findElement(By.className("am-close-spin")).click();
+
+        // Rebook the order, cancel it, then rebook it again and submit
+        clickChangeOrder(row);
+        searchTicket("re_booking_startingPlace", "re_booking_terminalPlace", "re_booking_date", "search_select_train_type",
+                     start, end, date, type);
+        clickReBook();
+        cancelReBook();
+        clickReBook();
+        submitReBook();
+    }
+
+    /**
+     * Clicks the change order button from the order list menu
+     *
+     * @param row the row of the newly booked ticket in the order list
+     */
+    private void clickChangeOrder(int row) {
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/table/tbody/tr"+row+"/td[15]/div/div/button[1]")).click();
+    }
+
+    /**
+     * Clicks the rebook button from the change order submenu
+     */
+    private void clickReBook() {
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[6]/div/div[2]/div[2]/table/tbody/tr[1]/td[13]/button")).click();
+    }
+
+    /**
+     * Cancels the rebooking
+     */
+    private void cancelReBook() {
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[7]/div/div[6]/span[1]")).click();
+    }
+
+    /**
+     * Submits the rebooking
+     */
+    private void submitReBook() {
+        driver.findElement(By.id("pay_for_preserve1")).click();
+    }
+
+    /**
+     * Collects a train ticket from the ticket collect menu
+     */
+    private void collectTicket() {
+        // Collect the ticket
+        navigateTicketCollect();
+        int row = SearchTable.Execute(driver, contactID);
+        driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/form/table/tbody/tr["+row+"]/td[10]/button")).click();
+
+        // Dismiss 2 alerts if there is nothing left in the table
+        DismissAlert.Execute(driver);
+        if(row <= 1) {
+            DismissAlert.Execute(driver);
+        }
+    }
+
+    /**
+     * Enters the station from the enter station menu
+     *
+     * @param orderID the unique order ID of the ticket
+     */
+    private void enterStation(String orderID) {
+        // Enter the station
+        navigateEnterStation();
+        int row = SearchTable.Execute(driver, orderID);
+        driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/form/table/tbody/tr["+row+"]/td[10]/button")).click();
+
+        // Dismiss 2 alerts if there is nothing left in the table
+        DismissAlert.Execute(driver);
+        if(row <= 1) {
+            DismissAlert.Execute(driver);
+        }
+    }
+
+    /**
+     * Selects the Execute Flow dropdown f the Execute Flow dropdown isn't already selected
+     */
+    private void clickFlowDropDown() {
+        try {
+            driver.findElement(By.className("am-icon-user"));
+        } catch(Exception e) {
+            driver.findElement(By.className("am-icon-table")).click();
+        }
+    }
+
+    /**
+     * Navigates to the TicketReserve screen
+     */
+    private void navigateTicketReserve() {
+        driver.findElement(By.className("am-icon-list-alt")).click();
+    }
+
+    /**
+     * Navigates to the order list screen
+     */
     private void navigateOrderList() {
         driver.findElement(By.className("am-icon-line-chart")).click();
         try {
@@ -297,6 +599,9 @@ public class Booking {
         }
     }
 
+    /**
+     * Navigates to the consign list screen
+     */
     private void navigateConsign() {
         driver.findElement(By.className("am-icon-globe")).click();
         try {
@@ -304,5 +609,64 @@ public class Booking {
         } catch (InterruptedException e) {
 
         }
+    }
+
+    /**
+     * Navigates to the advanced search screen
+     */
+    private void navigateAdvancedSearch() {
+        driver.findElement(By.className("am-icon-users")).click();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    /**
+     * Navigates to the ticket collect screen
+     */
+    private void navigateTicketCollect() {
+        clickFlowDropDown();
+        driver.findElement(By.className("am-icon-user")).click();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    /**
+     * Navigates to the enter station screen
+     */
+    private void navigateEnterStation() {
+        clickFlowDropDown();
+        driver.findElement(By.className("am-icon-institution")).click();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    /**
+     * Gets the row of the newly booked ticket in the order list
+     *
+     * @return the row of the newly booked ticket in the order list
+     */
+    private int getOrderRow() {
+        navigateOrderList();
+        return SearchTable.Execute(driver, docID);
+    }
+
+    /**
+     * Gets the orderID of the newly booked ticket in the order list
+     *
+     * @param row the row of the newly booked ticket in the order list
+     *
+     * @return the orderID of the newly booked ticket in the order list
+     */
+    private String getOrderID(int row) {
+        return driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[2]")).getText();
     }
 }
