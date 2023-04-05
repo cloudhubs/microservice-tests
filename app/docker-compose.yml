@@ -1,9 +1,0 @@
-version: '2.0'
-services:
-  react-app:
-    image: dockerized-react
-    build: 
-      context: ./
-    ports:
-      - "3000:3000"
-
