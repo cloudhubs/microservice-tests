@@ -1,6 +1,7 @@
 /**
  * If an alert pops up, it is dismissed
  */
+
 package com.example.Modules;
 
 import org.openqa.selenium.TimeoutException;
@@ -19,7 +20,7 @@ public class DismissAlert {
         try {
             wait.until(ExpectedConditions.alertIsPresent());
             driver.switchTo().alert().accept();
-        } catch(TimeoutException e) {
+        } catch (TimeoutException e) {
             // no alert found
         }
     }

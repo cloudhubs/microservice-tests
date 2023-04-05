@@ -17,8 +17,8 @@ import org.openqa.selenium.*;
 import java.io.*;
 
 public class Register {
-    // The chrome web driver
-    private final WebDriver driver = SetUp.Execute();
+    // The HTML Unit web driver
+    WebDriver driver;
 
     // The error messages for creating an invalid account
     private final String EXISTING_USER = "Username '" + DEFAULT_EMAIL + "' is already taken.";
@@ -47,6 +47,11 @@ public class Register {
 
     // The new email to be created
     String email;
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriver.Execute();
+    }
 
     /**
      * Tests the UI and functionality of registering an invalid account
@@ -133,7 +138,7 @@ public class Register {
         // Login with the new account information
         login();
 
-        TearDown.Execute(driver);
+        TearDownDriver.Execute(driver);
     }
 
     /**

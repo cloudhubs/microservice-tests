@@ -13,8 +13,13 @@ import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 
 public class Login {
-    // The chrome web driver
-    private final WebDriver driver = SetUp.Execute();
+    // The HTML Unit web driver
+    WebDriver driver;
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriver.Execute();
+    }
 
     @Test
     public void testLogin() throws Exception {
@@ -32,7 +37,11 @@ public class Login {
         assertTrue(driver.getPageSource().contains(MISSING_PASS));
 
         // Test logging in with invalid fields
-        fillCredentials("email@email.com", "pass");
+        fillCredentials("email@email.com", DEFAULT_PASS);
+        submit();
+        assertTrue(driver.getPageSource().contains(INVALID_LOGIN));
+
+        fillCredentials(DEFAULT_EMAIL, "pass");
         submit();
         assertTrue(driver.getPageSource().contains(INVALID_LOGIN));
 
@@ -46,7 +55,7 @@ public class Login {
         Thread.sleep(100);
         ClickLogin.Execute(driver);
 
-        TearDown.Execute(driver);
+        TearDownDriver.Execute(driver);
     }
 
     /**

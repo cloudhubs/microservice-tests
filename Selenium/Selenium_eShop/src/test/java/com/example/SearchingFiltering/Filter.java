@@ -13,14 +13,19 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 
 public class Filter {
-    // The chrome web driver
-    private final WebDriver driver = SetUp.Execute();
+    // The HTML Unit web driver
+    WebDriver driver;
 
     // The filtering options
     private final String[] BRANDS = { ".NET", "Other" };
     private final String[] TYPES = { "Mug", "T-Shirt", "Pin"};
     private final String BRAND_ID = "BrandFilterApplied";
     private final String TYPE_ID = "TypesFilterApplied";
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriver.Execute();
+    }
 
     @Test
     public void testFilter() throws Exception {
@@ -49,7 +54,7 @@ public class Filter {
             }
         }
 
-        TearDown.Execute(driver);
+        TearDownDriver.Execute(driver);
     }
 
     /**
