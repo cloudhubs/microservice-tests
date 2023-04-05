@@ -11,6 +11,9 @@ import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Filter {
     // The HTML Unit web driver
@@ -22,7 +25,7 @@ public class Filter {
     private final String BRAND_ID = "BrandFilterApplied";
     private final String TYPE_ID = "TypesFilterApplied";
 
-    @Before
+    @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
     }
@@ -53,7 +56,10 @@ public class Filter {
                 assertNotEquals(filterResults, initialResults);
             }
         }
+    }
 
+    @AfterTest
+    public void tearDownDriver() {
         TearDownDriver.Execute(driver);
     }
 

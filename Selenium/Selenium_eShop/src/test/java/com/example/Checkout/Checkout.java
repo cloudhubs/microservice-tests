@@ -12,12 +12,15 @@ import static org.junit.Assert.*;
 import static com.example.Global.GlobalVariable.*;
 
 import org.openqa.selenium.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Checkout {
     // The HTML Unit web driver
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
     }
@@ -45,7 +48,10 @@ public class Checkout {
 
         // Navigate to my orders from the home page
         goToOrders();
+    }
 
+    @AfterTest
+    public void tearDownDriver() {
         TearDownDriver.Execute(driver);
     }
 

@@ -13,6 +13,9 @@ import static com.example.Global.GlobalVariable.*;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.io.*;
 
@@ -48,7 +51,7 @@ public class Register {
     // The new email to be created
     String email;
 
-    @Before
+    @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
     }
@@ -137,7 +140,10 @@ public class Register {
 
         // Login with the new account information
         login();
+    }
 
+    @AfterTest
+    public void tearDownDriver() {
         TearDownDriver.Execute(driver);
     }
 

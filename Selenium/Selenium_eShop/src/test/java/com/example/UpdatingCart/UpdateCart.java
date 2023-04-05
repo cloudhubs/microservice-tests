@@ -10,12 +10,15 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class UpdateCart {
     // The HTML Unit web driver
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
     }
@@ -45,7 +48,10 @@ public class UpdateCart {
         GoToCart.Execute(driver);
         assertTrue(getCost() > prevCost);
         assertEquals(getQuantity(), quantity + 1);
+    }
 
+    @AfterTest
+    public void tearDownDriver() {
         TearDownDriver.Execute(driver);
     }
 
