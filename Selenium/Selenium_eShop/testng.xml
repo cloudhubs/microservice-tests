@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="eShop Test Suite" parallel="methods" thread-count="8">
+<suite name="eShop Test Suite" parallel="methods" thread-count="6">
     <test name="eShop All Tests">
         <classes>
             <class name="com.example.BrowsePagesItems.BrowsePages">
@@ -31,12 +31,6 @@
             <class name="com.example.UpdatingCart.UpdateCart">
                 <methods>
                     <include name="testUpdateCart"/>
-                </methods>
-            </class>
-            <class name="com.example.parallelDemo.TestNGParallelTestingDemo">
-                <methods>
-                    <include name="test1"/>
-                    <include name="test2"/>
                 </methods>
             </class>
         </classes>
