@@ -24,6 +24,9 @@ class PaymentTest extends Simulation {
     .exec(http("Get Inside Payment by User ID") //Get inside payment by user id
       .get("/api/v1/inside_pay_service/inside_payment/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f/10000.0")
       .headers(apiV1Header))
+    .exec(http("Get Inside Payment by User ID and Money") //Get inside payment by user id
+      .get("/api/v1/inside_pay_service/inside_payment/drawback/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f/10000.0")
+      .headers(apiV1Header))
     .exec(http("Get Inside Payment")
       .get("/api/v1/inside_pay_service/inside_payment/payment") //Get inside payment
       .headers(apiV1Header))
