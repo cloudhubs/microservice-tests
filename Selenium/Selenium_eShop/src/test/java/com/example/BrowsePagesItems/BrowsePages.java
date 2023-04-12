@@ -9,12 +9,15 @@ import org.junit.*;
 
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class BrowsePages {
     // The HTML Unit web driver
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
     }
@@ -42,7 +45,10 @@ public class BrowsePages {
         driver.findElement(By.id(PREVIOUS)).click();
         assertEquals(driver.findElement(By.id(NEXT)).getText(), NEXT);
         assertEquals(PAGE1, getCurrPage(SUBTITLE));
+    }
 
+    @AfterTest
+    public void tearDownDriver() {
         TearDownDriver.Execute(driver);
     }
 

@@ -10,12 +10,15 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class UpdateCart {
     // The HTML Unit web driver
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
     }
@@ -41,11 +44,37 @@ public class UpdateCart {
         assertEquals(getQuantity(), quantity + 1);
 
         // Increment the cart, reload page and see if the cart has been updated
+        prevCost = getCost();
+        quantity = getQuantity();
         incrementCart();
         GoToCart.Execute(driver);
-        assertTrue(getCost() > prevCost);
-        assertEquals(getQuantity(), quantity + 1);
+        assertEquals(Double.compare(getCost(), prevCost), 0);
+        assertEquals(getQuantity(), quantity);
 
+        // Get the cost & quantity of the first item and decrement the cart
+        prevCost = getCost();
+        quantity = getQuantity();
+        decrementCart();
+
+        // Check that the cart has not been updated
+        assertEquals(Double.compare(getCost(), prevCost), 0);
+
+        // Update the cart and check if the cost has increased and teh quantity has increased
+        updateCart();
+        assertTrue(getCost() < prevCost);
+        assertEquals(getQuantity(), quantity - 1);
+
+        // Decrement the cart, reload page and see if the cart has been updated
+        prevCost = getCost();
+        quantity = getQuantity();
+        decrementCart();
+        GoToCart.Execute(driver);
+        assertEquals(Double.compare(getCost(), prevCost), 0);
+        assertEquals(getQuantity(), quantity);
+    }
+
+    @AfterTest
+    public void tearDownDriver() {
         TearDownDriver.Execute(driver);
     }
 
@@ -63,6 +92,23 @@ public class UpdateCart {
      */
     private void incrementCart() {
         int quantity = getQuantity() + 1;
+        changeCartValue(quantity);
+    }
+
+    /**
+     * Decrement the quantity of the first item in the cart
+     */
+    private void decrementCart() {
+        int quantity = getQuantity() - 1;
+        changeCartValue(quantity);
+    }
+
+    /**
+     * Change the quantity of the first item in the cart
+     *
+     * @param quantity the new quantity of the item
+     */
+    private void changeCartValue(int quantity) {
         driver.findElement(By.name("quantities[0].Value")).click();
         driver.findElement(By.name("quantities[0].Value")).clear();
         driver.findElement(By.name("quantities[0].Value")).sendKeys(String.valueOf(quantity));
