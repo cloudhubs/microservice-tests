@@ -20,7 +20,7 @@ public class DismissAlert {
         try {
             wait.until(ExpectedConditions.alertIsPresent());
             driver.switchTo().alert().accept();
-        } catch(TimeoutException e) {
+        } catch (TimeoutException e) {
             // no alert found
         }
     }
