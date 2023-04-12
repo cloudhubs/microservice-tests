@@ -11,12 +11,15 @@ import static com.example.Global.GlobalVariable.*;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Login {
     // The HTML Unit web driver
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
     }
@@ -54,7 +57,10 @@ public class Login {
         Logout.Execute(driver);
         Thread.sleep(100);
         ClickLogin.Execute(driver);
+    }
 
+    @AfterTest
+    public void tearDownDriver() {
         TearDownDriver.Execute(driver);
     }
 
