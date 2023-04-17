@@ -80,6 +80,12 @@ class FoodServiceTest extends Simulation {
       http("Delete Food Order") //Add food service order
         .delete("/api/v1/foodservice/orders/a7e77fa2-8197-4682-9f6e-85e7d34d90a8"))
 
+  val foodDeliveryService: ScenarioBuilder = scenario("Check Food Delivery Service")
+    .exec(loginScenario)
+    .exec(
+      http("Get Food Delivery Service Welcome")
+        .get("/api/v1/fooddeliveryservice/welcome")) //Get the food delivery service welcome
+
   //Run the test simulation with the scenarios
   setUp(
     stationFoodService.inject(rampUsers(1).during(10)),
