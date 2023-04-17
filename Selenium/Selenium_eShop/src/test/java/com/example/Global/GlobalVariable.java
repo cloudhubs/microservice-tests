@@ -33,4 +33,7 @@ public class GlobalVariable {
     // The path to the Chrome WebDriver
     public static final String CHROME_DRIVER = "C:\\Users\\Ethan_Robinson2\\Desktop\\Capstone-Project5\\Selenium\\chromedriver.exe";
 
+    // The path to the email text file
+    public static final String EMAIL_PATH = "./src/test/java/com/example/CreatingNewAccount/email.txt";
+
 }

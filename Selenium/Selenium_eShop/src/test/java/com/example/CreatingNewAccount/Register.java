@@ -5,7 +5,6 @@
 package com.example.CreatingNewAccount;
 
 import com.example.Modules.*;
-import org.junit.*;
 
 import com.example.Global.GlobalVariable;
 
@@ -45,9 +44,6 @@ public class Register {
     private final String MISSING_FIRST_NAME = "The Name field is required.";
     private final String MISSING_LAST_NAME = "The LastName field is required.";
 
-    // The text document containing the path to the text file with the email number
-    private final String path = "./src/test/java/com/example/CreatingNewAccount/email.txt";
-
     // The new email to be created
     String email;
 
@@ -65,7 +61,7 @@ public class Register {
         com.example.Modules.Register.Execute(driver);
 
         // Check for the empty text error messages
-        submit();
+        RegisterSubmit.Execute(driver);
         assertTrue(driver.getPageSource().contains(MISSING_EMAIL));
         assertTrue(driver.getPageSource().contains(MISSING_PASS));
         assertTrue(driver.getPageSource().contains(MISSING_CARD_NUM));
@@ -81,8 +77,8 @@ public class Register {
         assertTrue(driver.getPageSource().contains(MISSING_LAST_NAME));
 
         // Check for a unique username
-        fillValidFields();
-        submit();
+        FillRegistrationFields.Execute(driver);
+        RegisterSubmit.Execute(driver);
         assertTrue(driver.getPageSource().contains(EXISTING_USER));
 
         // Check the requirements for a bad password
@@ -134,9 +130,9 @@ public class Register {
         // Test registering a valid user
 
         // Fill in the fields with valid values and create the user
-        fillValidFields();
-        fillEmail();
-        submit();
+        FillRegistrationFields.Execute(driver);
+        FillEmail.Execute(driver, EMAIL_PATH);
+        RegisterSubmit.Execute(driver);
 
         // Login with the new account information
         login();
@@ -170,7 +166,7 @@ public class Register {
      */
     private void checkPass(String pass1, String pass2) {
         fillPass(pass1, pass2);
-        submit();
+        RegisterSubmit.Execute(driver);
     }
 
     /**
@@ -183,30 +179,7 @@ public class Register {
         driver.findElement(By.id("User_Expiration")).clear();
         driver.findElement(By.id("User_Expiration")).sendKeys(date);
         fillPass(DEFAULT_PASS, DEFAULT_PASS);
-        submit();
-    }
-
-    /**
-     * Calculates the new email and updates the registration page
-     *
-     * @throws IOException when reading in email number from file
-     */
-    private void fillEmail() throws IOException {
-        // Get the email from the file
-        BufferedReader reader = new BufferedReader(new FileReader(path));
-        int num = Integer.parseInt(reader.readLine());
-        reader.close();
-
-        // Update the file
-        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-        writer.write(String.valueOf(num + 1));
-        writer.close();
-
-        // Fill in the email
-        email = "test" + num + "@gmail.com";
-        driver.findElement(By.id("Email")).click();
-        driver.findElement(By.id("Email")).clear();
-        driver.findElement(By.id("Email")).sendKeys(email);
+        RegisterSubmit.Execute(driver);
     }
 
     /**
@@ -219,63 +192,6 @@ public class Register {
         driver.findElement(By.id("Password")).click();
         driver.findElement(By.id("Password")).clear();
         driver.findElement(By.id("Password")).sendKeys(GlobalVariable.PASS);
-    }
-
-    /**
-     * Fills all the fields in register page with valid values
-     */
-    private void fillValidFields() {
-        driver.findElement(By.id("User_Name")).click();
-        driver.findElement(By.id("User_Name")).clear();
-        driver.findElement(By.id("User_Name")).sendKeys(FIRST_NAME);
-        driver.findElement(By.id("User_LastName")).click();
-        driver.findElement(By.id("User_LastName")).clear();
-        driver.findElement(By.id("User_LastName")).sendKeys(LAST_NAME);
-        driver.findElement(By.id("User_Street")).click();
-        driver.findElement(By.id("User_Street")).clear();
-        driver.findElement(By.id("User_Street")).sendKeys(STREET);
-        driver.findElement(By.id("User_City")).click();
-        driver.findElement(By.id("User_City")).clear();
-        driver.findElement(By.id("User_City")).sendKeys(CITY);
-        driver.findElement(By.id("User_State")).click();
-        driver.findElement(By.id("User_State")).clear();
-        driver.findElement(By.id("User_State")).sendKeys(STATE);
-        driver.findElement(By.id("User_Country")).click();
-        driver.findElement(By.id("User_Country")).clear();
-        driver.findElement(By.id("User_Country")).sendKeys(COUNTRY);
-        driver.findElement(By.id("User_ZipCode")).click();
-        driver.findElement(By.id("User_ZipCode")).clear();
-        driver.findElement(By.id("User_ZipCode")).sendKeys(ZIP);
-        driver.findElement(By.id("User_PhoneNumber")).click();
-        driver.findElement(By.id("User_PhoneNumber")).clear();
-        driver.findElement(By.id("User_PhoneNumber")).sendKeys(PHONE);
-        driver.findElement(By.id("User_CardNumber")).click();
-        driver.findElement(By.id("User_CardNumber")).clear();
-        driver.findElement(By.id("User_CardNumber")).sendKeys(CARD_NUM);
-        driver.findElement(By.id("User_CardHolderName")).click();
-        driver.findElement(By.id("User_CardHolderName")).clear();
-        driver.findElement(By.id("User_CardHolderName")).sendKeys(CARD_NAME);
-        driver.findElement(By.id("User_Expiration")).click();
-        driver.findElement(By.id("User_Expiration")).clear();
-        driver.findElement(By.id("User_Expiration")).sendKeys(CARD_DATE);
-        driver.findElement(By.id("User_SecurityNumber")).click();
-        driver.findElement(By.id("User_SecurityNumber")).clear();
-        driver.findElement(By.id("User_SecurityNumber")).sendKeys(CARD_CODE);
-        driver.findElement(By.id("Email")).click();
-        driver.findElement(By.id("Email")).clear();
-        driver.findElement(By.id("Email")).sendKeys(DEFAULT_EMAIL);
-        driver.findElement(By.id("Password")).click();
-        driver.findElement(By.id("Password")).clear();
-        driver.findElement(By.id("Password")).sendKeys(DEFAULT_PASS);
-        driver.findElement(By.id("ConfirmPassword")).click();
-        driver.findElement(By.id("ConfirmPassword")).clear();
-        driver.findElement(By.id("ConfirmPassword")).sendKeys(DEFAULT_PASS);
-    }
-
-    /**
-     * Clicks the submit button on the register page
-     */
-    private void submit() {
         driver.findElement(By.tagName("BUTTON")).click();
     }
 }
