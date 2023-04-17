@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.Select;
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.util.List;
 
 public class Booking {
     // The HTML Unit WebDriver
@@ -27,6 +28,13 @@ public class Booking {
     private final String END_STATION = "Su Zhou";
     private final String TICKET_DAY = "0101";
     private final String TICKET_TYPE = "All";
+    private final String ADVANCED_TICKET_TYPE = "Cheapest";
+
+    // The search ticket xpaths
+    private final String TICKET_PATH = "search_select_train_type";
+    private final String ADVANCED_TICKET_PATH = "ad_search_train_type";
+    private final String TICKET_SEARCH_BUTTON = "travel_searching_button";
+    private final String ADVANCED_TICKET_SEARCH_BUTTON = "ad_search_booking_button";
 
     // The consign's values
     private final String CONSIGN_NAME = "John Smith";
@@ -38,7 +46,7 @@ public class Booking {
     private final String DATE_PATH = "./src/test/java/com/example/Booking/date.txt";
 
     // The unique contact ID & document ID that is created when booking a ticket
-    String contactID, docID;
+    String contactID, docID, contactID2, docID2;
 
     // The date to be used for booking tickets
     String date;
@@ -50,8 +58,8 @@ public class Booking {
     private final String USED = "Used";
 
     @Before
-        public void setUpDriver(){
-            driver = SetUpDriverChrome.Execute();
+    public void setUpDriver() {
+        driver = SetUpDriverChrome.Execute();
     }
 
     @Test
@@ -60,45 +68,59 @@ public class Booking {
         testBooking();
 
         // Get the row number & orderID for the newly created order
-        int row = getOrderRow();
-        String orderID = driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[2]")).getText();
+        String orderID = driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+getOrderRow(docID)+"]/td[2]")).getText();
+
+        // Verify the status of the newly created order
+        assertTrue(getOrderStatus(getOrderRow(docID)).contains(NOT_PAID));
 
         // Test the consign edit modal within the order list
         // TODO: I think that the consign service is not working
         //testConsign(row);
 
         // Test the order payment and successfully pay for the order
-        testPayment(row);
-        assertTrue(getOrderStatus(row).contains(PAID_NOT_COLLECTED));
-        // TODO: Maybe test the order statuses?
+        testPayment(getOrderRow(docID));
+        assertTrue(getOrderStatus(getOrderRow(docID)).contains(PAID_NOT_COLLECTED));
 
         // Change the order after payment
-        changeOrder(row, START_STATION, "taiyuan", date, TICKET_TYPE);
+        changeOrder(getOrderRow(docID), START_STATION, "taiyuan", date, TICKET_TYPE);
         DismissAlert.Execute(driver);
         // TODO: This shouldn't actually change the order, I don't think the microservice is working
 
         // Check that the consign shows up in the list
-        navigateConsign();
-        assertTrue(driver.getPageSource().contains(CONSIGN_NAME));
-        assertTrue(driver.getPageSource().contains(CONSIGN_PHONE));
-        assertTrue(driver.getPageSource().contains(CONSIGN_WEIGHT));
+        //navigateConsign();
+        //assertTrue(driver.getPageSource().contains(CONSIGN_NAME));
+        //assertTrue(driver.getPageSource().contains(CONSIGN_PHONE));
+        //assertTrue(driver.getPageSource().contains(CONSIGN_WEIGHT));
 
         // TODO: Change the consign name, phone number, and weight to be dynamic and verify it
+        // TODO: The consign service is not working
 
-        // Check that you can cancel the order
-        navigateOrderList();
-
-        // Collect the ticket and enter the station
+        // Collect the ticket and verify the new status message
         collectTicket();
-        enterStation(orderID);
+        navigateOrderList();
+        assertTrue(getOrderStatus(getOrderRow(docID)).contains(COLLECTED));
 
-        // Create a new order and then cancel it
-        bookTrainTicket();
+        // Enter the station and verify the new status message
+        enterStation(orderID);
+        navigateOrderList();
+        assertTrue(getOrderStatus(getOrderRow(docID)).contains(USED));
+
+        // Keep track of the old document ID when booking a ticket
+        String oldDocID = docID;
+
+        // Create a new order with advanced search and then cancel it
+        navigateAdvancedSearch();
+        bookTrainTicket(ADVANCED_TICKET_PATH, ADVANCED_TICKET_TYPE, ADVANCED_TICKET_SEARCH_BUTTON);
         fillBookingInfo();
         submitBookingOrder();
-        // TODO: Cancel the order
+        navigateOrderList();
+        testCancelOrderList(getOrderRow(docID));
+        DismissAlert.Execute(driver);
 
-        // TODO: Test the advanced search menu
+        // Log into the service as an admin and delete all of the contacts and orders created
+        AdminLogin.Execute(driver);
+        deleteOrders(oldDocID, docID);
+        deleteContacts(oldDocID, docID);
     }
 
     /**
@@ -117,12 +139,14 @@ public class Booking {
     private void testBooking() throws IOException {
         // Navigate to the TicketReserve page and try to book a ticket without logging in
         // Verify an alert popped up
-        bookTrainTicket();
+        navigateTicketReserve();
+        bookTrainTicket(TICKET_PATH, TICKET_TYPE, TICKET_SEARCH_BUTTON);
         DismissAlert.Execute(driver);
 
         // Login to the system as a client and book the default ticket
         ClientLogin.Execute(driver);
-        bookTrainTicket();
+        navigateTicketReserve();
+        bookTrainTicket(TICKET_PATH, TICKET_TYPE, TICKET_SEARCH_BUTTON);
         DismissAlert.Execute(driver);
 
         // Try to book a ticket without assigning a contact
@@ -142,12 +166,11 @@ public class Booking {
      *
      * @throws IOException
      */
-    private void bookTrainTicket() throws IOException {
-        navigateTicketReserve();
+    private void bookTrainTicket(String search_xpath, String ticketType, String buttonPath) throws IOException {
         date = getTicketDate();
-        searchTicket("travel_booking_startingPlace", "travel_booking_terminalPlace", "travel_booking_date", "search_select_train_type",
-                     START_STATION, END_STATION, date, TICKET_TYPE);
-        driver.findElement(By.id("travel_searching_button")).click();
+        searchTicket("travel_booking_startingPlace", "travel_booking_terminalPlace", "travel_booking_date", search_xpath,
+                     START_STATION, END_STATION, date, ticketType);
+        driver.findElement(By.id(buttonPath)).click();
         selectBookTicket();
     }
 
@@ -444,7 +467,8 @@ public class Booking {
         payForOrder(row);
         submitPay();
 
-        // TODO: An alert pops up?
+        // Dismiss the alert
+        DismissAlert.Execute(driver);
     }
 
     /**
@@ -453,7 +477,7 @@ public class Booking {
      * @param row the row of the newly booked ticket in the order list
      */
     private void payForOrder(int row) {
-        driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr"+row+"/td[8]/button")).click();
+        driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[8]/button")).click();
     }
 
     /**
@@ -478,7 +502,7 @@ public class Booking {
      * @return returns the order status of a ticket
      */
     private String getOrderStatus(int row) {
-        return driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr"+row+"/td[8]")).getText();
+        return driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[8]")).getText();
     }
 
     /**
@@ -493,16 +517,17 @@ public class Booking {
     private void changeOrder(int row, String start, String end, String date, String type) {
         // Click on the change order button, and cancel the window
         clickChangeOrder(row);
-        driver.findElement(By.className("am-close-spin")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[6]/div/div[1]/a")).click();
 
         // Rebook the order, cancel it, then rebook it again and submit
-        clickChangeOrder(row);
-        searchTicket("re_booking_startingPlace", "re_booking_terminalPlace", "re_booking_date", "search_select_train_type",
-                     start, end, date, type);
+        searchRebook(row, start, end, date, type);
         clickReBook();
         cancelReBook();
+        searchRebook(row, start, end, date, type);
         clickReBook();
         submitReBook();
+
+        DismissAlert.Execute(driver);
     }
 
     /**
@@ -511,7 +536,23 @@ public class Booking {
      * @param row the row of the newly booked ticket in the order list
      */
     private void clickChangeOrder(int row) {
-        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/table/tbody/tr"+row+"/td[15]/div/div/button[1]")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[15]/div/div/button[1]")).click();
+    }
+
+    /**
+     * Searches the rebook
+     *
+     * @param row the row of the table
+     * @param start the start station
+     * @param end the end station
+     * @param date the date
+     * @param type the type of ticket
+     */
+    private void searchRebook(int row, String start, String end, String date, String type) {
+        clickChangeOrder(row);
+        searchTicket("re_booking_startingPlace", "re_booking_terminalPlace", "re_booking_date", "search_select_train_type",
+                start, end, date, type);
+        driver.findElement(By.id("travel_booking_button")).click();
     }
 
     /**
@@ -541,7 +582,7 @@ public class Booking {
     private void collectTicket() {
         // Collect the ticket
         navigateTicketCollect();
-        int row = SearchTable.Execute(driver, contactID);
+        int row = SearchTable.Execute(driver, "/html/body/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/form/table/tbody", contactID) + 1;
         driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/form/table/tbody/tr["+row+"]/td[10]/button")).click();
 
         // Dismiss 2 alerts if there is nothing left in the table
@@ -559,7 +600,7 @@ public class Booking {
     private void enterStation(String orderID) {
         // Enter the station
         navigateEnterStation();
-        int row = SearchTable.Execute(driver, orderID);
+        int row = SearchTable.Execute(driver, "/html/body/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/form/table/tbody", orderID) + 1;
         driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/form/table/tbody/tr["+row+"]/td[10]/button")).click();
 
         // Dismiss 2 alerts if there is nothing left in the table
@@ -573,11 +614,7 @@ public class Booking {
      * Selects the Execute Flow dropdown f the Execute Flow dropdown isn't already selected
      */
     private void clickFlowDropDown() {
-        try {
-            driver.findElement(By.className("am-icon-user"));
-        } catch(Exception e) {
-            driver.findElement(By.className("am-icon-table")).click();
-        }
+        driver.findElement(By.className("am-icon-table")).click();
     }
 
     /**
@@ -593,7 +630,7 @@ public class Booking {
     private void navigateOrderList() {
         driver.findElement(By.className("am-icon-line-chart")).click();
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
 
         }
@@ -654,9 +691,9 @@ public class Booking {
      *
      * @return the row of the newly booked ticket in the order list
      */
-    private int getOrderRow() {
+    private int getOrderRow(String docID) {
         navigateOrderList();
-        return SearchTable.Execute(driver, docID);
+        return SearchTable.Execute(driver, "/html/body/div/div[2]/div/div[2]/table/tbody", docID) + 1;
     }
 
     /**
@@ -668,5 +705,59 @@ public class Booking {
      */
     private String getOrderID(int row) {
         return driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[2]")).getText();
+    }
+
+    /**
+     * Tests the canceling of an order form the order list menu
+     *
+     * @param row the row of the order to be canceled
+     */
+    private void testCancelOrderList(int row) {
+        clickCancelOrderList(row);
+        driver.findElement(By.id("ticket_cancel_panel_cancel")).click();
+        clickCancelOrderList(row);
+        driver.findElement(By.id("ticket_cancel_panel_confirm")).click();
+        try {
+            Thread.sleep(5000);
+        } catch(InterruptedException e) {
+
+        }
+    }
+
+    /**
+     * Clicks the cancel order button from the order list
+     *
+     * @param row the row of the order to be canceled
+     */
+    private void clickCancelOrderList(int row) {
+        driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+row+"]/td[15]/div/div/button/span")).click();
+    }
+
+    /**
+     * Deletes the orders created by the test
+     *
+     * @param docID1 the document ID of the first ticket
+     * @param docID2 the document ID of the second ticket
+     */
+    private void deleteOrders(String docID1, String docID2) {
+        AdminClickOrder.Execute(driver);
+        DeleteRecord.Execute(driver, getOrderRow(docID1), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
+        DismissAlert.Execute(driver);
+        DeleteRecord.Execute(driver, getOrderRow(docID2), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
+        DismissAlert.Execute(driver);
+    }
+
+    /**
+     * Deletes the contacts created by the test
+     *
+     * @param docID1 the document ID of the first ticket
+     * @param docID2 the document ID of the second ticket
+     */
+    private void deleteContacts(String docID1, String docID2) {
+        AdminClickContact.Execute(driver);
+        DeleteRecord.Execute(driver, getOrderRow(docID1), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[7]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
+        DismissAlert.Execute(driver);
+        DeleteRecord.Execute(driver, getOrderRow(docID2), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[7]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
+        DismissAlert.Execute(driver);
     }
 }

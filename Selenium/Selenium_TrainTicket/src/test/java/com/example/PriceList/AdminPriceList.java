@@ -41,7 +41,7 @@ public class AdminPriceList {
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, sampleBaseRate)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, "a", sampleBaseRate)) != -1) {
             // Delete record
             DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[5]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
@@ -61,7 +61,7 @@ public class AdminPriceList {
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, sampleBaseRate);
+        rowNumber = SearchTable.Execute(driver, "a", sampleBaseRate);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -73,7 +73,7 @@ public class AdminPriceList {
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, sampleBaseRate + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "a", sampleBaseRate + superUniqueAddon);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -83,7 +83,7 @@ public class AdminPriceList {
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, sampleBaseRate + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "a", sampleBaseRate + superUniqueAddon);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin

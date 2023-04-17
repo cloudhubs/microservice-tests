@@ -43,7 +43,7 @@ public class AdminRouteList {
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, superUniqueString)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, "a", superUniqueString)) != -1) {
             // Delete record
             DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
 
@@ -64,7 +64,7 @@ public class AdminRouteList {
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, superUniqueString);
+        rowNumber = SearchTable.Execute(driver, "a", superUniqueString);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -78,7 +78,7 @@ public class AdminRouteList {
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, superUniqueAddonCheck);
+        rowNumber = SearchTable.Execute(driver, "a", superUniqueAddonCheck);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -87,7 +87,7 @@ public class AdminRouteList {
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, superUniqueAddonCheck);
+        rowNumber = SearchTable.Execute(driver, "a", superUniqueAddonCheck);
         assertEquals(-1, rowNumber);
 
         // Check for invalid station disallowed
@@ -101,7 +101,7 @@ public class AdminRouteList {
         // Check that the record was not added
         DismissAlert.Execute(driver);
         driver.navigate().refresh();
-        rowNumber = SearchTable.Execute(driver, invalidStation);
+        rowNumber = SearchTable.Execute(driver, "a", invalidStation);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
