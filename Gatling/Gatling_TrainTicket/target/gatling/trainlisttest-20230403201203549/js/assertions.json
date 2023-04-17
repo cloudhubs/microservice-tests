@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.AdminTests.TrainListTest",
+  "simulationId": "trainlisttest",
+  "start": 1680552723549,
+  "description": "",
+  "scenarios": ["Admins Adding Train", "Admins Deleting Train", "Admins Updating Train", "Check General Train Endpoints"],
+  "assertions": [
+
+  ]
+}

@@ -13,11 +13,11 @@ class TravelServiceTest extends Simulation {
     .exec(http("Get Travel Service Welcome")
       .get("/api/v1/travelservice/welcome")) //Get travel service welcome
     .exec(http("Get Train Types by ID")
-      .get(s"/api/v1/travelservice/train_types/G1234")) //Get train types by trip id
+      .get("/api/v1/travelservice/train_types/G1234")) //Get train types by trip id
     .exec(http("Get Routes by ID")
-      .get(s"/api/v1/travelservice/routes/G1234")) //Get routes by trip id
+      .get("/api/v1/travelservice/routes/G1234")) //Get routes by trip id
     .exec(http("Get Trips by ID")
-      .get(s"/api/v1/travelservice/trips/G1234")) //Get trips by trip id
+      .get("/api/v1/travelservice/trips/G1234")) //Get trips by trip id
     .exec(http("Get Travel Service Trips")
       .get("/api/v1/travelservice/trips")) //Get all trips
     .exec(http("Get Travel Service Admin Trips")
@@ -61,13 +61,13 @@ class TravelServiceTest extends Simulation {
         .get("/api/v1/travel2service/welcome")) //Get travel 2 service welcome
     .exec(
       http("Get Train Types by ID")
-        .get(s"/api/v1/travel2service/train_types/Z1234")) //Get travel 2 train types by id
+        .get("/api/v1/travel2service/train_types/Z1234")) //Get travel 2 train types by id
     .exec(
       http("Get Routes by ID")
-        .get(s"/api/v1/travel2service/routes/Z1234")) //Get travel 2 routes by id
+        .get("/api/v1/travel2service/routes/Z1234")) //Get travel 2 routes by id
         .exec(
       http("Get Trips by ID")
-        .get(s"/api/v1/travel2service/trips/Z1234")) //Get travel 2 trips by id
+        .get("/api/v1/travel2service/trips/Z1234")) //Get travel 2 trips by id
     .exec(
       http("Get Travel Service Trips")
         .get("/api/v1/travel2service/trips")) //Get travel 2 trips
