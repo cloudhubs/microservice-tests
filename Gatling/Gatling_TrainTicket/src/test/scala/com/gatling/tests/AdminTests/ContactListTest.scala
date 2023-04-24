@@ -35,8 +35,8 @@ class ContactListTest extends Simulation {
       .delete("/api/v1/adminbasicservice/adminbasic/contacts/6324ed73-482e-411b-bc26-d79b5bccec06")
       .headers(apiV1Header)) //Delete contact using admin service
     .exec(http("Delete Contact")
-        .delete("/api/v1/contactservice/contacts/6324ed73-482e-411b-bc26-d79b5bccec06")
-        .headers(apiV1Header)) //Delete contact using main service
+      .delete("/api/v1/contactservice/contacts/6324ed73-482e-411b-bc26-d79b5bccec06")
+      .headers(apiV1Header)) //Delete contact using main service
     .pause(1)
 
   //Test scenario to check update (put) endpoints

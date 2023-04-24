@@ -28,6 +28,9 @@ class AssuranceServiceTest extends Simulation {
     .exec(http("Get Assurance by Order ID")
       .get("/api/v1/assuranceservice/assurances/orderid/6279c919-e6e3-4d2b-8f72-81e06971490e")
       .headers(apiV1Header)) //Get the assurance by the order ID
+    .exec(http("Get Assurance by Order ID")
+      .get("/api/v1/assuranceservice/assurance/orderid/6279c919-e6e3-4d2b-8f72-81e06971490e")
+      .headers(apiV1Header)) //Get the assurance by the order ID
     .exec(http("Get Assurance by Type and Order ID")
       .get("/api/v1/assuranceservice/assurances/1/6279c919-e6e3-4d2b-8f72-81e06971490e")
       .headers(apiV1Header)) //Get the assurance by the type and order ID
