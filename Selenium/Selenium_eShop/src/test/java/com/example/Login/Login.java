@@ -4,6 +4,7 @@
 
 package com.example.Login;
 
+import com.example.Global.GlobalVariable;
 import com.example.Modules.*;
 import org.junit.*;
 

@@ -4,7 +4,9 @@
 
 package com.example.SearchingFiltering;
 
+import com.example.Global.GlobalVariable;
 import com.example.Modules.*;
+import net.sourceforge.htmlunit.corejs.javascript.tools.shell.Global;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -35,7 +37,7 @@ public class Filter {
         String filterResults;
 
         // Login to system and get the initial filtering results
-        Login.Execute(driver);
+        Login.Execute(driver, GlobalVariable.DEFAULT_EMAIL, GlobalVariable.DEFAULT_PASS);
         String initialResults = getFilterResults();
 
         // Check the functionality and UI of all brands and types filtered
