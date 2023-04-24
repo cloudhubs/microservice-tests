@@ -57,6 +57,7 @@ public class Booking {
     private final String COLLECTED = "Collected";
     private final String USED = "Used";
 
+
     @Before
     public void setUpDriver() {
         driver = SetUpDriverChrome.Execute();
@@ -68,42 +69,39 @@ public class Booking {
         testBooking();
 
         // Get the row number & orderID for the newly created order
-        String orderID = driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+getOrderRow(docID)+"]/td[2]")).getText();
+        String orderID = driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/table/tbody/tr["+getClientOrderRow(docID)+"]/td[2]")).getText();
 
         // Verify the status of the newly created order
-        assertTrue(getOrderStatus(getOrderRow(docID)).contains(NOT_PAID));
+        assertTrue(getOrderStatus(getClientOrderRow(docID)).contains(NOT_PAID));
 
         // Test the consign edit modal within the order list
-        // TODO: I think that the consign service is not working
+        // Consign service is not working
         //testConsign(row);
 
         // Test the order payment and successfully pay for the order
-        testPayment(getOrderRow(docID));
-        assertTrue(getOrderStatus(getOrderRow(docID)).contains(PAID_NOT_COLLECTED));
+        testPayment(getClientOrderRow(docID));
+        assertTrue(getOrderStatus(getClientOrderRow(docID)).contains(PAID_NOT_COLLECTED));
 
         // Change the order after payment
-        changeOrder(getOrderRow(docID), START_STATION, "taiyuan", date, TICKET_TYPE);
+        changeOrder(getClientOrderRow(docID), START_STATION, "taiyuan", date, TICKET_TYPE);
         DismissAlert.Execute(driver);
-        // TODO: This shouldn't actually change the order, I don't think the microservice is working
 
         // Check that the consign shows up in the list
+        // Consign service is not working
         //navigateConsign();
         //assertTrue(driver.getPageSource().contains(CONSIGN_NAME));
         //assertTrue(driver.getPageSource().contains(CONSIGN_PHONE));
         //assertTrue(driver.getPageSource().contains(CONSIGN_WEIGHT));
 
-        // TODO: Change the consign name, phone number, and weight to be dynamic and verify it
-        // TODO: The consign service is not working
-
         // Collect the ticket and verify the new status message
         collectTicket();
         navigateOrderList();
-        assertTrue(getOrderStatus(getOrderRow(docID)).contains(COLLECTED));
+        assertTrue(getOrderStatus(getClientOrderRow(docID)).contains(COLLECTED));
 
         // Enter the station and verify the new status message
         enterStation(orderID);
         navigateOrderList();
-        assertTrue(getOrderStatus(getOrderRow(docID)).contains(USED));
+        assertTrue(getOrderStatus(getClientOrderRow(docID)).contains(USED));
 
         // Keep track of the old document ID when booking a ticket
         String oldDocID = docID;
@@ -114,7 +112,7 @@ public class Booking {
         fillBookingInfo();
         submitBookingOrder();
         navigateOrderList();
-        testCancelOrderList(getOrderRow(docID));
+        testCancelOrderList(getClientOrderRow(docID));
         DismissAlert.Execute(driver);
 
         // Log into the service as an admin and delete all of the contacts and orders created
@@ -600,6 +598,7 @@ public class Booking {
     private void enterStation(String orderID) {
         // Enter the station
         navigateEnterStation();
+        DismissAlert.Execute(driver);
         int row = SearchTable.Execute(driver, "/html/body/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/form/table/tbody", orderID) + 1;
         driver.findElement(By.xpath("/html/body/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/form/table/tbody/tr["+row+"]/td[10]/button")).click();
 
@@ -629,6 +628,18 @@ public class Booking {
      */
     private void navigateOrderList() {
         driver.findElement(By.className("am-icon-line-chart")).click();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    /**
+     * Navigates to the order list screen in the admin page
+     */
+    private void navigateAdminOrderList() {
+        driver.findElement(By.className("am-icon-list-alt")).click();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -689,11 +700,24 @@ public class Booking {
     /**
      * Gets the row of the newly booked ticket in the order list
      *
+     * @param docID the documentID to search by
+     *
      * @return the row of the newly booked ticket in the order list
      */
-    private int getOrderRow(String docID) {
+    private int getClientOrderRow(String docID) {
         navigateOrderList();
         return SearchTable.Execute(driver, "/html/body/div/div[2]/div/div[2]/table/tbody", docID) + 1;
+    }
+
+    /**
+     * Gets the row of the newly booked ticket in the admin order list
+     *
+     * @param docID the documentID to search by
+     *
+     * @return the row of the newly booked ticket in the order list
+     */
+    private int getAdminOrderRow(String docID) {
+        return SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody", docID) + 1;
     }
 
     /**
@@ -740,11 +764,13 @@ public class Booking {
      * @param docID2 the document ID of the second ticket
      */
     private void deleteOrders(String docID1, String docID2) {
-        AdminClickOrder.Execute(driver);
-        DeleteRecord.Execute(driver, getOrderRow(docID1), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
+        navigateAdminOrderList();
+        int row = getAdminOrderRow(docID1);
+        DeleteRecord.Execute(driver, row, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
         DismissAlert.Execute(driver);
-        DeleteRecord.Execute(driver, getOrderRow(docID2), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
+        DeleteRecord.Execute(driver, getAdminOrderRow(docID2), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
         DismissAlert.Execute(driver);
+
     }
 
     /**
@@ -755,9 +781,9 @@ public class Booking {
      */
     private void deleteContacts(String docID1, String docID2) {
         AdminClickContact.Execute(driver);
-        DeleteRecord.Execute(driver, getOrderRow(docID1), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[7]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
+        DeleteRecord.Execute(driver, getAdminOrderRow(docID1), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[7]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
         DismissAlert.Execute(driver);
-        DeleteRecord.Execute(driver, getOrderRow(docID2), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[7]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
+        DeleteRecord.Execute(driver, getAdminOrderRow(docID2), "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[7]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
         DismissAlert.Execute(driver);
     }
 }
