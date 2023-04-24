@@ -13,14 +13,14 @@ public class Login {
      * Logs into eShopOnContainers with the test username and password
      * @param driver
      */
-    public static void Execute(WebDriver driver) {
+    public static void Execute(WebDriver driver, String email, String pass) {
         ClickLogin.Execute(driver);
         driver.findElement(By.id("Email")).click();
         driver.findElement(By.id("Email")).clear();
-        driver.findElement(By.id("Email")).sendKeys(GlobalVariable.EMAIL);
+        driver.findElement(By.id("Email")).sendKeys(email);
         driver.findElement(By.id("Password")).click();
         driver.findElement(By.id("Password")).clear();
-        driver.findElement(By.id("Password")).sendKeys(GlobalVariable.PASS);
+        driver.findElement(By.id("Password")).sendKeys(pass);
         driver.findElement(By.tagName("BUTTON")).click();
     }
 }

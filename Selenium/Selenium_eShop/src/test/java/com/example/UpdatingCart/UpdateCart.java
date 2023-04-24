@@ -4,9 +4,11 @@
 
 package com.example.UpdatingCart;
 
+import com.example.Global.GlobalVariable;
 import com.example.Modules.*;
 import org.junit.*;
 
+import static com.example.Global.GlobalVariable.EMAIL_PATH;
 import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
@@ -18,6 +20,9 @@ public class UpdateCart {
     // The HTML Unit web driver
     WebDriver driver;
 
+    // The newly created email
+    String email;
+
     @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
@@ -25,8 +30,14 @@ public class UpdateCart {
 
     @Test
     public void testUpdateCart() throws Exception {
+        // Create a new email for this test
+        Register.Execute(driver);
+        FillRegistrationFields.Execute(driver);
+        email = FillEmail.Execute(driver, EMAIL_PATH);
+        RegisterSubmit.Execute(driver);
+
         // Login to the system and populate the cart
-        Login.Execute(driver);
+        login();
         PopulateCart.Execute(driver);
         GoToCart.Execute(driver);
 
@@ -130,4 +141,17 @@ public class UpdateCart {
         String totalStr = driver.findElement(By.xpath("/html/body/form/div/div[2]/article[2]/section[5]")).getText().substring(2);
         return Double.parseDouble(totalStr);
     }
+    /**
+     * Logins with the newly created account information
+     */
+    private void login() {
+        driver.findElement(By.id("Email")).click();
+        driver.findElement(By.id("Email")).clear();
+        driver.findElement(By.id("Email")).sendKeys(email);
+        driver.findElement(By.id("Password")).click();
+        driver.findElement(By.id("Password")).clear();
+        driver.findElement(By.id("Password")).sendKeys(GlobalVariable.PASS);
+        driver.findElement(By.tagName("BUTTON")).click();
+    }
+
 }

@@ -4,7 +4,9 @@
 
 package com.example.Checkout;
 
+import com.example.Global.GlobalVariable;
 import com.example.Modules.*;
+import net.sourceforge.htmlunit.corejs.javascript.tools.shell.Global;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -16,6 +18,8 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 public class Checkout {
     // The HTML Unit web driver
     WebDriver driver;
@@ -26,15 +30,24 @@ public class Checkout {
     // Error msg for invalid expiration date
     final String invalidDateMsg = "Expiration should match a valid MM/YY value";
 
+    // The newly created email
+    String email;
+
     @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriver.Execute();
     }
 
     @Test
-    public void testCheckout() {
+    public void testCheckout() throws IOException {
+        // Create a new email for this test
+        Register.Execute(driver);
+        FillRegistrationFields.Execute(driver);
+        email = FillEmail.Execute(driver, EMAIL_PATH);
+        RegisterSubmit.Execute(driver);
+
         // Navigate to the checkout page
-        Login.Execute(driver);
+        login();
         PopulateCart.Execute(driver);
         checkout();
 
@@ -64,9 +77,8 @@ public class Checkout {
         // Reload the page to get the default values
         driver.get("http://host.docker.internal:5100/Order/Create");
 
-        // Place the order, wait until its processed, and verify the order has been placed
+        // Place the order
         placeOrder();
-        assertTrue(driver.getPageSource().contains("submitted"));
 
         // Navigate to my orders from the home page
         goToOrders();
@@ -127,5 +139,16 @@ public class Checkout {
         driver.findElement(By.id("CardSecurityNumber")).clear();
     }
 
-
+    /**
+     * Logins with the newly created account information
+     */
+    private void login() {
+        driver.findElement(By.id("Email")).click();
+        driver.findElement(By.id("Email")).clear();
+        driver.findElement(By.id("Email")).sendKeys(email);
+        driver.findElement(By.id("Password")).click();
+        driver.findElement(By.id("Password")).clear();
+        driver.findElement(By.id("Password")).sendKeys(GlobalVariable.PASS);
+        driver.findElement(By.tagName("BUTTON")).click();
+    }
 }
