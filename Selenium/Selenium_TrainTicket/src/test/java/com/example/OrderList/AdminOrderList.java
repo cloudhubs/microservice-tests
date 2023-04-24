@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.*;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -23,14 +23,20 @@ public class AdminOrderList {
 
         // Navigate to the login screen for an admin
         AdminLogin.Execute(driver);
-        AdminClickLogin.Execute(driver);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
         // Wait for alert
         Thread.sleep(500);
 
         // Navigate to OrderList
-        driver.findElement(By.className("am-icon-list-alt")).click();
+        // FIXME: driver.findElement(By.className("am-icon-list-alt")).click();
+        // new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfElementLocated(By.id("cboMenu")))
+        // FIXME: Try URL
+
+        //driver.navigate().to("http://192.168.3.205:32677/admin.html");
+
+        //new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(By.className("am-icon-list-alt")));
+        //driver.findElement(By.className("am-icon-list-alt")).click();
         assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Order"));
 
         String superUniqueString = "69696969696969";

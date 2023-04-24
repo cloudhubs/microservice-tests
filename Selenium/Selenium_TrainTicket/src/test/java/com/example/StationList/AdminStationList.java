@@ -2,17 +2,23 @@ package com.example.StationList;
 
 import com.example.Modules.*;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class AdminStationList {
 
-    // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    // The HTML Unit WebDriver
+    WebDriver driver;
+
+    @Before
+    public void setUpDriver(){
+        driver = SetUpDriver.Execute();
+    }
 
     @Test
     public void testAdminStationList() throws InterruptedException {
@@ -22,14 +28,15 @@ public class AdminStationList {
 
         // Navigate to the login screen for an admin
         AdminLogin.Execute(driver);
-        AdminClickLogin.Execute(driver);
+        //FIXME: DELETE //AdminClickLogin.Execute(driver);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
         // Wait for alert
-        Thread.sleep(500);
+        //FIXME: DELETE //Thread.sleep(500);
 
         // Navigate to Contact List
-        driver.findElement(By.className("am-icon-table")).click();
+        WebElement elem = (new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.className("am-icon-table")));
+        elem.click();
         driver.findElement(By.className("am-icon-institution")).click();
         assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Station"));
 
