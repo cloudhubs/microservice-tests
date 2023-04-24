@@ -8,28 +8,20 @@ import io.gatling.core.structure.ScenarioBuilder
 
 class TravelServiceTest extends Simulation {
 
-  val tripId = "G1234"
-  val tripId2 = "Z1234"
-
   //Test scenario to check general travel endpoints
   val travelGeneral: ScenarioBuilder = scenario("Check General Travel Service Endpoints")
     .exec(http("Get Travel Service Welcome")
       .get("/api/v1/travelservice/welcome")) //Get travel service welcome
     .exec(http("Get Train Types by ID")
-      .get(s"/api/v1/travelservice/train_types/${tripId}")) //Get train types by trip id
+      .get("/api/v1/travelservice/train_types/G1234")) //Get train types by trip id
     .exec(http("Get Routes by ID")
-      .get(s"/api/v1/travelservice/routes/${tripId}") //Get routes by trip id
-      .check(bodyString.saveAs("Body")))
+      .get("/api/v1/travelservice/routes/G1234")) //Get routes by trip id
     .exec(http("Get Trips by ID")
-      .get(s"/api/v1/travelservice/trips/${tripId}")) //Get trips by trip id
+      .get("/api/v1/travelservice/trips/G1234")) //Get trips by trip id
     .exec(http("Get Travel Service Trips")
       .get("/api/v1/travelservice/trips")) //Get all trips
     .exec(http("Get Travel Service Admin Trips")
       .get("/api/v1/travelservice/admin_trip")) //Get all admin trips
-    .exec(session => {
-      println("Body= " + session("Body").as[String])
-      session
-    })
 
   //Test scenario to check add (post) endpoints
   val travelPost: ScenarioBuilder = scenario("Check Post Travel Endpoints")
@@ -69,13 +61,13 @@ class TravelServiceTest extends Simulation {
         .get("/api/v1/travel2service/welcome")) //Get travel 2 service welcome
     .exec(
       http("Get Train Types by ID")
-        .get(s"/api/v1/travel2service/train_types/${tripId2}")) //Get travel 2 train types by id
+        .get("/api/v1/travel2service/train_types/Z1234")) //Get travel 2 train types by id
     .exec(
       http("Get Routes by ID")
-        .get(s"/api/v1/travel2service/routes/${tripId2}")) //Get travel 2 routes by id
+        .get("/api/v1/travel2service/routes/Z1234")) //Get travel 2 routes by id
         .exec(
       http("Get Trips by ID")
-        .get(s"/api/v1/travel2service/trips/${tripId2}")) //Get travel 2 trips by id
+        .get("/api/v1/travel2service/trips/Z1234")) //Get travel 2 trips by id
     .exec(
       http("Get Travel Service Trips")
         .get("/api/v1/travel2service/trips")) //Get travel 2 trips

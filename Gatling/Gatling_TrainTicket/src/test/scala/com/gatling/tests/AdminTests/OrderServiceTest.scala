@@ -199,7 +199,7 @@ class OrderServiceTest extends Simulation {
         .headers(apiV1Header))
     .exec(
       http("Update Wait Order")
-        .put("/api/v1/waitorderservice/order") //Update wait order
+        .post("/api/v1/waitorderservice/order") //Update wait order
         .body(RawFileBody("com/gatling/tests/OrderService/order_service.json"))
         .headers(apiV1Header))
 
