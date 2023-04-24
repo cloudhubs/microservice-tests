@@ -16,9 +16,11 @@ public class SearchTable {
      * @return  Returns -1 if the search term was not found in any results in the table. If
      *          term is found within table, returns the index of the row of first occurrence.
      */
-    public static int Execute(WebDriver driver, String search_term) {
+    public static int Execute(WebDriver driver, String xpath, String search_term) {
 
-        WebElement tableElement = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table"));
+        // ORIGINAL: /html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table
+
+        WebElement tableElement = driver.findElement(By.xpath(xpath));
 
         List<WebElement> trCollection = tableElement.findElements(By.tagName("tr"));
         int i = 0;

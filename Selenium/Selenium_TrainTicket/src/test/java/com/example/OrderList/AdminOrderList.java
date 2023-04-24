@@ -37,7 +37,7 @@ public class AdminOrderList {
         String superUniqueAddon = "420";
 
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, superUniqueString)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, "a", superUniqueString)) != -1) {
             DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
 
             DismissAlert.Execute(driver);
@@ -56,7 +56,7 @@ public class AdminOrderList {
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, superUniqueString);
+        rowNumber = SearchTable.Execute(driver, "a", superUniqueString);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -68,7 +68,7 @@ public class AdminOrderList {
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, superUniqueString + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "a", superUniqueString + superUniqueAddon);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -78,7 +78,7 @@ public class AdminOrderList {
         driver.navigate().refresh();
 
         // Check for deleted record -> assert false
-        rowNumber = SearchTable.Execute(driver, superUniqueString + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "a", superUniqueString + superUniqueAddon);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
