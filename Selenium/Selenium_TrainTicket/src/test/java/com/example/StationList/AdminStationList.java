@@ -46,7 +46,7 @@ public class AdminStationList {
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, "a", sampleStationName)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName)) != -1) {
             // Delete record
             DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[4]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
@@ -64,7 +64,7 @@ public class AdminStationList {
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "a", sampleStationName);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -76,7 +76,7 @@ public class AdminStationList {
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, "a", sampleStationName + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName + superUniqueAddon);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -86,7 +86,7 @@ public class AdminStationList {
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, "a", sampleStationName + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName + superUniqueAddon);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
