@@ -15,6 +15,7 @@ class BookingTest extends Simulation {
 	//Test scenario to check book test case
 	val bookUsers: ScenarioBuilder = scenario("Users Booking")
 		.exec(loginScenario)
+		.pause(1)
 		.exec { session => //Create session with information
 			val newSession = session.setAll("trip_id" -> "D1345", //Select Needs
 				"from" -> "shanghai",
@@ -31,6 +32,6 @@ class BookingTest extends Simulation {
 
 	//Run the test simulation with the scenarios
 	setUp(
-			bookUsers.inject(rampUsers(5).during(10))
+			bookUsers.inject(rampUsers(2500).during(30))
 		).protocols(httpProtocolTrainTicket)
 }

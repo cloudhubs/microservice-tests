@@ -37,6 +37,7 @@ object LoginModule {
   //Go to admin login page
   val adminLoginPage: ChainBuilder = exec(http("Go to Admin Login Page")
     .get("/adminlogin.html")
+    .silent
     .headers(mainPageHeader))
     .pause(3)
 
@@ -45,11 +46,14 @@ object LoginModule {
     .post("/api/v1/users/login")
     .headers(loginHeader)
     .body(RawFileBody("com/gatling/tests/Login/admin_login.json"))
-    .check(jsonPath("$.data.token").saveAs("token")))
-    .exec { session =>
+    .check(jsonPath("$.data.token").saveAs("token"))
+    .check(bodyString.saveAs("Test")))
+    .exec ( session => {
       token = session("token").as[String]
+      println("Token= ${token}")
       session
-    }
+    })
+
   //Go to admin home page and get needed resources
   val adminHomePage: ChainBuilder = exec(http("Go to Admin Page")
     .get("/admin.html")

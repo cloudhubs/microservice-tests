@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.Checkout.CompleteOrderTest",
+  "simulationId": "completeordertest",
+  "start": 1682370582571,
+  "description": "",
+  "scenarios": ["Users Checking Out"],
+  "assertions": [
+
+  ]
+}

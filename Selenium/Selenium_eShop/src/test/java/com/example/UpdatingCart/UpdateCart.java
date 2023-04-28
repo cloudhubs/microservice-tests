@@ -6,7 +6,6 @@ package com.example.UpdatingCart;
 
 import com.example.Global.GlobalVariable;
 import com.example.Modules.*;
-import org.junit.*;
 
 import static com.example.Global.GlobalVariable.EMAIL_PATH;
 import static org.junit.Assert.*;

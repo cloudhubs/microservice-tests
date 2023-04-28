@@ -12,7 +12,7 @@ import java.time.Duration;
 
 public class SetUpDriverChrome {
     // The path to the Chrome WebDriver
-    public static final String CHROME_DRIVER = "C:\\Users\\Timmy_Frederiksen1\\Documents\\GitHub\\Capstone-Project5\\Selenium\\chromedriver.exe";
+    public static final String CHROME_DRIVER = "./chromedriver.exe";
 
     /**
      * Sets up the Chrome WebDriver and returns it

@@ -12,11 +12,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.time.Duration;
 import java.util.List;
 
 public class Booking {
@@ -61,6 +64,7 @@ public class Booking {
     @Before
     public void setUpDriver() {
         driver = SetUpDriverChrome.Execute();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     @Test
@@ -137,7 +141,7 @@ public class Booking {
     private void testBooking() throws IOException {
         // Navigate to the TicketReserve page and try to book a ticket without logging in
         // Verify an alert popped up
-        navigateTicketReserve();
+        //navigateTicketReserve();
         bookTrainTicket(TICKET_PATH, TICKET_TYPE, TICKET_SEARCH_BUTTON);
         DismissAlert.Execute(driver);
 

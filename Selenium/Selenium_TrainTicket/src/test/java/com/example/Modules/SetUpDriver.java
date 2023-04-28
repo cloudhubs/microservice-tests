@@ -1,5 +1,5 @@
 /**
- * Sets up the Chrome WebDriver
+ * Sets up the HTML WebDriver
  */
 package com.example.Modules;
 
@@ -27,7 +27,6 @@ public class SetUpDriver {
                 webClient.getOptions().setJavaScriptEnabled(true);
                 webClient.setJavaScriptErrorListener(new SilentJavaScriptErrorListener());
                 webClient.getOptions().setRedirectEnabled(true);
-
 
                 return webClient;
             }
