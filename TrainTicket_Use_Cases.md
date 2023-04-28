@@ -1,16 +1,13 @@
-## Possible Use Cases for TrainTicket
-
-### Deployed internally at 192.168.3.205:32677
-
+## Use Cases for TrainTicket
 
 ### Regular User
-### [ ] Login
+### Login
   - [ ] Valid Credentials
   - [ ] Invalid Credentials
     - [ ] Unknown username
     - [ ] Password not correct
   - [ ] Logout
-### [ ] Booking Tickets
+### Booking Tickets
  - [ ] Booking Economy
  - [ ] Booking First Class
  - [ ] Saved Contact 1/2
@@ -18,18 +15,18 @@
  - [ ] With/Without Assurance
  - [ ] With/Without Food
  - [ ] With/Without Consign
-### [ ] Order List
+ ### Order List
   - [ ] Update Consign
     - [ ] Invalid Phone Number
   - [ ] Pay For Ticket
-### [ ] Collect Ticket
+### Collect Ticket
   - [ ] Collect Ticket
-### [ ] Enter Station
+### Enter Station
   - [ ] Enter Station
 
 ### Admin
-### [ ] Admin Login
-### [ ] Order List
+### Admin Login
+### Order List
   - [ ] Add Order
   - [ ] Delete Order
   - [ ] Update Order
@@ -38,31 +35,31 @@
   - [ ] Delete Route
   - [ ] Update Route
    - [ ] Invalid Start Station
-### [ ] Travel List
+### Travel List
   - [ ] Add Travel 
   - [ ] Delete Travel 
   - [ ] Update Travel 
-### [ ] User List
+### User List
   - [ ] Add User 
   - [ ] Delete User 
   - [ ] Update User 
-### [ ] Contact List
+### Contact List
   - [ ] Add Contact 
   - [ ] Delete Contact 
   - [ ] Update Contact 
-### [ ] Station List
+### Station List
   - [ ] Add Station 
   - [ ] Delete Station 
   - [ ] Update Station 
-### [ ] Train List
+### Train List
   - [ ] Add Train 
   - [ ] Delete Train 
   - [ ] Update Train 
-### [ ] Price List
+### Price List
   - [ ] Add Price 
   - [ ] Delete Price 
   - [ ] Update Price 
-### [ ] Config List
+### Config List
   - [ ] Add Config
   - [ ] Delete Config 
   - [ ] Update Config

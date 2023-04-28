@@ -76,10 +76,7 @@ object UserModules {
   val selectTrip: ChainBuilder = exec(http("Select Trip")
     .get("/client_ticket_book.html?tripId=${trip_id}&from=${from}&to=${to}&seatType=${seat_type}&seat_price=${seat_price}&date=${date}")
     .headers(apiV1Header)
-    .resources(http("Get Assurance Types")
-      .get("/api/v1/assuranceservice/assurances/types")
-      .headers(apiV1Header),
-      http("Get Contacts")
+    .resources(http("Get Contacts")
         .get("/api/v1/contactservice/contacts/account/${login_id}")
         .headers(apiV1Header),
       http("Get Food Service Options")

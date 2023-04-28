@@ -15,12 +15,14 @@ object LoginModules {
 
   //Execution of accessing sign in page of application
   val loginPage = exec(http("Sign In Page")
-    .get("/Account/SignIn"))
+    .get("/Account/SignIn")
+    .silent)
     .pause(4)
 
   //Execution of signing into application
   val login = exec(http("Submit Sign In")
     .post("http://host.docker.internal:5105/Account/Login")
+    .silent
     .headers(formHeader)
     .formParam("Email", "${email}")
     .formParam("Password", "${password}")

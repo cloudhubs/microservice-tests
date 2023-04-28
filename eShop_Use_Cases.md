@@ -1,8 +1,6 @@
-## Possible Use Cases for eShopOnContainers
+## Use Cases for eShopOnContainers
 
-### Reminder: Test on both localhost:5100 and localhost:5104
-
-### [ ] Login
+### Login
  - [ ] Valid Credentials
    - [ ] "Remember me" checked
    - [ ] "Remember me" unchecked
@@ -10,22 +8,22 @@
    - [ ] Invalid format for email
    - [ ] Email not correct
    - [ ] Password not correct
-### [ ] Searching/Filtering
- - [ ] Single-Field Filter (Brand) `Gatling: Sheldon currently working on`
- - [ ] Single-Field Filter (Type) `Gatling: Sheldon currently working on`
- - [ ] Multi-Field Filter (Brand, Type) `Gatling: Sheldon currently working on`
-### [ ] Item Selection
- - [ ] Single Item Selection `Gatling: Sheldon currently working on`
+### Searching/Filtering
+ - [ ] Single-Field Filter (Brand) 
+ - [ ] Single-Field Filter (Type) 
+ - [ ] Multi-Field Filter (Brand, Type) 
+### Item Selection
+ - [ ] Single Item Selection 
  - [ ] Multiple Item Selection
-### [ ] Checkout
- - [ ] Valid Address and Card Info `Gatling: Sheldon currently working on`
+### Checkout
+ - [ ] Valid Address and Card Info 
  - [ ] Invalid Address
  - [ ] Invalid Card Info
-### [ ] Updating Cart
+### Updating Cart
  - [ ] Increase Item Quantity
  - [ ] Decrease Item Quantity
  - [ ] Remove Item from Cart
-### [ ] Creating New Account
+### Creating New Account
  - [ ] Valid Inputs
  - [ ] Invalid Inputs
    - [ ] All fields blank
@@ -41,12 +39,12 @@
      - [ ] Must have upper-case letter
      - [ ] Must have number
      - [ ] Must have non-alphanumeric character 
-### [ ] Logout
-### [ ] Browse Pages
- - [ ] Next Page `Gatling: Sheldon currently working on`
- - [ ] Previous Page `Gatling: Sheldon currently working on`
-### [ ] Cancel Order
- - [ ] After submitting order `Gatling: Sheldon currently working on`
+### Logout
+### Browse Pages
+ - [ ] Next Page
+ - [ ] Previous Page
+### Cancel Order
+ - [ ] After submitting order 
  - [ ] During ordering process
-### [ ] Check Past Orders
+### Check Past Orders
  - [ ] Check order details
