@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class AdminRouteList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    WebDriver driver = SetUpDriverChrome.Execute();
 
     @Test
     public void testAdminRouteList() throws InterruptedException {

@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class AdminPriceList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    WebDriver driver = SetUpDriverChrome.Execute();
 
     @Test
     public void testAdminPriceList() throws InterruptedException {

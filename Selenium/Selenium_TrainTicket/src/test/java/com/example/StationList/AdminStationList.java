@@ -17,7 +17,7 @@ public class AdminStationList {
 
     @Before
     public void setUpDriver(){
-        driver = SetUpDriver.Execute();
+        driver = SetUpDriverChrome.Execute();
     }
 
     @Test

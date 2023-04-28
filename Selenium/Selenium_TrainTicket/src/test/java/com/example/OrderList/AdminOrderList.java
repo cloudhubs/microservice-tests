@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class AdminOrderList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    WebDriver driver = SetUpDriverChrome.Execute();
 
     @Test
     public void testAdminOrderList() throws InterruptedException {
