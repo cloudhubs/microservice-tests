@@ -4,9 +4,7 @@
 
 package com.example.Login;
 
-import com.example.Global.GlobalVariable;
 import com.example.Modules.*;
-import org.junit.*;
 
 import static com.example.Global.GlobalVariable.*;
 import static org.junit.Assert.*;
