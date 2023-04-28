@@ -211,6 +211,7 @@ public class Booking {
      */
     private void searchTicket(String startID, String endID, String dateID, String typeID,
                               String start, String end, String date, String type) {
+        // The starting station
         driver.findElement(By.id(startID)).click();
         driver.findElement(By.id(startID)).clear();
         driver.findElement(By.id(startID)).sendKeys(start);
