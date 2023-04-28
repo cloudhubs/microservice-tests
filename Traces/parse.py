@@ -23,37 +23,24 @@ def createRow(*args):
 #Creates a case file and writes traces to it
 def createTraceEntries(traceSet):
     entries = [ ]
-    previousTarget = ""
     for trace in traceSet:
-      #if trace[SOURCE] != previousTarget:
-        #entries.append(createRow(trace[TRACEID], trace[SOURCE]))
-      #entries.append(createRow(trace[TRACEID], trace[TARGET]))
       entries.append(createRow(trace[TRACEID], trace[SOURCE], trace[TARGET]))
-      #previousTarget = trace[TARGET]
     return entries
 
 def writeTraceFile(file, trace):
-   caseFile = open("./cases/" + file, "w")
+   caseFile = open(file, "w")
    caseFile.write(HEADER)
    caseFile.writelines(trace)
     
 #Start of main
-if len(sys.argv) < 2 or len(sys.argv) > 3:
-    print("Error: Usage ./parse.py <log file> [options]")
-
-
-if len(sys.argv) == 3:
-  if sys.argv[2].find("h") != -1:
-      hasHeader = True
-  if sys.argv[2].find("o") != -1:
-     oneFile = True
+if len(sys.argv) != 2:
+    print("Error: Usage ./parse.py <log file>")
  
 with open(sys.argv[1], "r") as traces:
     #TraceID, StartTime, OperationName, Source, Target
     allTraces = []
-    #Skips header if necessary
-    if hasHeader:
-        traces.readline()
+    #Skips header
+    traces.readline()
     #Parse through trace log and separate individual cases
     currSet = []
     for trace in traces:
@@ -69,12 +56,13 @@ with open(sys.argv[1], "r") as traces:
       elif currSet[len(currSet)-1] != trace:
         currSet.append(trace)
            
-if oneFile:
-  allEntries = []
-  for traceSet in allTraces:
-    allEntries = allEntries + createTraceEntries(traceSet)
-  writeTraceFile("traces.csv", allEntries)
-else:
-   for traceSet in allTraces:
-      writeTraceFile(traceSet[0][TRACEID] + ".csv", createTraceEntries(traceSet))
+#Write all entries to large trace file
+allEntries = []
+for traceSet in allTraces:
+  allEntries = allEntries + createTraceEntries(traceSet)
+writeTraceFile("./modified_logs.csv", allEntries)
+#Write each trace to individual file
+for traceSet in allTraces:
+  fileName = "./logs/{0}.csv"
+  writeTraceFile(fileName.format(traceSet[0][TRACEID]), createTraceEntries(traceSet))
     
