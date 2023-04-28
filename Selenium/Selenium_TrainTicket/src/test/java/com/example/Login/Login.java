@@ -33,7 +33,7 @@ public class Login {
 
     @Before
     public void setUpDriver(){
-        driver = SetUpDriver.Execute();
+        driver = SetUpDriverChrome.Execute();
     }
 
     @Test
