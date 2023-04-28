@@ -40,9 +40,7 @@ class CompleteOrderTest extends Simulation {
     .exec(logoutScenario)
     .pause(1)
 
-   //TODO: Add in invalid checkout form
-
   setUp(
-    userValid.inject(rampUsers(5).during(15)),
+    userValid.inject(rampUsers(5000).during(30)),
   ).protocols(httpProtocolEShop)
 }
