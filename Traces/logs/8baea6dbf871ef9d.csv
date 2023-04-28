@@ -1,0 +1,12 @@
+TraceID,Source,Target
+8baea6dbf871ef9d,ts-travel-service,ts-ticketinfo-service
+8baea6dbf871ef9d,ts-ticketinfo-service,ts-basic-service
+8baea6dbf871ef9d,ts-basic-service,ts-station-service
+8baea6dbf871ef9d,ts-travel-service,ts-ticketinfo-service
+8baea6dbf871ef9d,ts-ticketinfo-service,ts-basic-service
+8baea6dbf871ef9d,ts-basic-service,ts-station-service
+8baea6dbf871ef9d,ts-travel-service,ts-route-service
+8baea6dbf871ef9d,ts-travel-service,ts-route-service
+8baea6dbf871ef9d,ts-travel-service,ts-route-service
+8baea6dbf871ef9d,ts-travel-service,ts-route-service
+8baea6dbf871ef9d,ts-travel-service,ts-route-service
