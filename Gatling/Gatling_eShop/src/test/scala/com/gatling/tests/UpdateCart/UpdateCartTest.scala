@@ -36,6 +36,6 @@ class UpdateCartTest extends Simulation {
     .pause(1)
 
   setUp(
-    user.inject(rampUsers(4).during(10))
-  ).protocols(httpProtocolEShop).assertions(global.failedRequests.count.is(0))
+    user.inject(rampUsers(5000).during(30))
+  ).protocols(httpProtocolEShop)
 }

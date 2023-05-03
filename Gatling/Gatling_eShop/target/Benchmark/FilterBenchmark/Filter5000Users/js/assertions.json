@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.FilterAndNavigation.FilterNavigationTest",
+  "simulationId": "filternavigationtest",
+  "start": 1683129753711,
+  "description": "",
+  "scenarios": ["Users Filtering"],
+  "assertions": [
+
+  ]
+}
