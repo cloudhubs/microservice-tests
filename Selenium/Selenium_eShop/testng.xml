@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="eShop Test Suite" parallel="methods" thread-count="6">
+    <test name="eShop All Tests">
+        <classes>
+            <class name="com.example.BrowsePagesItems.BrowsePages">
+                <methods>
+                    <include name="testBrowseNext"/>
+                </methods>
+            </class>
+            <class name="com.example.Checkout.Checkout">
+                <methods>
+                    <include name="testCheckout"/>
+                </methods>
+            </class>
+            <class name="com.example.CreatingNewAccount.Register">
+                <methods>
+                    <include name="testRegister"/>
+                </methods>
+            </class>
+            <class name="com.example.Login.Login">
+                <methods>
+                    <include name="testLogin"/>
+                </methods>
+            </class>
+            <class name="com.example.SearchingFiltering.Filter">
+                <methods>
+                    <include name="testFilter"/>
+                </methods>
+            </class>
+            <class name="com.example.UpdatingCart.UpdateCart">
+                <methods>
+                    <include name="testUpdateCart"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
