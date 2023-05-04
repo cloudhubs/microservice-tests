@@ -22,7 +22,6 @@
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-ie-driver:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-opera-driver:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-remote-driver:4.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.beust:jcommander:1.81" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.68.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.67.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.67.Final" level="project" />
@@ -119,5 +118,8 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:9.4.44.v20210927" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.4.44.v20210927" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:7.7.1" level="project" />
+    <orderEntry type="library" name="Maven: com.beust:jcommander:1.82" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.webjars:jquery:3.6.1" level="project" />
   </component>
 </module>
