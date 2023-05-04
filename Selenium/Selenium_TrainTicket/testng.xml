@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="eShop Test Suite" parallel="methods" thread-count="6">
+    <test name="eShop All Tests">
+        <classes>
+            <class name="com.example.Login.Login">
+                <methods>
+                    <include name="testLoginDump1"/>
+                </methods>
+            </class>
+            <class name="com.example.Login.Login">
+                <methods>
+                    <include name="testLoginDump2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

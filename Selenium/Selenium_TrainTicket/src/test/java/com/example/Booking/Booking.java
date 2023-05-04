@@ -64,7 +64,6 @@ public class Booking {
     @Before
     public void setUpDriver() {
         driver = SetUpDriverChrome.Execute();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     @Test
