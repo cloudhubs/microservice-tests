@@ -1,16 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="eShop Test Suite" parallel="methods" thread-count="6">
-    <test name="eShop All Tests">
+<suite name="TrainTicket Test Suite" parallel="methods" thread-count="6">
+    <test name="TrainTicket All Tests">
         <classes>
-            <class name="com.example.Login.Login">
+            <class name="com.example.Booking.Booking">
                 <methods>
-                    <include name="testLoginDump1"/>
+                    <include name="testClientActions"/>
+                </methods>
+            </class>
+            <class name="com.example.ConfigList.AdminConfigList">
+                <methods>
+                    <include name="testAdminConfigList"/>
+                </methods>
+            </class>
+            <class name="com.example.ContactList.AdminContactList">
+                <methods>
+                    <include name="testAdminContactList"/>
                 </methods>
             </class>
             <class name="com.example.Login.Login">
                 <methods>
-                    <include name="testLoginDump2"/>
+                    <include name="testLogin"/>
+                </methods>
+            </class>
+            <class name="com.example.OrderList.AdminOrderList">
+                <methods>
+                    <include name="testAdminOrderList"/>
+                </methods>
+            </class>
+            <class name="com.example.PriceList.AdminPriceList">
+                <methods>
+                    <include name="testAdminPriceList"/>
+                </methods>
+            </class>
+            <class name="com.example.RouteList.AdminRouteList">
+                <methods>
+                    <include name="testAdminRouteList"/>
+                </methods>
+            </class>
+            <class name="com.example.StationList.AdminStationList">
+                <methods>
+                    <include name="testAdminStationList"/>
+                </methods>
+            </class>
+            <class name="com.example.TrainList.AdminTrainList">
+                <methods>
+                    <include name="testAdminTrainList"/>
+                </methods>
+            </class>
+            <class name="com.example.TravelList.AdminTravelList">
+                <methods>
+                    <include name="testAdminTravelList"/>
+                </methods>
+            </class>
+            <class name="com.example.UserList.AdminUserList">
+                <methods>
+                    <include name="testAdminUserList"/>
                 </methods>
             </class>
         </classes>

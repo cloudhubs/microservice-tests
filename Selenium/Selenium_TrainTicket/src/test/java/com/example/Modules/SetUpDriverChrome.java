@@ -32,7 +32,6 @@ public class SetUpDriverChrome {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 
         driver.get("http://192.168.3.205:32677/");
-//        driver.manage().window().maximize();
 
         return driver;
     }
@@ -41,4 +40,3 @@ public class SetUpDriverChrome {
         return SetUpDriverChrome.Execute(CHROME_DRIVER);
     }
 }
-//userDataDir -> C:\Users\ETHAN_~1\AppData\Local\Temp\scoped_dir5492_297274679
