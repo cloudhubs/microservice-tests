@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.Login.LoginTest",
+  "simulationId": "logintest",
+  "start": 1683131573731,
+  "description": "",
+  "scenarios": ["Valid Login Users", "Invalid Login Users"],
+  "assertions": [
+
+  ]
+}

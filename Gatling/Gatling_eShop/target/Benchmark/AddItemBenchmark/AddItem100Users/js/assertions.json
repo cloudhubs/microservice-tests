@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.AddItem.AddItemTest",
+  "simulationId": "additemtest",
+  "start": 1683129996279,
+  "description": "",
+  "scenarios": ["Users Adding Items"],
+  "assertions": [
+
+  ]
+}

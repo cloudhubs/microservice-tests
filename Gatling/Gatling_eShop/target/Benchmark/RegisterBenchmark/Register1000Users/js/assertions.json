@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.Register.RegisterTest",
+  "simulationId": "registertest",
+  "start": 1683132586330,
+  "description": "",
+  "scenarios": ["Valid Registration", "Invalid Registration"],
+  "assertions": [
+
+  ]
+}
