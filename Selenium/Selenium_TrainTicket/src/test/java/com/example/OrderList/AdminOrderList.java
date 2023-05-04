@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class AdminOrderList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriverChrome.Execute();
+    WebDriver driver = SetUpDriver.Execute();
 
     @Test
     public void testAdminOrderList() throws InterruptedException {
@@ -32,13 +32,12 @@ public class AdminOrderList {
         // Navigate to OrderList
         // FIXME: driver.findElement(By.className("am-icon-list-alt")).click();
         // new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfElementLocated(By.id("cboMenu")))
-        // FIXME: Try URL
 
         //driver.navigate().to("http://192.168.3.205:32677/admin.html");
         String s = driver.findElement(By.id("doc-ipt-email-1")).getText();
 
-        String s1 = driver.getCurrentUrl();
-        System.out.println(s1);
+        //System.out.println(driver.getPageSource());
+
         //new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(By.className("am-icon-list-alt")));
         driver.findElement(By.className("am-icon-list-alt")).click();
         //assertTrue(driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[1]")).getText().contains("Order"));
