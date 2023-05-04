@@ -1,8 +1,9 @@
 package com.example.TrainList;
 
 import com.example.Modules.*;
-import org.junit.After;
-import org.junit.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class AdminTrainList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriverChrome.Execute();
+    WebDriver driver;
 
     @Test
     public void testAdminTrainList() throws InterruptedException {
@@ -90,10 +91,12 @@ public class AdminTrainList {
         assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
-    /**
-     * Close out of the WebDriver when finished
-     */
-    @After
+    @BeforeTest
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
+
+    @AfterTest
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }

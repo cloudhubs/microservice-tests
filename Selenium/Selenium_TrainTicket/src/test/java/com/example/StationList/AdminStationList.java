@@ -1,9 +1,9 @@
 package com.example.StationList;
 
 import com.example.Modules.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 
@@ -14,11 +14,6 @@ public class AdminStationList {
 
     // The HTML Unit WebDriver
     WebDriver driver;
-
-    @Before
-    public void setUpDriver(){
-        driver = SetUpDriverChrome.Execute();
-    }
 
     @Test
     public void testAdminStationList() throws InterruptedException {
@@ -94,10 +89,12 @@ public class AdminStationList {
         assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
-    /**
-     * Close out of the WebDriver when finished
-     */
-    @After
+    @BeforeTest
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
+
+    @AfterTest
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }
