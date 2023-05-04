@@ -1,11 +1,12 @@
 package com.example.OrderList;
 
 import com.example.Modules.*;
-import org.junit.After;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import static com.example.Modules.GlobalVariables.ADMIN_PASSWORD;
 import static org.junit.Assert.*;
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class AdminOrderList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriverChrome.Execute();
+    WebDriver driver;
 
     @Test
     public void testAdminOrderList() throws InterruptedException {
@@ -30,16 +31,6 @@ public class AdminOrderList {
         Thread.sleep(500);
 
         // Navigate to OrderList
-        // FIXME: driver.findElement(By.className("am-icon-list-alt")).click();
-        // new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfElementLocated(By.id("cboMenu")))
-        // FIXME: Try URL
-
-        //driver.navigate().to("http://192.168.3.205:32677/admin.html");
-        String s = driver.findElement(By.id("doc-ipt-email-1")).getText();
-
-        String s1 = driver.getCurrentUrl();
-        System.out.println(s1);
-        //new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(By.className("am-icon-list-alt")));
         driver.findElement(By.className("am-icon-list-alt")).click();
         //assertTrue(driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[1]")).getText().contains("Order"));
         assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Order"));
@@ -97,10 +88,12 @@ public class AdminOrderList {
         assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
-    /**
-     * Close out of the WebDriver when finished
-     */
-    @After
+    @BeforeTest
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
+
+    @AfterTest
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }

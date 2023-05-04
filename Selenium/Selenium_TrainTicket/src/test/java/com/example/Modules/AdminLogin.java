@@ -21,6 +21,11 @@ public class AdminLogin {
         driver.findElement(By.id("doc-ipt-email-1")).sendKeys(ADMIN_USERNAME);
         driver.findElement(By.id("doc-ipt-pwd-1")).click();
         driver.findElement(By.id("doc-ipt-pwd-1")).sendKeys(ADMIN_PASSWORD);
+
+        System.out.println(driver.getPageSource());
+        System.out.println(driver.findElement(By.tagName("BUTTON")).getText());
+        System.out.println(driver.findElement(By.tagName("BUTTON")).isDisplayed());
+
         driver.findElement(By.tagName("BUTTON")).click();
     }
 }

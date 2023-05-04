@@ -9,10 +9,12 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import static org.junit.Assert.*;
 
@@ -31,7 +33,7 @@ public class Login {
     private final String ADMIN_LOGIN_URL = "http://192.168.3.205:32677/adminlogin.html";
     private final String CLIENT_LOGIN_URL = "http://192.168.3.205:32677/client_login.html";
 
-    @Before
+    @BeforeTest
     public void setUpDriver(){
         driver = SetUpDriverChrome.Execute();
     }
@@ -92,7 +94,7 @@ public class Login {
     /**
      * Close out of the WebDriver when finished
      */
-    @After
+    @AfterTest
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }
