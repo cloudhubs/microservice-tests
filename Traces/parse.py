@@ -79,8 +79,13 @@ allEntries = []
 for traceSet in allTraces:
   allEntries = allEntries + createTraceEntries(traceSet)
 writeTraceFile("./modified_logs.csv", allEntries)
-#Write unique traces to individual file
-for traceSet in uniqueTraces:
-  fileName = "./logs/{0}.csv"
+#Write all traces to individual files
+for traceSet in allTraces:
+  fileName = "./all_logs/{0}.csv"
   writeTraceFile(fileName.format(traceSet[0][TRACEID]), createTraceEntries(traceSet))
+#Write unique traces to individual files
+for traceSet in uniqueTraces:
+  fileName = "./unique_logs/{0}.csv"
+  writeTraceFile(fileName.format(traceSet[0][TRACEID]), createTraceEntries(traceSet))
+
     
