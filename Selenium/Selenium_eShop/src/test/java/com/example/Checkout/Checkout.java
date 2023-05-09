@@ -6,8 +6,6 @@ package com.example.Checkout;
 
 import com.example.Global.GlobalVariable;
 import com.example.Modules.*;
-import net.sourceforge.htmlunit.corejs.javascript.tools.shell.Global;
-import org.junit.*;
 
 import static org.junit.Assert.*;
 

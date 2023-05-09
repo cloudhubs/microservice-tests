@@ -12,25 +12,31 @@ import java.time.Duration;
 
 public class SetUpDriverChrome {
     // The path to the Chrome WebDriver
-    public static final String CHROME_DRIVER = "C:\\Users\\Ethan_Robinson2\\Desktop\\Capstone-Project5\\Selenium\\chromedriver.exe";
+    public static final String CHROME_DRIVER = "./chromedriver.exe";
 
     /**
      * Sets up the Chrome WebDriver and returns it
      *
      * @return Chrome WebDriver
      */
-    public static WebDriver Execute() {
+    public static WebDriver Execute(String path) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
-        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER);
+        options.addArguments("--headless");
+        options.addArguments("window-size=1920,1080");
+
+        System.setProperty("webdriver.chrome.driver", path);
         WebDriver driver = new ChromeDriver(options);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 
         driver.get("http://192.168.3.205:32677/");
-        driver.manage().window().maximize();
 
         return driver;
+    }
+
+    public static WebDriver Execute() {
+        return SetUpDriverChrome.Execute(CHROME_DRIVER);
     }
 }

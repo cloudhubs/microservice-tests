@@ -1,19 +1,21 @@
 package com.example.OrderList;
 
 import com.example.Modules.*;
-import org.junit.After;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
+import static com.example.Modules.GlobalVariables.ADMIN_PASSWORD;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class AdminOrderList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    WebDriver driver;
 
     @Test
     public void testAdminOrderList() throws InterruptedException {
@@ -23,7 +25,6 @@ public class AdminOrderList {
 
         // Navigate to the login screen for an admin
         AdminLogin.Execute(driver);
-        AdminClickLogin.Execute(driver);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
         // Wait for alert
@@ -31,13 +32,14 @@ public class AdminOrderList {
 
         // Navigate to OrderList
         driver.findElement(By.className("am-icon-list-alt")).click();
+        //assertTrue(driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[1]")).getText().contains("Order"));
         assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Order"));
 
         String superUniqueString = "69696969696969";
         String superUniqueAddon = "420";
 
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, "a", superUniqueString)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString)) != -1) {
             DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
 
             DismissAlert.Execute(driver);
@@ -53,11 +55,10 @@ public class AdminOrderList {
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[3]/div/div[3]/span[2]")).click();
 
         DismissAlert.Execute(driver);
-        //driver.navigate().refresh();
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "a", superUniqueString);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -66,11 +67,10 @@ public class AdminOrderList {
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[1]/div/div[3]/span[2]")).click();
 
         DismissAlert.Execute(driver);
-        //driver.navigate().refresh();
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, "a", superUniqueString + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString + superUniqueAddon);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -80,7 +80,7 @@ public class AdminOrderList {
         driver.navigate().refresh();
 
         // Check for deleted record -> assert false
-        rowNumber = SearchTable.Execute(driver, "a", superUniqueString + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString + superUniqueAddon);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
@@ -88,10 +88,12 @@ public class AdminOrderList {
         assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
-    /**
-     * Close out of the WebDriver when finished
-     */
-    @After
+    @BeforeTest
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
+
+    @AfterTest
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }

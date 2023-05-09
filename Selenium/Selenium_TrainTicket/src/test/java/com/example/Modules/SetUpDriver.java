@@ -1,10 +1,12 @@
 /**
- * Sets up the Chrome WebDriver
+ * Sets up the HTML WebDriver
  */
 package com.example.Modules;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.javascript.SilentJavaScriptErrorListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
@@ -23,7 +25,8 @@ public class SetUpDriver {
                 webClient.getOptions().setCssEnabled(false);
                 webClient.getOptions().setThrowExceptionOnScriptError(false);
                 webClient.getOptions().setJavaScriptEnabled(true);
-
+                webClient.setJavaScriptErrorListener(new SilentJavaScriptErrorListener());
+                webClient.getOptions().setRedirectEnabled(true);
 
                 return webClient;
             }

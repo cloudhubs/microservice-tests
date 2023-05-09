@@ -1,8 +1,9 @@
 package com.example.TrainList;
 
 import com.example.Modules.*;
-import org.junit.After;
-import org.junit.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class AdminTrainList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    WebDriver driver;
 
     @Test
     public void testAdminTrainList() throws InterruptedException {
@@ -40,7 +41,7 @@ public class AdminTrainList {
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, "a", sampleSpeed)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleSpeed)) != -1) {
             // Delete record
             DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[5]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
@@ -60,7 +61,7 @@ public class AdminTrainList {
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "a", sampleSpeed);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleSpeed);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -72,7 +73,7 @@ public class AdminTrainList {
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, "a", sampleSpeed + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleSpeed + superUniqueAddon);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -82,7 +83,7 @@ public class AdminTrainList {
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, "a", sampleSpeed + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleSpeed + superUniqueAddon);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
@@ -90,10 +91,12 @@ public class AdminTrainList {
         assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
-    /**
-     * Close out of the WebDriver when finished
-     */
-    @After
+    @BeforeTest
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
+
+    @AfterTest
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }

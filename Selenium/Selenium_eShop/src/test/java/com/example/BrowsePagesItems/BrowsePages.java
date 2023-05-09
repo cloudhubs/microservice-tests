@@ -5,7 +5,6 @@
 package com.example.BrowsePagesItems;
 
 import com.example.Modules.*;
-import org.junit.*;
 
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;

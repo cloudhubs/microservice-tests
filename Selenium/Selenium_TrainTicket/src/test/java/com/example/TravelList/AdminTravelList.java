@@ -1,10 +1,12 @@
 package com.example.TravelList;
 
 import com.example.Modules.*;
-import org.junit.After;
-import org.junit.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -12,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class AdminTravelList {
 
     // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    WebDriver driver;
 
     @Test
     public void testAdminTravelList() throws InterruptedException {
@@ -28,21 +30,20 @@ public class AdminTravelList {
         // Wait for alert
         Thread.sleep(500);
 
-        // Navigate to OrderList
+        // Navigate to Contact List
         driver.findElement(By.className("am-icon-globe")).click();
         assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Travel"));
 
-        String sampleName = "deez_nuts";
-        String samplePass = "misterdoctor";
-        String sampleEmail = "bigchungus@gmail.yahoo";
-        String sampleDCNumber = "1";
-        String superUniqueAddon = "itsstrange";
+        String sampleTravelID = "G18005882300";
+        String sampleRouteID = "f3d4d4ef-693b-4456-8eed-59c0d717dd08";
+        String sampleStartStation = "shanghai";
+        String sampleEndStation = "suzhou";
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, "a", samplePass)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleTravelID)) != -1) {
             // Delete record
-            DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
+            DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[5]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
             DismissAlert.Execute(driver);
             driver.navigate().refresh();
@@ -50,29 +51,26 @@ public class AdminTravelList {
 
         // Add order
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[1]/div/div/div/button")).click();
-        driver.findElement(By.id("add_user_name")).sendKeys(sampleName);
-        driver.findElement(By.id("add_user_password")).sendKeys(samplePass);
-        driver.findElement(By.id("add_user_email")).sendKeys(sampleEmail);
-        driver.findElement(By.id("add_user_document_number")).sendKeys(sampleDCNumber);
+
+        driver.findElement(By.id("add_travel_id")).sendKeys(sampleTravelID);
+
+        Select routes = new Select(driver.findElement(By.name("travel_route_id")));
+        Select startStation = new Select(driver.findElement(By.name("travel_start_station")));
+        Select stationName = new Select(driver.findElement(By.name("travel_station_name")));
+        Select endStation = new Select(driver.findElement(By.name("travel_terminal_station")));
+
+        routes.selectByValue(sampleRouteID);
+        startStation.selectByValue(sampleStartStation);
+        stationName.selectByValue(sampleEndStation);
+        endStation.selectByValue(sampleEndStation);
+
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[3]/div/div[3]/span[2]")).click();
 
         DismissAlert.Execute(driver);
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "a", samplePass);
-        assertNotEquals(-1, rowNumber);
-
-        // Update Order to another number
-        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[" + rowNumber + "]/td[1]/div/div/button[1]")).click();
-        driver.findElement(By.id("update_user_password")).sendKeys(samplePass + superUniqueAddon);
-        driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[1]/div/div[3]/span[2]")).click();
-
-        DismissAlert.Execute(driver);
-        Thread.sleep(3000);
-
-        // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, "a", samplePass + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleTravelID);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -82,7 +80,7 @@ public class AdminTravelList {
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, "a", samplePass + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleTravelID);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
@@ -90,10 +88,12 @@ public class AdminTravelList {
         assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
-    /**
-     * Close out of the WebDriver when finished
-     */
-    @After
+    @BeforeTest
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
+
+    @AfterTest
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }

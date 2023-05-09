@@ -1,0 +1,12 @@
+TraceID,Source,Target
+5cde23a401ca343a,ts-travel-service,ts-ticketinfo-service
+5cde23a401ca343a,ts-ticketinfo-service,ts-basic-service
+5cde23a401ca343a,ts-basic-service,ts-station-service
+5cde23a401ca343a,ts-travel-service,ts-ticketinfo-service
+5cde23a401ca343a,ts-ticketinfo-service,ts-basic-service
+5cde23a401ca343a,ts-basic-service,ts-station-service
+5cde23a401ca343a,ts-travel-service,ts-route-service
+5cde23a401ca343a,ts-travel-service,ts-route-service
+5cde23a401ca343a,ts-travel-service,ts-route-service
+5cde23a401ca343a,ts-travel-service,ts-route-service
+5cde23a401ca343a,ts-travel-service,ts-route-service

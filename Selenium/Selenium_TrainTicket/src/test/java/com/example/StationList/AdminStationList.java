@@ -1,18 +1,19 @@
 package com.example.StationList;
 
 import com.example.Modules.*;
-import org.junit.After;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class AdminStationList {
 
-    // The Chrome WebDriver
-    WebDriver driver = SetUpDriver.Execute();
+    // The HTML Unit WebDriver
+    WebDriver driver;
 
     @Test
     public void testAdminStationList() throws InterruptedException {
@@ -22,14 +23,15 @@ public class AdminStationList {
 
         // Navigate to the login screen for an admin
         AdminLogin.Execute(driver);
-        AdminClickLogin.Execute(driver);
+        //FIXME: DELETE //AdminClickLogin.Execute(driver);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
         // Wait for alert
-        Thread.sleep(500);
+        //FIXME: DELETE //Thread.sleep(500);
 
         // Navigate to Contact List
-        driver.findElement(By.className("am-icon-table")).click();
+        WebElement elem = (new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.className("am-icon-table")));
+        elem.click();
         driver.findElement(By.className("am-icon-institution")).click();
         assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Station"));
 
@@ -39,7 +41,7 @@ public class AdminStationList {
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, "a", sampleStationName)) != -1) {
+        while ((rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName)) != -1) {
             // Delete record
             DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[4]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
@@ -57,7 +59,7 @@ public class AdminStationList {
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "a", sampleStationName);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -69,7 +71,7 @@ public class AdminStationList {
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, "a", sampleStationName + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName + superUniqueAddon);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
@@ -79,7 +81,7 @@ public class AdminStationList {
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, "a", sampleStationName + superUniqueAddon);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName + superUniqueAddon);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
@@ -87,10 +89,12 @@ public class AdminStationList {
         assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
-    /**
-     * Close out of the WebDriver when finished
-     */
-    @After
+    @BeforeTest
+    public void setUpDriver(){
+        driver = SetUpDriverChrome.Execute();
+    }
+
+    @AfterTest
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }
