@@ -1,14 +1,9 @@
 # Capstone-Project5
 ## DevOps: Stress, Load, and Functional tests for OSS Microservices
 
+The aim of our project was to develop comprehensive tests for the TrainTicket and eShopOnContainers microservices, specifically covering load and functional regression testing using Gatling and Selenium, respectively.
+
 For this project, we are using the microservices [TrainTicket](https://github.com/FudanSELab/train-ticket) and [eShopOnContainers](https://github.com/dotnet-architecture/eShopOnContainers).
-
-#### eShopOnContainers Health Check:
- - [localhost:5107](http://host.docker.internal:5107)
-
-#### eShopOnContainers Main View:
- - [host.docker.internal:5100](http://host.docker.internal:5100)
- - [host.docker.internal:5104](http://host.docker.internal:5104)
 
 ### Instructions for each test tool are in their respective folders
 
@@ -24,5 +19,10 @@ For this project, we are using the microservices [TrainTicket](https://github.co
    - Used for eShopOnContainers
    - Install using kubectl
    - `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/cloud/deploy.yaml`
+
+### Main Contributions
+1.  Provided an open-source example of automated functional regression tests  and load tests for microservice systems, as previous published examples are not sufficient
+2. Produced an initial set of comprehensive tests for a proposed benchmark of well-established microservice systems
+3. Demonstrated how a business process reconstruction can be used as a way to validate test scenarios
 
 Developed by Ethan Robinson, Timmy Frederiksen, Trae Stevens and Sheldon Smith.

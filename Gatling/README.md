@@ -1,8 +1,16 @@
 # Testing using Gatling 
 ### Tools Needed
+- [Gatling](https://gatling.io/open-source/)
 - [Java](https://www.java.com/en/download/help/download_options.html)
 - [Scala](https://www.scala-lang.org/download/)
 - [Maven](https://maven.apache.org/download.cgi)
+
+### Set Up
+1. Navigate to: File -> Project structure
+ - Under the "Global libraries" tab, add the folder where you downloaded Scala
+2. Change the URL for the correct URL for the deployed microservice system
+ - Navigate to the "Modules" directory and then into the "HeaderModules" file
+ - Change the URL in the .baseUrl section
 
 ### Parts of Gatling
 - Gatling Recorder
@@ -19,13 +27,6 @@
     - Once test is run, the output folder will be put in target.gatling directory
     - Optional: Change name of file with more meaningful name
 
-### Gatling Installation Instructions
- - Install [Scala](https://www.scala-lang.org/download/) onto machine and select Scala folder in given IDE
-
-### Gatling Run Instructions
- - Run the Gatling engine
- - Select the given test to run by typing the corresponding number into command line
- - The test will then run and the output will be generated in target folder
- - ### Change Virtual Users
-   - Go into given test
-   - Change the number of users in the setUp() function
+### Change Virtual Users
+ - Go into given test
+ - Change the number of users in the setUp() function
