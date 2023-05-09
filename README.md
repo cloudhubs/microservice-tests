@@ -26,3 +26,6 @@ For this project, we are using the microservices [TrainTicket](https://github.co
 3. Demonstrated how a business process reconstruction can be used as a way to validate test scenarios
 
 Developed by Ethan Robinson, Timmy Frederiksen, Trae Stevens and Sheldon Smith.
+
+### Project Walkthrough
+YouTube Link: https://youtu.be/flkiH4gcPZ4
