@@ -6,6 +6,6 @@ These are the resources used for performing business process reconstruction. The
 
 ## Business Process Reconstruction
 
-Disco: https://github.com/Retro5050/Capstone-Project5/tree/main/Traces/models
+Disco: https://fluxicon.com/disco/
 
 Next, by importing individual traces into the Disco software, we can easily generate a business process reconstruction. Images of the reconstructions generated from the trace sample that we were provided can be found in the [models](https://github.com/Retro5050/Capstone-Project5/tree/main/Traces/models) folder 
