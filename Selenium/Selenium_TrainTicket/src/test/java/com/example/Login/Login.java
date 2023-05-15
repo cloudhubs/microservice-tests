@@ -34,7 +34,7 @@ public class Login {
     }
 
     @Test
-    public void testLogin() {
+    public void testLogin() throws InterruptedException {
         // Check that you are logged out, and try to navigate to login page by clicking on profile
         driver.findElement(By.id("client_name")).click();
         driver.switchTo().alert().accept();
@@ -52,6 +52,7 @@ public class Login {
         clientFillLogin(INVALID_USERNAME, INVALID_PASSWORD);
         driver.findElement(By.id("flow_preserve_login_email")).clear();
         clientSubmit();
+        Thread.sleep(1000);
         assertEquals(INVALID_LOGIN, getLoginStatus());
 
         // Try to login with nothing entered for password
