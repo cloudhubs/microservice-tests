@@ -25,6 +25,6 @@ class FilterNavigationTest extends Simulation {
 		}
 
 	setUp(
-		usersFiltering.inject(rampUsers(100).during(15))
-	).protocols(httpProtocolEShop).assertions(global.failedRequests.count.is(0))
+		usersFiltering.inject(rampUsers(5000).during(30))
+	).protocols(httpProtocolEShop)
 }

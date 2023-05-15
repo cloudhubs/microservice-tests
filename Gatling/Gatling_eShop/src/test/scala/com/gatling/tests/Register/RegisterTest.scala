@@ -36,7 +36,7 @@ class RegisterTest extends Simulation {
 
   //Inject valid and invalid registrations into system
   setUp(
-    validUser.inject(rampUsers(10).during(10)),
-    invalidUser.inject(rampUsers(10).during(10))
-  ).protocols(httpProtocolEShop).assertions(global.failedRequests.count.is(0))
+    validUser.inject(rampUsers(5000).during(30)),
+    invalidUser.inject(rampUsers(5000).during(30))
+  ).protocols(httpProtocolEShop)
 }

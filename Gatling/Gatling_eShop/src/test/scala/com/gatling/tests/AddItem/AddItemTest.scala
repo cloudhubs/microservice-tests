@@ -35,6 +35,6 @@ class AddItemTest extends Simulation {
 
   //Run the test by ramping up the virtual users
   setUp(
-    users.inject(rampUsers(100).during(30))
+    users.inject(rampUsers(5000).during(30))
   ).protocols(httpProtocolEShop)
 }

@@ -1,0 +1,10 @@
+{
+  "simulation": "com.gatling.tests.UpdateCart.UpdateCartTest",
+  "simulationId": "updatecarttest",
+  "start": 1683133059641,
+  "description": "",
+  "scenarios": ["Users Updating Cart"],
+  "assertions": [
+
+  ]
+}

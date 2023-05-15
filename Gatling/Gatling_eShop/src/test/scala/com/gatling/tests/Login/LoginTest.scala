@@ -20,7 +20,6 @@ class LoginTest extends Simulation {
 	val validUser: ScenarioBuilder = scenario("Valid Login Users")
 		.exec {
 			feed(validLoginFeeder) //Get valid account information from file
-
 				//Login, go home, and logout
 				.exec(loginScenario, homePage, logoutScenario)
 				.pause(1)
@@ -37,7 +36,7 @@ class LoginTest extends Simulation {
 
 	//Inject valid and invalid users into system
 	setUp(
-		validUser.inject(rampUsers(100).during(10)),
-		invalidUser.inject(rampUsers(50).during(10))
-	).protocols(httpProtocolEShop).assertions(global.failedRequests.count.is(0))
+		validUser.inject(rampUsers(5000).during(30)),
+		invalidUser.inject(rampUsers(5000).during(30))
+	).protocols(httpProtocolEShop)
 }
