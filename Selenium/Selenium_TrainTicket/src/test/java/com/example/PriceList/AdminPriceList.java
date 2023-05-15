@@ -62,7 +62,8 @@ public class AdminPriceList {
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleBaseRate);
+        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody", sampleBaseRate) + 1;
+
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number

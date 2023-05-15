@@ -135,8 +135,6 @@ public class Booking {
      */
     private void testBooking() throws IOException {
         // Navigate to the TicketReserve page and try to book a ticket without logging in
-        // Verify an alert popped up
-        //navigateTicketReserve();
         bookTrainTicket(TICKET_PATH, TICKET_TYPE, TICKET_SEARCH_BUTTON);
         DismissAlert.Execute(driver);
 
@@ -328,8 +326,8 @@ public class Booking {
         Select foodList = new Select(driver.findElement(By.id("preserve_food_type")));
         foodList.selectByIndex(1);
 
-        Select foodItemList = new Select(driver.findElement(By.id("train-food-type-list")));
-        foodItemList.selectByIndex(1);
+        //Select foodItemList = new Select(driver.findElement(By.id("train-food-type-list")));
+        //foodItemList.selectByIndex(1);
     }
 
     /**

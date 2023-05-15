@@ -29,7 +29,9 @@ public class SetUpDriverChrome {
         System.setProperty("webdriver.chrome.driver", path);
         WebDriver driver = new ChromeDriver(options);
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        driver.manage().window().maximize();
 
         driver.get("http://192.168.3.205:32677/");
 
