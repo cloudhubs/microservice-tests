@@ -14,18 +14,12 @@ For this project, we are using the microservices [TrainTicket](https://github.co
    - To run just react app: `make react`
  - `make stop` - stops the containers on Docker
 
-### To run TrainTicket 1.0.0, use the following instructions.
+### To run TrainTicket 1.0.1, use the following instructions.
  - Run the following commands:
- - git clone https://github.com/FudanSELab/train-ticket train-ticket-repo
+ - git clone https://github.com/cloudhubs/train-ticket train-ticket-repo
  - cd train-ticket-repo
- - git checkout tags/v1.0.0
-
- - In each Docker image change the following line "FROM java:8-jre" to "FROM eclipse-temurin:8-jre"
- - In the "ts-avatar-service" change the following line "FROM python:3" to "FROM python:3.9.6"
-
- - Run the following commands:
+ - git checkout tags/v1.0.1
  - make reset-deploy
- - make build Tag="1.0.0"
  - make deploy
 
 #### Access the React App (frontend):
