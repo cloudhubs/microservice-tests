@@ -8,14 +8,18 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import static com.example.Modules.GlobalVariables.ADMIN_PASSWORD;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 public class AdminOrderList {
 
     // The Chrome WebDriver
     WebDriver driver;
+
+    // The WebDriverWait object
+    WebDriverWait wait;
 
     @Test
     public void testAdminOrderList() throws InterruptedException {
@@ -24,7 +28,7 @@ public class AdminOrderList {
         driver.manage().window().maximize();
 
         // Navigate to the login screen for an admin
-        AdminLogin.Execute(driver);
+        AdminLogin.Execute(driver, wait);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
         // Wait for alert
@@ -39,10 +43,10 @@ public class AdminOrderList {
         String superUniqueAddon = "420";
 
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString)) != -1) {
-            DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
+        while ((rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString, false)) != -1) {
+            DeleteRecord.Execute(wait, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
 
-            DismissAlert.Execute(driver);
+            DismissAlert.Execute(wait);
             driver.navigate().refresh();
             Thread.sleep(250);
         }
@@ -54,11 +58,11 @@ public class AdminOrderList {
         trainSelect.selectByVisibleText("G1235");
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[3]/div/div[3]/span[2]")).click();
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString);
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString, true);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -66,21 +70,21 @@ public class AdminOrderList {
         driver.findElement(By.id("update_order_document_number")).sendKeys(superUniqueString + superUniqueAddon);
         driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[1]/div/div[3]/span[2]")).click();
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString + superUniqueAddon);
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString + superUniqueAddon, true);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
-        DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
+        DeleteRecord.Execute(wait, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[1]/div/div/button[2]", "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/div[2]/div/div[3]/span[2]");
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         driver.navigate().refresh();
 
         // Check for deleted record -> assert false
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString + superUniqueAddon);
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", superUniqueString + superUniqueAddon, false);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
@@ -90,7 +94,9 @@ public class AdminOrderList {
 
     @BeforeTest
     public void setUpDriver(){
-        driver = SetUpDriverChrome.Execute();
+        Pair<WebDriver, WebDriverWait> pair = SetUpDriverChrome.Execute();
+        driver = pair.getLeft();
+        wait = pair.getRight();
     }
 
     @AfterTest

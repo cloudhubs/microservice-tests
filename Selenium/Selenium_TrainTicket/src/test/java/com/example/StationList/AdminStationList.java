@@ -10,10 +10,15 @@ import org.openqa.selenium.support.ui.*;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 public class AdminStationList {
 
     // The HTML Unit WebDriver
     WebDriver driver;
+
+    // The WebDriverWait object
+    WebDriverWait wait;
 
     @Test
     public void testAdminStationList() throws InterruptedException {
@@ -22,7 +27,7 @@ public class AdminStationList {
         driver.manage().window().maximize();
 
         // Navigate to the login screen for an admin
-        AdminLogin.Execute(driver);
+        AdminLogin.Execute(driver, wait);
         //FIXME: DELETE //AdminClickLogin.Execute(driver);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
@@ -30,7 +35,7 @@ public class AdminStationList {
         //FIXME: DELETE //Thread.sleep(500);
 
         // Navigate to Contact List
-        WebElement elem = (new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.className("am-icon-table")));
+        WebElement elem = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("am-icon-table")));
         elem.click();
         driver.findElement(By.className("am-icon-institution")).click();
         assertTrue(driver.findElement(By.className("portlet-title")).getText().contains("Station"));
@@ -41,11 +46,11 @@ public class AdminStationList {
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName)) != -1) {
+        while ((rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName, false)) != -1) {
             // Delete record
-            DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[4]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
+            DeleteRecord.Execute(wait, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[4]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
-            DismissAlert.Execute(driver);
+            DismissAlert.Execute(wait);
             driver.navigate().refresh();
         }
 
@@ -55,11 +60,11 @@ public class AdminStationList {
         driver.findElement(By.id("add-station-stay-time")).sendKeys(sampleTime);
         driver.findElement(By.xpath("/html/body/div[4]/div/div[4]/span[2]")).click();
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName);
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName, true);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -67,21 +72,21 @@ public class AdminStationList {
         driver.findElement(By.id("update-station-name")).sendKeys(sampleStationName + superUniqueAddon);
         driver.findElement(By.xpath("/html/body/div[3]/div/div[4]/span[2]")).click();
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName + superUniqueAddon);
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName + superUniqueAddon, true);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
-        DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[4]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
+        DeleteRecord.Execute(wait, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[4]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName + superUniqueAddon);
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleStationName + superUniqueAddon, false);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
@@ -91,7 +96,9 @@ public class AdminStationList {
 
     @BeforeTest
     public void setUpDriver(){
-        driver = SetUpDriverChrome.Execute();
+        Pair<WebDriver, WebDriverWait> pair = SetUpDriverChrome.Execute();
+        driver = pair.getLeft();
+        wait = pair.getRight();
     }
 
     @AfterTest

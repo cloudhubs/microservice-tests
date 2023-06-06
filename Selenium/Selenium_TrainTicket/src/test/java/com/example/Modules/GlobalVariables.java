@@ -12,6 +12,8 @@ public class GlobalVariables {
     public static final String ADMIN_PASSWORD = "222222";
 
     public static final String ADMIN_LOGIN_URL = "http://192.168.3.205:32677/adminlogin.html";
+    public static final String INVALID_LOGIN = "Incorrect username or password.";
+    public static final String VALID_LOGIN = "login success";
 
     // The list of management services offered to a client
     public static final String[] CLIENT_MGT_LIST = new String[]

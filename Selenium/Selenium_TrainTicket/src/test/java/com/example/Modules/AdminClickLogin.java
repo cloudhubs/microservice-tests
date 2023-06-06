@@ -5,7 +5,8 @@
 package com.example.Modules;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class AdminClickLogin {
@@ -14,7 +15,7 @@ public class AdminClickLogin {
      *
      * @param driver WebDriver
      */
-    public static void Execute(WebDriver driver) {
-        driver.findElement(By.className("tpl-header-list-link")).click();
+    public static void Execute(WebDriverWait wait) {
+        wait.until(ExpectedConditions.elementToBeClickable(By.className("tpl-header-list-link"))).click();;
     }
 }

@@ -4,11 +4,15 @@
 package com.example.Modules;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.javascript.SilentJavaScriptErrorListener;
+
+import java.time.Duration;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SetUpDriver {
     /**
@@ -16,7 +20,7 @@ public class SetUpDriver {
      *
      * @return Chrome HTML Unit Driver
      */
-    public static WebDriver Execute() {
+    public static Pair<WebDriver, WebDriverWait> Execute() {
         WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true) {
             @Override
             protected WebClient modifyWebClient(WebClient client) {
@@ -34,6 +38,8 @@ public class SetUpDriver {
 
         driver.get("http://192.168.3.205:32677/");
 
-        return driver;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        return Pair.of(driver, wait);
     }
 }

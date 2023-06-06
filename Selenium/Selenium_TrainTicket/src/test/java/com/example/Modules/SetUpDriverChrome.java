@@ -3,9 +3,11 @@
  */
 package com.example.Modules;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
@@ -19,7 +21,7 @@ public class SetUpDriverChrome {
      *
      * @return Chrome WebDriver
      */
-    public static WebDriver Execute(String path) {
+    public static Pair<WebDriver, WebDriverWait> Execute(String path) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
@@ -35,10 +37,12 @@ public class SetUpDriverChrome {
 
         driver.get("http://192.168.3.205:32677/");
 
-        return driver;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        return Pair.of(driver, wait);
     }
 
-    public static WebDriver Execute() {
+    public static Pair<WebDriver, WebDriverWait> Execute() {
         return SetUpDriverChrome.Execute(CHROME_DRIVER);
     }
 }

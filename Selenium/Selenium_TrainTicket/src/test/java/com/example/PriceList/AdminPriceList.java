@@ -6,14 +6,20 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 public class AdminPriceList {
 
     // The Chrome WebDriver
     WebDriver driver;
+
+    // The WebDriverWait object
+    WebDriverWait wait;
 
     @Test
     public void testAdminPriceList() throws InterruptedException {
@@ -22,8 +28,8 @@ public class AdminPriceList {
         driver.manage().window().maximize();
 
         // Navigate to the login screen for an admin
-        AdminLogin.Execute(driver);
-        AdminClickLogin.Execute(driver);
+        AdminLogin.Execute(driver, wait);
+        AdminClickLogin.Execute(wait);
         assertFalse(driver.getPageSource().contains("admin-panel"));
 
         // Wait for alert
@@ -42,11 +48,11 @@ public class AdminPriceList {
 
         // Test Add Route
         int rowNumber;
-        while ((rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleBaseRate)) != -1) {
+        while ((rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleBaseRate, false)) != -1) {
             // Delete record
-            DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[5]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
+            DeleteRecord.Execute(wait, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[5]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
-            DismissAlert.Execute(driver);
+            DismissAlert.Execute(wait);
             driver.navigate().refresh();
         }
 
@@ -58,12 +64,11 @@ public class AdminPriceList {
         driver.findElement(By.id("add-price-first-class-price-rate")).sendKeys(sampleBonusRate);
         driver.findElement(By.xpath("/html/body/div[4]/div/div[6]/span[2]")).click();
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         Thread.sleep(3000);
 
         // Check for test id DCNumber
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody", sampleBaseRate) + 1;
-
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleBaseRate, true);
         assertNotEquals(-1, rowNumber);
 
         // Update Order to another number
@@ -71,21 +76,21 @@ public class AdminPriceList {
         driver.findElement(By.id("update-price-basic-price-rate")).sendKeys(superUniqueAddon);
         driver.findElement(By.xpath("/html/body/div[3]/div/div[6]/span[2]")).click();
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         Thread.sleep(3000);
 
         // Check for change reflected
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleBaseRate + superUniqueAddon);
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleBaseRate + superUniqueAddon, true);
         assertNotEquals(-1, rowNumber);
 
         // Test Delete Order
-        DeleteRecord.Execute(driver, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[6]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
+        DeleteRecord.Execute(wait, rowNumber, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table/tbody/tr[", "]/td[6]/div/div/button[2]", "/html/body/div[2]/div/div[3]/span[2]");
 
-        DismissAlert.Execute(driver);
+        DismissAlert.Execute(wait);
         driver.navigate().refresh();
 
         // Check for deleted record
-        rowNumber = SearchTable.Execute(driver, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleBaseRate + superUniqueAddon);
+        rowNumber = SearchTable.Execute(wait, "/html/body/div[1]/div[2]/div/div[2]/div[2]/div/form/table", sampleBaseRate + superUniqueAddon, false);
         assertEquals(-1, rowNumber);
 
         // Logout as an admin
@@ -95,7 +100,9 @@ public class AdminPriceList {
 
     @BeforeTest
     public void setUpDriver(){
-        driver = SetUpDriverChrome.Execute();
+        Pair<WebDriver, WebDriverWait> pair = SetUpDriverChrome.Execute();
+        driver = pair.getLeft();
+        wait = pair.getRight();
     }
 
     @AfterTest
