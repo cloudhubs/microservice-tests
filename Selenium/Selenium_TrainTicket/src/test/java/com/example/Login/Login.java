@@ -9,11 +9,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -32,7 +32,7 @@ public class Login {
     private final String ADMIN_LOGIN_URL = "http://192.168.3.205:32677/adminlogin.html";
     private final String CLIENT_LOGIN_URL = "http://192.168.3.205:32677/client_login.html";
 
-    @BeforeTest
+    @BeforeEach
     public void setUpDriver(){
         Pair<WebDriver, WebDriverWait> pair = SetUpDriverChrome.Execute();
         driver = pair.getLeft();
@@ -98,7 +98,7 @@ public class Login {
     /**
      * Close out of the WebDriver when finished
      */
-    @AfterTest
+    @AfterEach
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }

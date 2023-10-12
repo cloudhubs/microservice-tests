@@ -11,13 +11,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 
 import com.example.Helper.SeleniumHelper;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 
@@ -61,7 +61,7 @@ public class Booking {
     private final String COLLECTED = "Collected";
     private final String USED = "Used";
 
-    @BeforeTest
+    @BeforeEach
     public void setUpDriver() {
         Pair<WebDriver, WebDriverWait> pair = SetUpDriverChrome.Execute();
         driver = pair.getLeft();
@@ -134,7 +134,7 @@ public class Booking {
     /**
      * Close out of the WebDriver when finished
      */
-    @AfterTest
+    @AfterEach
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }

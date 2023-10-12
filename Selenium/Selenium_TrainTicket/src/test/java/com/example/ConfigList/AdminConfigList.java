@@ -4,12 +4,11 @@ import com.example.Modules.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -95,14 +94,14 @@ public class AdminConfigList {
         assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
     }
 
-    @BeforeTest
+    @BeforeEach
     public void setUpDriver(){
         Pair<WebDriver, WebDriverWait> pair = SetUpDriverChrome.Execute();
         driver = pair.getLeft();
         wait = pair.getRight();
     }
 
-    @AfterTest
+    @AfterEach
     public void tearDown() {
         TearDownDriver.Execute(driver);
     }
