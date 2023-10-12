@@ -9,8 +9,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+import java.io.IOException;
 import java.time.Duration;
 
 
@@ -19,6 +23,9 @@ public class SetUpDriverChrome {
      * Sets up the Chrome WebDriver and returns it
      *
      * @return Chrome WebDriver
+     * @throws IOException
+     * @throws JsonMappingException
+     * @throws JsonParseException
      */
     public static Pair<WebDriver, WebDriverWait> Execute() {
         ChromeOptions options = new ChromeOptions();
@@ -34,7 +41,7 @@ public class SetUpDriverChrome {
 
         driver.manage().window().maximize();
 
-        driver.get("http://192.168.3.205:32677/");
+        driver.get(GlobalVariables.getTrainTicketBaseUrl());
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 

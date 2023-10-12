@@ -29,14 +29,17 @@ public class Login {
     private final String INVALID_USERNAME = "bad-username";
     private final String INVALID_PASSWORD = "bad-password";
 
-    private final String ADMIN_LOGIN_URL = "http://192.168.3.205:32677/adminlogin.html";
-    private final String CLIENT_LOGIN_URL = "http://192.168.3.205:32677/client_login.html";
+    private String ADMIN_LOGIN_URL;
+    private String CLIENT_LOGIN_URL;
 
     @BeforeEach
     public void setUpDriver(){
         Pair<WebDriver, WebDriverWait> pair = SetUpDriverChrome.Execute();
         driver = pair.getLeft();
         wait = pair.getRight();
+
+        ADMIN_LOGIN_URL = GlobalVariables.getTrainTicketBaseUrl() + "/adminlogin.html";
+        CLIENT_LOGIN_URL = GlobalVariables.getTrainTicketBaseUrl() + "/client_login.html";
     }
 
     @Test

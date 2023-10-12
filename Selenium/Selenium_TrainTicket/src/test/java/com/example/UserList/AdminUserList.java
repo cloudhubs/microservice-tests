@@ -93,7 +93,7 @@ public class AdminUserList {
 
         // Logout as an admin
         logout();
-        assertEquals(GlobalVariables.ADMIN_LOGIN_URL, driver.getCurrentUrl());
+        assertEquals(GlobalVariables.getAdminLoginUrl(), driver.getCurrentUrl());
     }
 
     @BeforeEach
